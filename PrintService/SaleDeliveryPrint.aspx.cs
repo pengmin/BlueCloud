@@ -81,15 +81,15 @@ namespace PrintService
 			var sql =
 @"SELECT code AS info1,name AS info2,address AS info3,name1 AS info4,quantity AS info5,price AS info6, maker AS info7
 FROM(
-	select a.code,b.name,a.address/*b.shipmentaddress*/,c.name AS name1,sum(quantity) as quantity,sum(d.taxprice) as price, maker
+	select a.code,b.name,a.address/*b.shipmentaddress*/,c.name AS name1,convert(int,sum(quantity)) as quantity,convert(int,sum(d.taxprice)) as price, maker
 	from SA_SaleDelivery as a 
 	left join AA_Partner as b on a.idsettleCustomer=b.id
 	left join AA_WareHouse as c on a.idwarehouse=c.id
 	left join SA_SaleDelivery_b as d on a.id=d.idsaledeliverydto
 	WHERE a.code='{0}'
 	group by a.code,b.name,a.address/*b.shipmentaddress*/,c.name,maker
-	ORDER BY a.code
-) AS temp";
+) AS temp
+order by info1";
 
 			return string.Format(sql, this.Request["code"]);
 		}
