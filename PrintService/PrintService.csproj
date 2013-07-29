@@ -58,15 +58,35 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Config.aspx" />
+    <Content Include="Config.xml">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="SaleDeliveryList.aspx" />
     <Content Include="SaleDeliveryPrint.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.aspx.cs">
+      <DependentUpon>Config.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Config.aspx.designer.cs">
+      <DependentUpon>Config.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ConfigHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SaleDelivery.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>SaleDelivery.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="SaleDeliveryList.aspx.cs">
+      <DependentUpon>SaleDeliveryList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SaleDeliveryList.aspx.designer.cs">
+      <DependentUpon>SaleDeliveryList.aspx</DependentUpon>
     </Compile>
     <Compile Include="SaleDeliveryPrint.aspx.cs">
       <DependentUpon>SaleDeliveryPrint.aspx</DependentUpon>
