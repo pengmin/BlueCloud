@@ -1665,7 +1665,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!cln6.Value</Value>
+                              <Value>=iif(Fields!cln6.Value=0,"",Fields!cln6.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1697,7 +1697,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!cln7.Value</Value>
+                              <Value>=iif(Fields!cln7.Value=0,"",Fields!cln7.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1729,7 +1729,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!cln8.Value</Value>
+                              <Value>=iif(Fields!cln8.Value=0,"",Fields!cln8.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1761,7 +1761,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!cln9.Value</Value>
+                              <Value>=iif(Fields!cln9.Value=0,"",Fields!cln9.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1793,7 +1793,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!cln10.Value</Value>
+                              <Value>=iif(Fields!cln10.Value=0,"",Fields!cln10.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1825,7 +1825,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!cln11.Value</Value>
+                              <Value>=iif(Fields!cln11.Value=0,"",Fields!cln11.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1857,7 +1857,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!cln12.Value</Value>
+                              <Value>=iif(Fields!cln12.Value=0,"",Fields!cln12.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1889,7 +1889,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!cln13.Value</Value>
+                              <Value>=iif(Fields!cln13.Value=0,"",Fields!cln13.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1921,7 +1921,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!cln14.Value</Value>
+                              <Value>=iif(Fields!cln14.Value=0,"",Fields!cln14.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1953,7 +1953,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!cln15.Value</Value>
+                              <Value>=iif(Fields!cln15.Value=0,"",Fields!cln15.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1985,7 +1985,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!cln16.Value</Value>
+                              <Value>=iif(Fields!cln16.Value=0,"",Fields!cln16.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -2017,7 +2017,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!cln17.Value</Value>
+                              <Value>=iif(Fields!cln17.Value=0,"",Fields!cln17.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -2049,7 +2049,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>=Fields!cln18.Value</Value>
+                              <Value>=iif(Fields!cln18.Value=0,"",Fields!cln18.Value)</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -2841,6 +2841,7 @@
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
   </ReportParameters>
+  <Language>zh-CN</Language>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>7ac1496b-b337-431d-8080-2f0b26564094</rd:ReportID>
 </Report>
