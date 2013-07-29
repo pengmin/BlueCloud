@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CertificateGenerator", "Cer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Print", "Print\Print.csproj", "{955DE219-B6C7-40E8-A894-BCB4DC0F330F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintService", "PrintService\PrintService.csproj", "{F7685B7D-9293-4CF4-9CDA-27C1F2970550}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{955DE219-B6C7-40E8-A894-BCB4DC0F330F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{955DE219-B6C7-40E8-A894-BCB4DC0F330F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{955DE219-B6C7-40E8-A894-BCB4DC0F330F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7685B7D-9293-4CF4-9CDA-27C1F2970550}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7685B7D-9293-4CF4-9CDA-27C1F2970550}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7685B7D-9293-4CF4-9CDA-27C1F2970550}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7685B7D-9293-4CF4-9CDA-27C1F2970550}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
