@@ -79,17 +79,16 @@ namespace PrintService
 		private string GetMainDataSql()
 		{
 			var sql =
-@"SELECT code AS info1,name AS info2,address AS info3,name1 AS info4,quantity AS info5,price AS info6, maker AS info7
+@"SELECT code AS info1,name AS info2,address AS info3,name1 AS info4,SUM(quantity) AS info5,SUM(price) AS info6, maker AS info7
 FROM(
-	select a.code,b.name,a.address/*b.shipmentaddress*/,c.name AS name1,convert(int,sum(quantity)) as quantity,convert(int,sum(d.taxprice)) as price, maker
-	from SA_SaleDelivery as a 
-	left join AA_Partner as b on a.idsettleCustomer=b.id
-	left join AA_WareHouse as c on a.idwarehouse=c.id
-	left join SA_SaleDelivery_b as d on a.id=d.idsaledeliverydto
-	WHERE a.code='{0}'
-	group by a.code,b.name,a.address/*b.shipmentaddress*/,c.name,maker
+	SELECT a.code,c.name,a.address,d.name AS name1,CONVERT(INT,b.quantity) AS quantity,CONVERT(DECIMAL(18,2),b.quantity*b.taxPrice) AS price,a.maker, CONVERT(VARCHAR(10),a.createdtime) AS createdtime
+	FROM dbo.SA_SaleDelivery AS a
+	LEFT JOIN dbo.SA_SaleDelivery_b AS b ON a.id=b.idSaleDeliveryDTO
+	LEFT JOIN dbo.AA_Partner AS c ON a.idsettleCustomer=c.id
+	LEFT JOIN dbo.AA_Warehouse AS d ON a.idwarehouse=d.id
+	WHERE a.code LIKE '%{0}%'
 ) AS temp
-order by info1";
+GROUP BY temp.code,temp.name,temp.address,name1,temp.maker,temp.createdtime";
 
 			return string.Format(sql, this.Request["code"]);
 		}

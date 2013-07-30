@@ -12,17 +12,20 @@ namespace PrintService
 		private string GetSql()
 		{
 			var sql =
-@"select a.code,b.name,a.address/*b.shipmentaddress*/,c.name,convert(int,sum(quantity)) as quantity,convert(int,sum(d.taxprice)) as price, maker
-from SA_SaleDelivery as a 
-left join AA_Partner as b on a.idsettleCustomer=b.id
-left join AA_WareHouse as c on a.idwarehouse=c.id
-left join SA_SaleDelivery_b as d on a.id=d.idsaledeliverydto
-where 1=1";
+@"SELECT code,name,address,name1,SUM(quantity) AS quantity, SUM(price) AS price,maker
+FROM(
+	SELECT a.code,c.name,a.address,d.name AS name1,CONVERT(INT,b.quantity) AS quantity,CONVERT(DECIMAL(18,2),b.quantity*b.taxPrice) AS price,a.maker, CONVERT(VARCHAR(10),a.createdtime) AS createdtime
+	FROM dbo.SA_SaleDelivery AS a
+	LEFT JOIN dbo.SA_SaleDelivery_b AS b ON a.id=b.idSaleDeliveryDTO
+	LEFT JOIN dbo.AA_Partner AS c ON a.idsettleCustomer=c.id
+	LEFT JOIN dbo.AA_Warehouse AS d ON a.idwarehouse=d.id
+) AS temp
+WHERE 1=1";
 			if (!string.IsNullOrEmpty(this.code.Text))
 			{
 				sql += " and a.code like '%" + this.code.Text + "%'";
 			}
-			sql += " group by a.code,b.name,a.address/*b.shipmentaddress*/,c.name,maker ORDER BY a.code";
+			sql += " GROUP BY temp.code,temp.name,temp.address,name1,temp.maker,temp.createdtime ORDER BY temp.createdtime DESC,temp.code";
 
 			return sql;
 		}
