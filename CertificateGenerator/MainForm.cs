@@ -33,6 +33,9 @@ namespace CertificateGenerator
 			this._user = af.User;
 			this._ctrller = new Controller(this._user);
 			this._ctrller.BindReceipts(this.treeView1);
+			var crt = DateTime.Now;
+			this.dateStart.Value = new DateTime(crt.Year, crt.Month, 1);
+			this.dateEnd.Value = this.dateStart.Value.AddMonths(1).AddDays(-1);
 		}
 
 		private void treeView1_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -54,9 +57,15 @@ namespace CertificateGenerator
 
 		private void build_Click(object sender, EventArgs e)
 		{
+			var err = "";
 			var ids = new List<string>();
 			foreach (DataGridViewRow row in this.dataGridView1.Rows)
 			{
+				if (row.Cells["凭证号"].Value is string && !string.IsNullOrEmpty(row.Cells["凭证号"].Value.ToString()))
+				{
+					err += row.Cells["单据号"].Value.ToString() + "\r\n";
+					continue;
+				}
 				if (Convert.ToBoolean(row.Cells["select"].Value))
 				{
 					ids.Add(row.Cells["key"].Value.ToString());
@@ -64,7 +73,12 @@ namespace CertificateGenerator
 			}
 			if (ids.Count == 0)
 			{
-				MessageBox.Show("请选择单据");
+				MessageBox.Show(err + "请选择单据");
+				return;
+			}
+			if (err.Length > 0)
+			{
+				MessageBox.Show(err + "已生成过凭证，不能再次生成！");
 				return;
 			}
 			try

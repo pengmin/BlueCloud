@@ -39,6 +39,12 @@ namespace CertificateGenerator
 			var sql = this._cfg.GetReceiptInfoSql(receiptFlag);
 			ctrl.DataSource = ado.DataTableExecute(sql);
 		}
+		public void BindReceiptInfo(DataGridView ctrl, string receiptFlag, string site, DateTime start, DateTime end)
+		{
+			var ado = this._cfg.GetReceiptAdo();
+			var sql = this._cfg.GetReceiptInfoSql(receiptFlag);
+			ctrl.DataSource = ado.DataTableExecute(sql);
+		}
 
 		public void BuildReceiptToCertificate(string receiptFlag, string[] ids)
 		{
@@ -55,7 +61,7 @@ namespace CertificateGenerator
 					var cerId = inRep.In(cer);
 					if (cerId > -1)
 					{
-						outAdo.ExecuteNonQuery(string.Format("insert into History values('{0}','{1}','{2}','{3}')", id, cerId, this._user, DateTime.Now));
+						outAdo.ExecuteNonQuery(string.Format("insert into History values('{0}','{1}','{2}','{3}')", id, cerId, this._user, cer.Dbill_date.Value));
 					}
 				}
 			}
@@ -107,7 +113,7 @@ namespace CertificateGenerator
 
 		public void InstallHistoryTable()
 		{
-			var ado = this._cfg.GetCertificateAdo();
+			var ado = this._cfg.GetReceiptAdo();
 			try
 			{
 				ado.Open();

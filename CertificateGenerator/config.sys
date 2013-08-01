@@ -14,7 +14,7 @@ outSql说明：
 <config>
 	<outDbInfo server="." database="CMIPSDB" name="sa" pswd="pengmin">
 	</outDbInfo>
-	<inDbInfo server="." database="U8DB" name="sa" pswd="pengmin">
+	<inDbInfo server="." database="UFDATA_999_2012" name="sa" pswd="pengmin">
 	</inDbInfo>
 	<HistoryTable>
 		<![CDATA[
@@ -34,7 +34,7 @@ end
 			<infoSql>
 				<![CDATA[
 select
-	0 as [check], BillNoId as [key],StockName as 门店, AllName as 供应商,MainAmtPur as 金额
+	0 as [check], BillNoId as [key],CONVERT(VARCHAR(10),DBill,23) AS [单据日期], BillNo AS [单据号],StockName as 门店, AllName as 供应商,MainAmtPur as 金额
 	,CertificateId as [凭证号], Creator as [制单人], Created as [制单时间]
 from MiPIMain
 left join History on BillNoId=ReceiptId

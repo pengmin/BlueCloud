@@ -14,7 +14,7 @@ namespace Certificate.DomainModel
 	md_f,mc_f,nfrat,nd_s,nc_s,bFlagOut,iyear,iyperiod,isignseq,
 	ino_id,
 	csign,cdigest,cdept_id,csup_id,cbill)
-values(newid(),1,{0},'{1}',-1,0,
+values(newid(),{13},{0},'{1}',-1,0,
 		'{2}',{3},{4},
 		0.00,0.00,0,0,0,0,{5},{6},1,
 		{7},
@@ -38,7 +38,8 @@ values(newid(),1,{0},'{1}',-1,0,
 				cer.Csign, cer.BorrowItem.Summary,
 				string.IsNullOrEmpty(cer.BorrowItem.Cdept_id) ? "NULL" : "'" + cer.BorrowItem.Cdept_id + "'",
 				string.IsNullOrEmpty(cer.BorrowItem.Csup_id) ? "NULL" : "'" + cer.BorrowItem.Csup_id + "'",
-				cer.Cbill));
+				cer.Cbill,
+				cer.Dbill_date != null && cer.Dbill_date.HasValue ? cer.Dbill_date.Value.Month : 1));
 			//创建贷凭证
 			sql.Append(string.Format(SQL, 2, cer.Dbill_date,
 				cer.LendItem.SubjectId, 0, cer.LendItem.Money,
@@ -47,7 +48,8 @@ values(newid(),1,{0},'{1}',-1,0,
 				cer.Csign, cer.LendItem.Summary,
 				string.IsNullOrEmpty(cer.LendItem.Cdept_id) ? "NULL" : "'" + cer.LendItem.Cdept_id + "'",
 				string.IsNullOrEmpty(cer.LendItem.Csup_id) ? "NULL" : "'" + cer.LendItem.Csup_id + "'",
-				cer.Cbill));
+				cer.Cbill,
+				cer.Dbill_date != null && cer.Dbill_date.HasValue ? cer.Dbill_date.Value.Month : 1));
 			//入库
 			try
 			{
