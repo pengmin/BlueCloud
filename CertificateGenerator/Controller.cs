@@ -43,7 +43,7 @@ namespace CertificateGenerator
 		{
 			var ado = this._cfg.GetReceiptAdo();
 			var sql = this._cfg.GetReceiptInfoSql(receiptFlag);
-			ctrl.DataSource = ado.DataTableExecute(sql);
+			ctrl.DataSource = ado.DataTableExecute(string.Format(sql, site, start, end));
 		}
 
 		public void BuildReceiptToCertificate(string receiptFlag, string[] ids)

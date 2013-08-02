@@ -12,9 +12,9 @@ outSql说明：
 其中,borrowDept,borrowSup和,lendDept,lendSup可选
 -->
 <config>
-	<outDbInfo server="." database="CMIPSDB" name="sa" pswd="pengmin">
+	<outDbInfo server="." database="CMIPSDB" name="sa" pswd="winton">
 	</outDbInfo>
-	<inDbInfo server="." database="UFDATA_999_2012" name="sa" pswd="pengmin">
+	<inDbInfo server="." database="U8DB" name="sa" pswd="winton">
 	</inDbInfo>
 	<HistoryTable>
 		<![CDATA[
@@ -38,14 +38,15 @@ select
 	,CertificateId as [凭证号], Creator as [制单人], Created as [制单时间]
 from MiPIMain
 left join History on BillNoId=ReceiptId
+WHERE ('{0}'='' OR StockName LIKE '%{0}%') AND DBill>='{1}' AND DBill<='{2}'
 				]]>
 			</infoSql>
 			<outSql>
 				<![CDATA[
 select
 	DBill as created,DChk as audited, '凭证生成器' as createUser,
-	'借方摘要' as borrowRemark, '1405' as borrowSubject,MainAmtPur as borrowMoney, StockId as borrowDept,
-	'贷方摘要' as lendRemark,'220298' as lendSubject,MainAmtPur as lendMoney, SupID as lendSup
+	'订单入库单'+BillNo as borrowRemark, '1405' as borrowSubject,MainAmtPur as borrowMoney, StockId as borrowDept,
+	'订单入库单'+BillNo as lendRemark,'220298' as lendSubject,MainAmtPur as lendMoney, SupID as lendSup
 from MiPIMain
 where BillNoId='{0}'
 				]]>
@@ -55,18 +56,19 @@ where BillNoId='{0}'
 			<infoSql>
 				<![CDATA[
 select
-	0 as [check], BillNoId as [key],StockName as 门店, AllName as 供应商,MainAmtPur as 金额
+	0 as [check], BillNoId as [key],CONVERT(VARCHAR(10),DBill,23) AS [单据日期], BillNo AS [单据号],StockName as 门店, AllName as 供应商,MainAmtPur as 金额
 	,CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
 from MiNPIMain
 left join History on ReceiptId=BillNoId
+WHERE ('{0}'='' OR StockName LIKE '%{0}%') AND DBill>='{1}' AND DBill<='{2}'
 				]]>
 			</infoSql>
 			<outSql>
 				<![CDATA[
 select 
 	DBill as created,DChk as audited,'凭证生成器' as createUser,
-	'借方备注' as borrowRemark, '1405' as borrowSubject, MainAmtTPur as borrowMoney, StockId as borrowDept,
-	'贷方备注' as lendRemark, '220298' as lendSubject,MainAmtTPur as lendMoney, SupID as lendSup
+	'无订单入库单'+BillNo as borrowRemark, '1405' as borrowSubject, MainAmtTPur as borrowMoney, StockId as borrowDept,
+	'无订单入库单'+BillNo as lendRemark, '220298' as lendSubject,MainAmtTPur as lendMoney, SupID as lendSup
 from MiNPIMain 
 where BillNoId='{0}'
 				]]>
@@ -76,19 +78,19 @@ where BillNoId='{0}'
 			<infoSql>
 				<![CDATA[
 select 
-	0 as [check], BillNoId as [key],StockName as 门店, AllName as 供应商,MainAmtTrans as 金额
+	0 as [check], BillNoId as [key],CONVERT(VARCHAR(10),DBill,23) AS [单据日期], BillNo AS [单据号],StockName as 门店, AllName as 供应商,MainAmtTrans as 金额
 	,CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
 from MIAccountCfmMain
 left join History on ReceiptId=BillNoId
-where Status=1
+where Status=1 AND ('{0}'='' OR StockName LIKE '%{0}%') AND DBill>='{1}' AND DBill<='{2}'
 				]]>
 			</infoSql>
 			<outSql>
 				<![CDATA[
 select
 	DBill as created,DChk as audited,'凭证生成器' as createUser,
-	'借方备注' as borrowRemark,'220298' as borrowSubject,MainAmtTrans as borrowMoney, SupID as borrowSup,
-	'贷方备注' as lendRemark,'1405' as lendSubject,MainAmtTrans as lendMoney,StockId as lendDept
+	'应付对账单'+BillNo as borrowRemark,'220298' as borrowSubject,MainAmtTrans as borrowMoney, SupID as borrowSup,
+	'应付对账单'+BillNo as lendRemark,'1405' as lendSubject,MainAmtTrans as lendMoney,StockId as lendDept
 from MIAccountCfmMain 
 where BillNoId='{0}' and Status=1
 				]]>
@@ -98,18 +100,19 @@ where BillNoId='{0}' and Status=1
 			<infoSql>
 				<![CDATA[
 select 
-	0 as [check], BillNoId as [key],StockName as 门店, AllName as 供应商,MainAmtPay as 金额
+	0 as [check], BillNoId as [key],CONVERT(VARCHAR(10),DBill,23) AS [单据日期], BillNo AS [单据号],StockName as 门店, AllName as 供应商,MainAmtPay as 金额
 	,CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
 from MIPayMain
 left join History on ReceiptId=BillNoId
+WHERE ('{0}'='' OR StockName LIKE '%{0}%') AND DBill>='{1}' AND DBill<='{2}'
 				]]>
 			</infoSql>
 			<outSql>
 				<![CDATA[
 select
 	DBill as created,DChk as audited,'凭证生成器' as createUser,
-	'借方备注' as borrowRemark,'220201' as borrowSubject,MainAmtPay as borrowMoney,SupID as borrowSup,
-	'贷方备注' as lendRemark,'1001' as lendSubject,MainAmtPay as lendMoney,StockId as lendDept
+	'付款单'+BillNo as borrowRemark,'220201' as borrowSubject,MainAmtPay as borrowMoney,SupID as borrowSup,
+	'付款单'+BillNo as lendRemark,'1001' as lendSubject,MainAmtPay as lendMoney,StockId as lendDept
 from MIPayMain 
 where BillNoId='{0}'
 				]]>
@@ -118,16 +121,18 @@ where BillNoId='{0}'
 		<receipt name="体现收入" flag="MiSaleMainQRSF">
 			<infoSql>
 				<![CDATA[
-select temp.*,CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
+select [check],[key],日期 AS [单据日期],'' AS [单据号],门店,总计,CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
 from (SELECT  0 AS [check] ,
 			StockId+DBill AS [key] ,
 			StockId AS [门店] ,
 			DBill AS [日期] ,
 			SUM(MainAmtSum) AS [总计]
-	FROM    ( SELECT    StockId ,
+	FROM    ( SELECT    s.StockName AS StockId,
 						CONVERT(VARCHAR(10), DBill) AS DBill ,
 						MainAmtSum
 			  FROM      MiSaleMainQRSF
+			  LEFT JOIN dbo.MIStock AS s ON dbo.MiSaleMainQRSF.StockId = s.StockID
+			  WHERE ('{0}'='' OR s.StockName LIKE '%{0}%') AND DBill>='{1}' AND DBill<='{2}'
 			) AS temp
 	GROUP BY temp.StockId ,
 			temp.DBill) as temp
@@ -139,11 +144,11 @@ left join History on ReceiptId=[key]
 SELECT  GETDATE() AS created ,
         NULL AS audited ,
         '' AS createUser ,
-        '借方摘要' AS borrowRemark ,
+        '体现收入' AS borrowRemark ,
         '112201' AS borrowSubject ,
         SUM(MainAmtSum) AS borrowMoney ,
         StockId AS borrowDept ,
-        '贷方摘要' AS lendRemark ,
+        '体现收入' AS lendRemark ,
         '600102' AS lendSubject ,
         SUM(MainAmtSum) AS lendMoney ,
         StockId AS lendDept
@@ -161,16 +166,18 @@ GROUP BY temp.StockId ,
 		<receipt name="收到钱" flag="MiSaleMainQRSF2">
 			<infoSql>
 				<![CDATA[
-select temp.*,CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
+select [check],[key],日期 AS [单据日期],'' AS [单据号],门店,收现,CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
 from(SELECT  0 AS [check] ,
 			StockId+DBill AS [key] ,
 			StockId AS [门店] ,
 			DBill AS [日期] ,
 			SUM(AmtRec) AS [收现]
-	FROM    ( SELECT    StockId ,
+	FROM    ( SELECT    s.StockName AS StockId,
 						CONVERT(VARCHAR(10), DBill) AS DBill ,
 						AmtRec
 			  FROM      MiSaleMainQRSF
+			  LEFT JOIN dbo.MIStock AS s ON dbo.MiSaleMainQRSF.StockId = s.StockID
+			  WHERE ('{0}'='' OR s.StockName LIKE '%{0}%') AND DBill>='{1}' AND DBill<='{2}'
 			) AS temp
 	GROUP BY temp.StockId ,
 			temp.DBill) as temp
@@ -182,11 +189,11 @@ left join History on ReceiptId=[key]
 SELECT  GETDATE() AS created ,
         NULL AS audited ,
         '' AS createUser ,
-        '借方摘要' AS borrowRemark ,
+        '收到钱' AS borrowRemark ,
         '1302' AS borrowSubject ,
         SUM(AmtRec) AS borrowMoney ,
         StockId AS borrowDept ,
-        '贷方摘要' AS lendRemark ,
+        '收到钱' AS lendRemark ,
         '112201' AS lendSubject ,
         SUM(AmtRec) AS lendMoney ,
         StockId AS lendDept
@@ -204,16 +211,17 @@ GROUP BY temp.StockId ,
 		<receipt name="结转成本" flag="MiPosItemQRSF">
 			<infoSql>
 				<![CDATA[
-select temp.*,CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
+select  [check],[key],日期 AS [单据日期],'' AS [单据号],门店,结转成本,CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
 from(SELECT  0 AS [check] ,
 			StockId+DBill AS [key] ,
 			StockId AS [门店] ,
 			DBill AS [日期] ,
 			SUM(PCost) AS [结转成本]
-	FROM    ( SELECT    StockId ,
+	FROM    ( SELECT    StockName AS StockId ,
 						CONVERT(VARCHAR(10), DBill) AS DBill ,
 						PCost
 				FROM      dbo.MiPosItemQRSF
+				WHERE ('{0}'='' OR StockName LIKE '%{0}%') AND DBill>='{1}' AND DBill<='{2}'
 			) AS temp
 	GROUP BY temp.StockId ,
 			temp.DBill) as temp
@@ -225,11 +233,11 @@ left join History on ReceiptId=[key]
 SELECT  GETDATE() AS created ,
         NULL AS audited ,
         '' AS createUser ,
-        '借方摘要' AS borrowRemark ,
+        '结转成本' AS borrowRemark ,
         '6401' AS borrowSubject ,
         SUM(PCost) AS borrowMoney ,
         StockId AS borrowDept ,
-        '贷方摘要' AS lendRemark ,
+        '结转成本' AS lendRemark ,
         '140501' AS lendSubject ,
         SUM(PCost) AS lendMoney ,
         StockId AS lendDept
@@ -249,19 +257,20 @@ GROUP BY temp.StockId ,
 				<![CDATA[
 select  
 	0 AS [check] ,BillNoId AS [key] ,
-	BillNo as [单号],
+	CONVERT(VARCHAR(10),DBill,23) AS [单据日期], BillNo AS [单据号],
 	StockInName as [进贷门店], StockOutName as [出贷门店], MainAmtPur as [金额]
 	,CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
 from MIStockMoveMainSF
 left join History on ReceiptId=BillNoId
+WHERE ('{0}'='' OR StockInName LIKE '%{0}%') AND DBill>='{1}' AND DBill<='{2}'
 				]]>
 			</infoSql>
 			<outSql>
 				<![CDATA[
 select 
 	GETDATE() AS created ,NULL AS audited ,'' AS createUser ,
-	'借方摘要' AS borrowRemark ,'140501' AS borrowSubject ,MainAmtPur AS borrowMoney ,StockIn AS borrowDept ,
-	'贷方摘要' AS lendRemark ,'140501' AS lendSubject ,MainAmtPur AS lendMoney ,StockOut AS lendDept
+	'调拨单'+BillNo AS borrowRemark ,'140501' AS borrowSubject ,MainAmtPur AS borrowMoney ,StockIn AS borrowDept ,
+	'调拨单'+BillNo AS lendRemark ,'140501' AS lendSubject ,MainAmtPur AS lendMoney ,StockOut AS lendDept
 from MIStockMoveMainSF
 where BillNoId='{0}'
 				]]>
@@ -272,19 +281,20 @@ where BillNoId='{0}'
 				<![CDATA[
 select  
 	0 AS [check] ,BillNoId AS [key] ,
-	BillNo as [单号],
+	CONVERT(VARCHAR(10),DBill,23) AS [单据日期], BillNo AS [单据号],
 	StockInName as [进贷门店], StockOutName as [出贷门店], MainAmtPur as [金额]
 	,CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
 from MiPSOutMain
 left join History on ReceiptId=BillNoId
+WHERE ('{0}'='' OR StockInName LIKE '%{0}%') AND DBill>='{1}' AND DBill<='{2}'
 				]]>
 			</infoSql>
 			<outSql>
 				<![CDATA[
 select 
 	GETDATE() AS created ,NULL AS audited ,'' AS createUser ,
-	'借方摘要' AS borrowRemark ,'140501' AS borrowSubject ,MainAmtPur AS borrowMoney ,StockIn AS borrowDept ,
-	'贷方摘要' AS lendRemark ,'140501' AS lendSubject ,MainAmtPur AS lendMoney ,StockOut AS lendDept
+	'配送单'+BillNo AS borrowRemark ,'140501' AS borrowSubject ,MainAmtPur AS borrowMoney ,StockIn AS borrowDept ,
+	'配送单'+BillNo AS lendRemark ,'140501' AS lendSubject ,MainAmtPur AS lendMoney ,StockOut AS lendDept
 from MiPSOutMain
 where BillNoId='{0}'
 				]]>
@@ -293,11 +303,12 @@ where BillNoId='{0}'
 		<receipt name="盘盈" flag="MiChkInvMain">
 			<infoSql>
 				<![CDATA[
-select temp.*, CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
+select [check],[key],'' AS [单据日期],单号 AS [单据号],门店,盘盈,金额,
+	CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
 from(select
-		0 as[check],a.BillNoId as [key],a.BillNo as [单号], a.StockName as [门店],SUM(b.QFact-b.QAccount) as [盘亏], SUM(MainAmtPur) as [金额]
+		0 as[check],a.BillNoId as [key],a.BillNo as [单号], a.StockName as [门店],SUM(b.QFact-b.QAccount) as [盘盈], SUM(MainAmtPur) as [金额]
 	from MiChkInvMain as a join MiChkInvItem as b on a.BillNoId=b.BillNoID
-	where QFact>QAccount
+	where QFact>QAccount AND ('{0}'='' OR StockName LIKE '%{0}%') AND DBill>='{1}' AND DBill<='{2}'
 	group by a.BillNoId,a.BillNo,a.StockId,a.StockName) as temp
 left join History on ReceiptId=[key]
 				]]>
@@ -306,8 +317,8 @@ left join History on ReceiptId=[key]
 				<![CDATA[
 select
 	GETDATE() AS created ,NULL AS audited ,'' AS createUser ,
-	'借方摘要' AS borrowRemark ,'140501' AS borrowSubject ,SUM(MainAmtPur) AS borrowMoney ,
-	'贷方摘要' AS lendRemark ,'140501' AS lendSubject ,SUM(MainAmtPur) AS lendMoney ,a.StockId AS lendDept
+	'盘盈' AS borrowRemark ,'140501' AS borrowSubject ,SUM(MainAmtPur) AS borrowMoney ,
+	'盘盈' AS lendRemark ,'140501' AS lendSubject ,SUM(MainAmtPur) AS lendMoney ,a.StockId AS lendDept
 from MiChkInvMain as a join MiChkInvItem as b on a.BillNoId=b.BillNoID
 where a.BillNoId='{0}' and QFact>QAccount
 group by a.StockId
@@ -317,11 +328,12 @@ group by a.StockId
 		<receipt name="盘亏" flag="MiChkInvMain2">
 			<infoSql>
 				<![CDATA[
-select temp.*, CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
+select  [check],[key],'' AS [单据日期],单号 AS [单据号],门店,盘亏,金额,
+	CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
 from(select
 		0 as[check],a.BillNoId as [key],a.BillNo as [单号], a.StockName as [门店],SUM(b.QFact-b.QAccount) as [盘亏], SUM(MainAmtPur) as [金额]
 	from MiChkInvMain as a join MiChkInvItem as b on a.BillNoId=b.BillNoID
-	where QFact<QAccount
+	where QFact<QAccount AND ('{0}'='' OR StockName LIKE '%{0}%') AND DBill>='{1}' AND DBill<='{2}'
 	group by a.BillNoId,a.BillNo,a.StockId,a.StockName) as temp
 left join History on ReceiptId=[key]
 				]]>
@@ -330,8 +342,8 @@ left join History on ReceiptId=[key]
 				<![CDATA[
 select
 	GETDATE() AS created ,NULL AS audited ,'' AS createUser ,
-	'借方摘要' AS borrowRemark ,'140501' AS borrowSubject ,SUM(MainAmtPur) AS borrowMoney,a.StockId AS borrowDept ,
-	'贷方摘要' AS lendRemark ,'140501' AS lendSubject ,SUM(MainAmtPur) AS lendMoney 
+	'盘亏' AS borrowRemark ,'140501' AS borrowSubject ,SUM(MainAmtPur) AS borrowMoney,a.StockId AS borrowDept ,
+	'盘亏' AS lendRemark ,'140501' AS lendSubject ,SUM(MainAmtPur) AS lendMoney 
 from MiChkInvMain as a join MiChkInvItem as b on a.BillNoId=b.BillNoID
 where a.BillNoId='{0}' and QFact<QAccount
 group by a.StockId
@@ -342,18 +354,19 @@ group by a.StockId
 			<infoSql>
 				<![CDATA[
 select 
-	0 as[check],BillNoId as [key],BillNo as [单号],StockName as [门店], MainAmtPur as [金额],
+	0 as[check],BillNoId as [key],CONVERT(VARCHAR(10),DBill,23) AS [单据日期], BillNo AS [单据号],StockName as [门店], MainAmtPur as [金额],
 	CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
 from MiCommOverMainSF
 left join History on ReceiptId=BillNoId
+WHERE ('{0}'='' OR StockName LIKE '%{0}%') AND DBill>='{1}' AND DBill<='{2}'
 				]]>
 			</infoSql>
 			<outSql>
 				<![CDATA[
 select
 	GETDATE() AS created ,NULL AS audited ,'' AS createUser ,
-	'借方摘要' AS borrowRemark ,'140501' AS borrowSubject ,MainAmtPur AS borrowMoney,StockId as borrowDept,
-	'贷方摘要' AS lendRemark ,'140501' AS lendSubject ,MainAmtPur AS lendMoney  
+	'入库单'+BillNo AS borrowRemark ,'140501' AS borrowSubject ,MainAmtPur AS borrowMoney,StockId as borrowDept,
+	'入库单'+BillNo AS lendRemark ,'140501' AS lendSubject ,MainAmtPur AS lendMoney  
 from MiCommOverMainSF
 where BillNoId='{0}'
 				]]>
@@ -363,18 +376,19 @@ where BillNoId='{0}'
 			<infoSql>
 				<![CDATA[
 select 
-	0 as[check],BillNoId as [key],BillNo as [单号],StockName as [门店], MainAmtPur as [金额],
+	0 as[check],BillNoId as [key],CONVERT(VARCHAR(10),DBill,23) AS [单据日期], BillNo AS [单据号],StockName as [门店], MainAmtPur as [金额],
 	CertificateId as [凭证号],Creator as [制单人], Created as [制单日期]
 from MICommLostMainSF
 left join History on ReceiptId=BillNoId
+WHERE ('{0}'='' OR StockName LIKE '%{0}%') AND DBill>='{1}' AND DBill<='{2}'
 				]]>
 			</infoSql>
 			<outSql>
 				<![CDATA[
 select
 	GETDATE() AS created ,NULL AS audited ,'' AS createUser ,
-	'借方摘要' AS borrowRemark ,'140501' AS borrowSubject ,MainAmtPur AS borrowMoney,StockId as borrowDept,
-	'贷方摘要' AS lendRemark ,'140501' AS lendSubject ,MainAmtPur AS lendMoney  
+	'出库单'+BillNo AS borrowRemark ,'140501' AS borrowSubject ,MainAmtPur AS borrowMoney,StockId as borrowDept,
+	'出库单'+BillNo AS lendRemark ,'140501' AS lendSubject ,MainAmtPur AS lendMoney  
 from MICommLostMainSF
 where BillNoId='{0}'
 				]]>

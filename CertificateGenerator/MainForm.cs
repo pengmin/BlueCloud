@@ -47,7 +47,8 @@ namespace CertificateGenerator
 			this._receiptFlag = e.Node.Tag.ToString();
 			try
 			{
-				this._ctrller.BindReceiptInfo(this.dataGridView1, this._receiptFlag);
+				var site = string.IsNullOrEmpty(this.site.Text) ? string.Empty : this.site.Text;
+				this._ctrller.BindReceiptInfo(this.dataGridView1, this._receiptFlag, site, this.dateStart.Value, this.dateEnd.Value);
 			}
 			catch
 			{
