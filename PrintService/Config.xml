@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Config>
-  <SqlServer Server="." Database="UFTData224592_000001" Account="sa" Password="pengmin">
+  <SqlServer Server="." Database="YYTAdd" Account="sa" Password="winton">
   </SqlServer>
 </Config>
