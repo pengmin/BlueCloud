@@ -16,7 +16,9 @@ namespace PrintService
 			var reportType = this.Request["type"];
 			if (!this.IsPostBack)
 			{
-				if (string.IsNullOrEmpty(reportType))
+				this.type.SelectedIndex = 0;
+				this.ReportViewer1.LocalReport.DataSources.Clear();
+				if (string.IsNullOrEmpty(reportType) || reportType == "1")
 				{
 					this.ReportViewer1.LocalReport.ReportPath = this.Server.MapPath("~/SaleDeliveryReport.rdlc");
 					this.ReportViewer1.LocalReport.DataSources.Add(new Microsoft.Reporting.WebForms.ReportDataSource("DataSet", this.GetData(this.GetTableDataSql())));
@@ -184,7 +186,7 @@ FROM(
 				left join aa_unit as b on a.idunit=b.id
 				left join aa_inventory as c on a.idinventory=c.id
 				LEFT JOIN dbo.SA_SaleDelivery AS d ON d.id=a.idSaleDeliveryDTO
-				--WHERE d.code='{0}'
+				WHERE d.code='{0}'
 				GROUP BY c.specification,freeItem0,freeItem1,b.name, taxPrice
 			) AS temp
 			GROUP BY temp.specification,temp.freeItem0,temp.freeItem1,temp.name,temp.quantity,temp.price
@@ -193,6 +195,27 @@ FROM(
 	) AS temp
 ) AS temp";
 			return string.Format(sql, this.Request["code"]);
+		}
+
+		protected void type_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			this.ReportViewer1.LocalReport.DataSources.Clear();
+			if (type.SelectedValue == "1")
+			{
+				this.ReportViewer1.LocalReport.ReportPath = this.Server.MapPath("~/SaleDeliveryReport.rdlc");
+				this.ReportViewer1.LocalReport.DataSources.Add(new Microsoft.Reporting.WebForms.ReportDataSource("DataSet", this.GetData(this.GetTableDataSql())));
+			}
+			else
+			{
+				this.ReportViewer1.LocalReport.ReportPath = this.Server.MapPath("~/SaleDeliveryReport2.rdlc");
+				this.ReportViewer1.LocalReport.DataSources.Add(new Microsoft.Reporting.WebForms.ReportDataSource("DataSet", this.GetData(this.GetTableDataSql2())));
+			}
+			var mainData = this.GetData(this.GetMainDataSql());
+			for (var i = 1; i <= 7; i++)
+			{
+				this.ReportViewer1.LocalReport.SetParameters(
+					new Microsoft.Reporting.WebForms.ReportParameter("info" + i.ToString(), mainData.Rows[0]["info" + i.ToString()].ToString()));
+			}
 		}
 	}
 }
