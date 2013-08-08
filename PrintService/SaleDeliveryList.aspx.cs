@@ -23,7 +23,7 @@ FROM(
 WHERE 1=1";
 			if (!string.IsNullOrEmpty(this.code.Text))
 			{
-				sql += " and a.code like '%" + this.code.Text + "%'";
+				sql += " and code like '%" + this.code.Text + "%'";
 			}
 			sql += " GROUP BY temp.code,temp.name,temp.address,name1,temp.maker,temp.createdtime ORDER BY temp.createdtime DESC,temp.code";
 
