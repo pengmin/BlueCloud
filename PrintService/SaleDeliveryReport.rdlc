@@ -2067,13 +2067,13 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>1.06988in</Height>
+    <Height>2.7175cm</Height>
     <Style />
   </Body>
-  <Width>8.45989in</Width>
+  <Width>21.48812cm</Width>
   <Page>
     <PageHeader>
-      <Height>1.125in</Height>
+      <Height>2.8575cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -2448,7 +2448,7 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>0.83334in</Height>
+      <Height>2.11668cm</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -2668,12 +2668,15 @@
         </Border>
       </Style>
     </PageFooter>
-    <PageHeight>5.51181in</PageHeight>
-    <PageWidth>9.44882in</PageWidth>
-    <LeftMargin>0.49213in</LeftMargin>
-    <RightMargin>0.49213in</RightMargin>
-    <TopMargin>0.19685in</TopMargin>
-    <BottomMargin>0.19685in</BottomMargin>
+    <PageHeight>14cm</PageHeight>
+    <PageWidth>24cm</PageWidth>
+    <InteractiveHeight>24cm</InteractiveHeight>
+    <InteractiveWidth>14cm</InteractiveWidth>
+    <LeftMargin>1.25cm</LeftMargin>
+    <RightMargin>1.25cm</RightMargin>
+    <TopMargin>0.5cm</TopMargin>
+    <BottomMargin>0.5cm</BottomMargin>
+    <ColumnSpacing>1.27cm</ColumnSpacing>
     <Style />
   </Page>
   <AutoRefresh>0</AutoRefresh>
@@ -2814,6 +2817,6 @@
     </ReportParameter>
   </ReportParameters>
   <Language>zh-CN</Language>
-  <rd:ReportUnitType>Inch</rd:ReportUnitType>
+  <rd:ReportUnitType>Cm</rd:ReportUnitType>
   <rd:ReportID>7ac1496b-b337-431d-8080-2f0b26564094</rd:ReportID>
 </Report>
