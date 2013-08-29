@@ -116,7 +116,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SaleDeliveryReport.rdlc" />
+    <EmbeddedResource Include="SaleDeliveryReport.rdlc">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="SaleDeliveryReport2.rdlc" />
   </ItemGroup>
   <PropertyGroup>

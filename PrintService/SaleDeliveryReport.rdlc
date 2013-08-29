@@ -85,7 +85,6 @@
                       <rd:DefaultName>Textbox20</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <BottomBorder>
@@ -120,7 +119,6 @@
                       <rd:DefaultName>Textbox34</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <BottomBorder>
@@ -155,7 +153,6 @@
                       <rd:DefaultName>Textbox32</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <BottomBorder>
@@ -190,7 +187,6 @@
                       <rd:DefaultName>Textbox30</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <BottomBorder>
@@ -225,7 +221,6 @@
                       <rd:DefaultName>Textbox28</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <BottomBorder>
@@ -260,7 +255,6 @@
                       <rd:DefaultName>Textbox26</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -310,7 +304,6 @@
                       <rd:DefaultName>Textbox36</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <TopBorder>
@@ -348,7 +341,6 @@
                       <rd:DefaultName>Textbox37</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <TopBorder>
@@ -386,7 +378,6 @@
                       <rd:DefaultName>Textbox38</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <TopBorder>
@@ -424,7 +415,6 @@
                       <rd:DefaultName>Textbox39</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <TopBorder>
@@ -462,7 +452,6 @@
                       <rd:DefaultName>Textbox40</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <TopBorder>
@@ -500,7 +489,6 @@
                       <rd:DefaultName>Textbox41</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -532,7 +520,6 @@
                       <rd:DefaultName>Textbox61</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -564,7 +551,6 @@
                       <rd:DefaultName>Textbox57</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -596,7 +582,6 @@
                       <rd:DefaultName>Textbox53</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -628,7 +613,6 @@
                       <rd:DefaultName>Textbox42</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -660,7 +644,6 @@
                       <rd:DefaultName>Textbox43</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -692,7 +675,6 @@
                       <rd:DefaultName>Textbox69</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -724,7 +706,6 @@
                       <rd:DefaultName>Textbox73</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -756,7 +737,6 @@
                       <rd:DefaultName>Textbox77</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -788,7 +768,6 @@
                       <rd:DefaultName>Textbox81</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -820,7 +799,6 @@
                       <rd:DefaultName>Textbox85</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -852,7 +830,6 @@
                       <rd:DefaultName>Textbox89</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -884,7 +861,6 @@
                       <rd:DefaultName>Textbox93</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -921,7 +897,6 @@
                       <rd:DefaultName>Textbox44</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <TopBorder>
@@ -956,7 +931,6 @@
                       <rd:DefaultName>Textbox45</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <TopBorder>
@@ -991,7 +965,6 @@
                       <rd:DefaultName>Textbox46</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <TopBorder>
@@ -1026,7 +999,6 @@
                       <rd:DefaultName>Textbox47</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <TopBorder>
@@ -1061,7 +1033,6 @@
                       <rd:DefaultName>Textbox48</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <TopBorder>
@@ -1096,7 +1067,6 @@
                       <rd:DefaultName>Textbox49</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1128,7 +1098,6 @@
                       <rd:DefaultName>Textbox62</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1160,7 +1129,6 @@
                       <rd:DefaultName>Textbox58</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1192,7 +1160,6 @@
                       <rd:DefaultName>Textbox54</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1224,7 +1191,6 @@
                       <rd:DefaultName>Textbox50</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1256,7 +1222,6 @@
                       <rd:DefaultName>Textbox51</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1288,7 +1253,6 @@
                       <rd:DefaultName>Textbox70</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1320,7 +1284,6 @@
                       <rd:DefaultName>Textbox74</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1352,7 +1315,6 @@
                       <rd:DefaultName>Textbox78</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1384,7 +1346,6 @@
                       <rd:DefaultName>Textbox82</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1416,7 +1377,6 @@
                       <rd:DefaultName>Textbox86</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1448,7 +1408,6 @@
                       <rd:DefaultName>Textbox90</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1480,7 +1439,6 @@
                       <rd:DefaultName>Textbox94</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1517,7 +1475,6 @@
                       <rd:DefaultName>cln1</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1549,7 +1506,6 @@
                       <rd:DefaultName>cln2</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1581,7 +1537,6 @@
                       <rd:DefaultName>cln3</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1613,7 +1568,6 @@
                       <rd:DefaultName>cln4</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1645,7 +1599,6 @@
                       <rd:DefaultName>cln5</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1677,7 +1630,6 @@
                       <rd:DefaultName>cln6</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1709,7 +1661,6 @@
                       <rd:DefaultName>cln7</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1741,7 +1692,6 @@
                       <rd:DefaultName>cln8</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1773,7 +1723,6 @@
                       <rd:DefaultName>cln9</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1805,7 +1754,6 @@
                       <rd:DefaultName>cln10</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1837,7 +1785,6 @@
                       <rd:DefaultName>cln11</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1869,7 +1816,6 @@
                       <rd:DefaultName>cln12</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1901,7 +1847,6 @@
                       <rd:DefaultName>cln13</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1933,7 +1878,6 @@
                       <rd:DefaultName>cln14</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1965,7 +1909,6 @@
                       <rd:DefaultName>cln15</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -1997,7 +1940,6 @@
                       <rd:DefaultName>cln16</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -2029,7 +1971,6 @@
                       <rd:DefaultName>cln17</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -2061,7 +2002,6 @@
                       <rd:DefaultName>cln18</rd:DefaultName>
                       <Style>
                         <Border>
-                          <Color>LightGrey</Color>
                           <Style>Solid</Style>
                         </Border>
                         <PaddingLeft>2pt</PaddingLeft>
@@ -2115,6 +2055,7 @@
           </TablixMembers>
         </TablixRowHierarchy>
         <DataSetName>DataSet</DataSetName>
+        <Top>0.075in</Top>
         <Left>0.1474in</Left>
         <Height>2.4cm</Height>
         <Width>20.77041cm</Width>
@@ -2126,13 +2067,13 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>2.55375cm</Height>
+    <Height>1.06988in</Height>
     <Style />
   </Body>
-  <Width>21.48813cm</Width>
+  <Width>8.45989in</Width>
   <Page>
     <PageHeader>
-      <Height>2.8575cm</Height>
+      <Height>1.125in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -2507,7 +2448,7 @@
       </Style>
     </PageHeader>
     <PageFooter>
-      <Height>2.11668cm</Height>
+      <Height>0.83334in</Height>
       <PrintOnFirstPage>true</PrintOnFirstPage>
       <PrintOnLastPage>true</PrintOnLastPage>
       <ReportItems>
@@ -2727,13 +2668,12 @@
         </Border>
       </Style>
     </PageFooter>
-    <PageHeight>14cm</PageHeight>
-    <PageWidth>24cm</PageWidth>
-    <LeftMargin>1.25cm</LeftMargin>
-    <RightMargin>1.25cm</RightMargin>
-    <TopMargin>0.5cm</TopMargin>
-    <BottomMargin>0.5cm</BottomMargin>
-    <ColumnSpacing>1.27cm</ColumnSpacing>
+    <PageHeight>5.51181in</PageHeight>
+    <PageWidth>9.44882in</PageWidth>
+    <LeftMargin>0.49213in</LeftMargin>
+    <RightMargin>0.49213in</RightMargin>
+    <TopMargin>0.19685in</TopMargin>
+    <BottomMargin>0.19685in</BottomMargin>
     <Style />
   </Page>
   <AutoRefresh>0</AutoRefresh>
@@ -2874,6 +2814,6 @@
     </ReportParameter>
   </ReportParameters>
   <Language>zh-CN</Language>
-  <rd:ReportUnitType>Cm</rd:ReportUnitType>
+  <rd:ReportUnitType>Inch</rd:ReportUnitType>
   <rd:ReportID>7ac1496b-b337-431d-8080-2f0b26564094</rd:ReportID>
 </Report>
