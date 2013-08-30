@@ -32,7 +32,7 @@
 
 		</div>
 		<div>
-			<rsweb:ReportViewer ID="ReportViewer1" runat="server" Height="100%" Width="100%" PageCountMode="Actual" ShowExportControls="False" ShowFindControls="False">
+			<rsweb:ReportViewer ID="ReportViewer1" runat="server" Height="100%" Width="100%" PageCountMode="Actual" ShowExportControls="true" ShowFindControls="False">
 			</rsweb:ReportViewer>
 		</div>
 	</form>
