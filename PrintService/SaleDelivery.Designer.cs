@@ -582,7 +582,7 @@ namespace PrintService {
                         string cln4, 
                         string cln3, 
                         string cln2, 
-                        string cln1) {
+                        int cln1) {
                 DataTable1Row rowDataTable1Row = ((DataTable1Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         cln18,
@@ -682,7 +682,7 @@ namespace PrintService {
                 base.Columns.Add(this.columncln3);
                 this.columncln2 = new global::System.Data.DataColumn("cln2", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columncln2);
-                this.columncln1 = new global::System.Data.DataColumn("cln1", typeof(string), null, global::System.Data.MappingType.Element);
+                this.columncln1 = new global::System.Data.DataColumn("cln1", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columncln1);
                 this.columncln18.Caption = "cln";
                 this.columncln17.Caption = "cln";
@@ -1669,10 +1669,10 @@ namespace PrintService {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string cln1 {
+            public int cln1 {
                 get {
                     try {
-                        return ((string)(this[this.tableDataTable1.cln1Column]));
+                        return ((int)(this[this.tableDataTable1.cln1Column]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("表“DataTable1”中列“cln1”的值为 DBNull。", e);

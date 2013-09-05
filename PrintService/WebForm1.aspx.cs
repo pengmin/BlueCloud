@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using CrystalDecisions.CrystalReports.Engine;
+using CrystalDecisions.Shared;
 
 namespace PrintService
 {
@@ -25,7 +26,51 @@ namespace PrintService
 
 			//绑定数据集，注意，一个报表用一个数据集。
 			myReport.SetDataSource(dt1);
+			var mainData = this.GetData(this.GetMainDataSql());
+			//foreach (ParameterField param in myReport.ParameterFields)
+			//{
+			//	myReport.SetParameterValue(param.Name, mainData.Rows[0][param.Name].ToString());
+			//}
+			for (var i = 1; i <= 7; i++)
+			{
+				myReport.SetParameterValue("info" + i.ToString(), mainData.Rows[0]["info" + i.ToString()].ToString());
+			}
 			CrystalReportViewer1.ReportSource = myReport;
+		}
+		private DataTable GetMainData()
+		{
+			var tableData = new DataTable();
+			tableData.TableName = "MainInfo";
+			for (var i = 1; i <= 7; i++)
+			{
+				tableData.Columns.Add("cln" + i.ToString(), typeof(string));
+			}
+			for (var i = 0; i < 1; i++)
+			{
+				var row = tableData.NewRow();
+				for (var j = 1; j <= 7; j++)
+				{
+					row["cln" + j.ToString()] = i * 100 + j;
+				}
+				tableData.Rows.Add(row);
+			}
+			return tableData;
+		}
+		private string GetMainDataSql()
+		{
+			var sql =
+@"SELECT code AS info1,name AS info2,address AS info3,name1 AS info4,SUM(quantity) AS info5,SUM(price) AS info6, maker AS info7
+FROM(
+	SELECT a.code,c.name,a.address,d.name AS name1,CONVERT(INT,b.quantity) AS quantity,CONVERT(DECIMAL(18,2),b.quantity*b.taxPrice) AS price,a.maker, CONVERT(VARCHAR(10),a.createdtime) AS createdtime
+	FROM dbo.SA_SaleDelivery AS a
+	LEFT JOIN dbo.SA_SaleDelivery_b AS b ON a.id=b.idSaleDeliveryDTO
+	LEFT JOIN dbo.AA_Partner AS c ON a.idsettleCustomer=c.id
+	LEFT JOIN dbo.AA_Warehouse AS d ON a.idwarehouse=d.id
+	WHERE a.code LIKE '%{0}%'
+) AS temp
+GROUP BY temp.code,temp.name,temp.address,name1,temp.maker,temp.createdtime";
+
+			return string.Format(sql, this.Request["code"]);
 		}
 		private DataTable GetData(string sql)
 		{
@@ -43,7 +88,7 @@ namespace PrintService
 		{
 			var sql =
 @"SELECT
-	ROW_NUMBER() OVER(ORDER BY specification,freeItem0,name) AS cln1,
+	CONVERT(varchar(5),ROW_NUMBER() OVER(ORDER BY specification,freeItem0,name)) AS cln1,
 	specification AS cln2,freeItem0 AS cln3, name AS cln4,
 	[28]+[29]+[30]+[31]+[32]+[33]+[34]+[35]+[36]+[37]+[38]+[39]+[40] AS cln5,
 	[28] AS cln6,[29] AS cln7,[30] AS cln8,[31] AS cln9,[32] AS cln10,[33] AS cln11,[34] AS cln12,

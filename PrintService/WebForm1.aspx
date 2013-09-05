@@ -12,7 +12,7 @@
 <body>
 	<form id="form1" runat="server">
 		<div>
-			<CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" />
+			<CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" EnableParameterPrompt="False" HasCrystalLogo="False" HasDrilldownTabs="False" HasRefreshButton="True" HasSearchButton="False" HasToggleGroupTreeButton="False" HasToggleParameterPanelButton="False" HasZoomFactorList="False" Height="50px" PrintMode="ActiveX" ToolPanelView="None" Width="350px" />
 		</div>
 	</form>
 </body>
