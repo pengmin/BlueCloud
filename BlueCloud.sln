@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Print", "Print\Print.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintService", "PrintService\PrintService.csproj", "{F7685B7D-9293-4CF4-9CDA-27C1F2970550}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YiZhuReport", "YiZhuReport\YiZhuReport.csproj", "{98221F99-AC2C-4993-AD87-615F2D0DC511}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,10 @@ Global
 		{F7685B7D-9293-4CF4-9CDA-27C1F2970550}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7685B7D-9293-4CF4-9CDA-27C1F2970550}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7685B7D-9293-4CF4-9CDA-27C1F2970550}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98221F99-AC2C-4993-AD87-615F2D0DC511}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98221F99-AC2C-4993-AD87-615F2D0DC511}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98221F99-AC2C-4993-AD87-615F2D0DC511}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98221F99-AC2C-4993-AD87-615F2D0DC511}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
