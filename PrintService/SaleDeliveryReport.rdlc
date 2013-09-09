@@ -2895,8 +2895,8 @@
     <PageWidth>24cm</PageWidth>
     <InteractiveHeight>14cm</InteractiveHeight>
     <InteractiveWidth>24cm</InteractiveWidth>
-    <LeftMargin>1.25cm</LeftMargin>
-    <RightMargin>1.25cm</RightMargin>
+    <LeftMargin>0cm</LeftMargin>
+    <RightMargin>0cm</RightMargin>
     <TopMargin>0.5cm</TopMargin>
     <BottomMargin>16.2cm</BottomMargin>
     <ColumnSpacing>1.27cm</ColumnSpacing>

@@ -2196,7 +2196,7 @@
         <DataSetName>DataSet</DataSetName>
         <Left>0.1474in</Left>
         <Height>2.4cm</Height>
-        <Width>21.27188cm</Width>
+        <Width>21.27186cm</Width>
         <Style>
           <Border>
             <Style>Solid</Style>
@@ -3033,8 +3033,8 @@
     <PageWidth>24cm</PageWidth>
     <InteractiveHeight>14cm</InteractiveHeight>
     <InteractiveWidth>24cm</InteractiveWidth>
-    <LeftMargin>1.25cm</LeftMargin>
-    <RightMargin>1.25cm</RightMargin>
+    <LeftMargin>0cm</LeftMargin>
+    <RightMargin>0cm</RightMargin>
     <TopMargin>0.5cm</TopMargin>
     <BottomMargin>16.2cm</BottomMargin>
     <ColumnSpacing>1.27cm</ColumnSpacing>
