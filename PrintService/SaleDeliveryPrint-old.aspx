@@ -1,6 +1,6 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SaleDeliveryPrint-old.aspx.cs" Inherits="PrintService.SaleDeliveryPrint" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SaleDeliveryPrint-old.aspx.cs" Inherits="PrintService.WebForm1" %>
 
-<%@ Register Assembly="Microsoft.ReportViewer.WebForms, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" Namespace="Microsoft.Reporting.WebForms" TagPrefix="rsweb" %>
+<%@ Register Assembly="CrystalDecisions.Web, Version=13.0.2000.0, Culture=neutral, PublicKeyToken=692fbea5521e1304" Namespace="CrystalDecisions.Web" TagPrefix="CR" %>
 
 <!DOCTYPE html>
 
@@ -8,32 +8,11 @@
 <head runat="server">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title></title>
-	<style>
-		#top
-		{
-			position: fixed;
-			_position: absolute;
-			top: 5px;
-			right: 5px;
-			_bottom: auto;
-			_top: expression(eval(document.documentElement.scrollTop+5));
-		}
-	</style>
 </head>
 <body>
 	<form id="form1" runat="server">
-		<asp:ScriptManager runat="server"></asp:ScriptManager>
-		<div id="top">
-
-			<asp:RadioButtonList ID="type" runat="server" AutoPostBack="True" RepeatDirection="Horizontal" OnSelectedIndexChanged="type_SelectedIndexChanged">
-				<asp:ListItem Value="1">无单价金额</asp:ListItem>
-				<asp:ListItem Value="2">带单价金额</asp:ListItem>
-			</asp:RadioButtonList>
-
-		</div>
 		<div>
-			<rsweb:ReportViewer ID="ReportViewer1" runat="server" Height="100%" Width="100%" PageCountMode="Actual" ShowExportControls="true" ShowFindControls="False">
-			</rsweb:ReportViewer>
+			<CR:CrystalReportViewer ID="CrystalReportViewer1" runat="server" EnableParameterPrompt="False" HasCrystalLogo="False" HasDrilldownTabs="False" HasRefreshButton="True" HasSearchButton="False" HasToggleGroupTreeButton="False" HasToggleParameterPanelButton="False" HasZoomFactorList="False" Height="50px" PrintMode="ActiveX" ToolPanelView="None" Width="350px" />
 		</div>
 	</form>
 </body>

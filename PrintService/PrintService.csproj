@@ -75,9 +75,9 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="SaleDeliveryList.aspx" />
-    <Content Include="SaleDeliveryPrint-old.aspx" />
-    <Content Include="Web.config" />
     <Content Include="SaleDeliveryPrint.aspx" />
+    <Content Include="Web.config" />
+    <Content Include="SaleDeliveryPrint-old.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.aspx.cs">
@@ -107,19 +107,19 @@
     <Compile Include="SaleDeliveryList.aspx.designer.cs">
       <DependentUpon>SaleDeliveryList.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SaleDeliveryPrint-old.aspx.cs">
-      <DependentUpon>SaleDeliveryPrint-old.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SaleDeliveryPrint-old.aspx.designer.cs">
-      <DependentUpon>SaleDeliveryPrint-old.aspx</DependentUpon>
-    </Compile>
     <Compile Include="SaleDeliveryPrint.aspx.cs">
       <DependentUpon>SaleDeliveryPrint.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="SaleDeliveryPrint.aspx.designer.cs">
       <DependentUpon>SaleDeliveryPrint.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="SaleDeliveryPrint-old.aspx.cs">
+      <DependentUpon>SaleDeliveryPrint-old.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SaleDeliveryPrint-old.aspx.designer.cs">
+      <DependentUpon>SaleDeliveryPrint-old.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
