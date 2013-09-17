@@ -24,12 +24,10 @@
 	<form id="form1" runat="server">
 		<asp:ScriptManager runat="server"></asp:ScriptManager>
 		<div id="top">
-
 			<asp:RadioButtonList ID="type" runat="server" AutoPostBack="True" RepeatDirection="Horizontal" OnSelectedIndexChanged="type_SelectedIndexChanged">
 				<asp:ListItem Value="1">无单价金额</asp:ListItem>
 				<asp:ListItem Value="2">带单价金额</asp:ListItem>
 			</asp:RadioButtonList>
-
 		</div>
 		<div>
 			<rsweb:ReportViewer ID="ReportViewer1" runat="server" Height="100%" Width="100%" PageCountMode="Actual" ShowExportControls="true" ShowFindControls="False">
