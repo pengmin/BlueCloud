@@ -1,82 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using Microsoft.Reporting.WebForms;
 
 namespace PrintService
 {
-	public partial class SaleDeliveryPrint : System.Web.UI.Page
+	public partial class SaleDeliveryPrint : Page
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			var reportType = this.Request["type"];
-			if (!this.IsPostBack)
+			var reportType = Request["type"];
+			if (!IsPostBack)
 			{
-				this.type.SelectedIndex = 0;
-				this.ReportViewer1.LocalReport.DataSources.Clear();
+				type.SelectedIndex = 0;
+				ReportViewer1.LocalReport.DataSources.Clear();
 				if (string.IsNullOrEmpty(reportType) || reportType == "1")
 				{
-					this.ReportViewer1.LocalReport.ReportPath = this.Server.MapPath("~/SaleDeliveryReport.rdlc");
-					this.ReportViewer1.LocalReport.DataSources.Add(new Microsoft.Reporting.WebForms.ReportDataSource("DataSet", this.GetData(this.GetTableDataSql())));
+					ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/SaleDeliveryReport.rdlc");
+					ReportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DataSet", GetData(GetTableDataSql())));
 				}
 				else
 				{
-					this.ReportViewer1.LocalReport.ReportPath = this.Server.MapPath("~/SaleDeliveryReport2.rdlc");
-					this.ReportViewer1.LocalReport.DataSources.Add(new Microsoft.Reporting.WebForms.ReportDataSource("DataSet", this.GetData(this.GetTableDataSql2())));
+					ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/SaleDeliveryReport2.rdlc");
+					ReportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DataSet", GetData(GetTableDataSql2())));
 				}
-				var mainData = this.GetData(this.GetMainDataSql());
+				var mainData = GetData(GetMainDataSql());
 				for (var i = 1; i <= 8; i++)
 				{
-					this.ReportViewer1.LocalReport.SetParameters(
-						new Microsoft.Reporting.WebForms.ReportParameter("info" + i.ToString(), mainData.Rows[0]["info" + i.ToString()].ToString()));
+					ReportViewer1.LocalReport.SetParameters(
+						new ReportParameter("info" + i, mainData.Rows[0]["info" + i].ToString()));
 				}
 			}
-		}
-		private DataTable GetDataset()
-		{
-			var tableData = new DataTable();
-			tableData.TableName = "TableData";
-			for (var i = 1; i <= 18; i++)
-			{
-				tableData.Columns.Add("cln" + i.ToString(), typeof(string));
-			}
-			for (var i = 0; i < 100; i++)
-			{
-				var row = tableData.NewRow();
-				for (var j = 1; j <= 18; j++)
-				{
-					row["cln" + j.ToString()] = i * 100 + j;
-				}
-				tableData.Rows.Add(row);
-			}
-			return tableData;
-		}
-		private DataTable GetMainData()
-		{
-			var tableData = new DataTable();
-			tableData.TableName = "MainInfo";
-			for (var i = 1; i <= 8; i++)
-			{
-				tableData.Columns.Add("cln" + i.ToString(), typeof(string));
-			}
-			for (var i = 0; i < 1; i++)
-			{
-				var row = tableData.NewRow();
-				for (var j = 1; j <= 8; j++)
-				{
-					row["cln" + j.ToString()] = i * 100 + j;
-				}
-				tableData.Rows.Add(row);
-			}
-			return tableData;
 		}
 		private DataTable GetData(string sql)
 		{
-			var conn = new SqlConnection(ConfigHelper.GetInstance(this.Server.MapPath("~/Config.xml")).SqlConnectionString());
+			var conn = new SqlConnection(ConfigHelper.GetInstance(Server.MapPath("~/Config.xml")).SqlConnectionString());
 			var cmd = conn.CreateCommand();
 			var adp = new SqlDataAdapter(cmd);
 			var dt = new DataTable();
@@ -88,8 +47,7 @@ namespace PrintService
 		}
 		private string GetMainDataSql()
 		{
-			var sql =
-@"SELECT code AS info1,name AS info2,address AS info3,name1 AS info4,SUM(quantity) AS info5,SUM(price) AS info6, maker AS info7,madedate AS info8
+			const string sql = @"SELECT code AS info1,name AS info2,address AS info3,name1 AS info4,SUM(quantity) AS info5,SUM(price) AS info6, maker AS info7,madedate AS info8
 FROM(
 	SELECT a.code,c.name,a.address,d.name AS name1,CONVERT(INT,b.quantity) AS quantity,CONVERT(DECIMAL(18,2),b.quantity*b.taxPrice) AS price,a.maker, CONVERT(VARCHAR(10),a.createdtime) AS createdtime,ISNULL(CONVERT(VARCHAR(10),a.madedate),'') AS madedate
 	FROM dbo.SA_SaleDelivery AS a
@@ -100,12 +58,12 @@ FROM(
 ) AS temp
 GROUP BY temp.code,temp.name,temp.address,name1,temp.maker,temp.createdtime,temp.madedate";
 
-			return string.Format(sql, this.Request["code"]);
+			return string.Format(sql, Request["code"]);
 		}
+
 		private string GetTableDataSql()
 		{
-			var sql =
-@"SELECT
+			const string sql = @"SELECT
 	ROW_NUMBER() OVER(ORDER BY specification,freeItem0,name) AS cln1,
 	specification AS cln2,freeItem0 AS cln3, name AS cln4,
 	[28]+[29]+[30]+[31]+[32]+[33]+[34]+[35]+[36]+[37]+[38]+[39]+[40] AS cln5,
@@ -145,12 +103,12 @@ FROM(
 	) AS temp
 	GROUP BY temp.specification, temp.freeItem0,temp.name
 ) AS temp";
-			return string.Format(sql, this.Request["code"]);
+			return string.Format(sql, Request["code"]);
 		}
+
 		private string GetTableDataSql2()
 		{
-			var sql =
-@"SELECT temp.*,temp.cln19*temp.cln5 AS cln20
+			const string sql = @"SELECT temp.*,temp.cln19*temp.cln5 AS cln20
 FROM(
 	SELECT
 		ROW_NUMBER() OVER(ORDER BY specification,freeItem0,name) AS cln1,
@@ -194,27 +152,27 @@ FROM(
 		GROUP BY temp.specification, temp.freeItem0,temp.name,temp.price
 	) AS temp
 ) AS temp";
-			return string.Format(sql, this.Request["code"]);
+			return string.Format(sql, Request["code"]);
 		}
 
 		protected void type_SelectedIndexChanged(object sender, EventArgs e)
 		{
-			this.ReportViewer1.LocalReport.DataSources.Clear();
+			ReportViewer1.LocalReport.DataSources.Clear();
 			if (type.SelectedValue == "1")
 			{
-				this.ReportViewer1.LocalReport.ReportPath = this.Server.MapPath("~/SaleDeliveryReport.rdlc");
-				this.ReportViewer1.LocalReport.DataSources.Add(new Microsoft.Reporting.WebForms.ReportDataSource("DataSet", this.GetData(this.GetTableDataSql())));
+				ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/SaleDeliveryReport.rdlc");
+				ReportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DataSet", GetData(GetTableDataSql())));
 			}
 			else
 			{
-				this.ReportViewer1.LocalReport.ReportPath = this.Server.MapPath("~/SaleDeliveryReport2.rdlc");
-				this.ReportViewer1.LocalReport.DataSources.Add(new Microsoft.Reporting.WebForms.ReportDataSource("DataSet", this.GetData(this.GetTableDataSql2())));
+				ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/SaleDeliveryReport2.rdlc");
+				ReportViewer1.LocalReport.DataSources.Add(new ReportDataSource("DataSet", GetData(GetTableDataSql2())));
 			}
-			var mainData = this.GetData(this.GetMainDataSql());
+			var mainData = GetData(GetMainDataSql());
 			for (var i = 1; i <= 7; i++)
 			{
-				this.ReportViewer1.LocalReport.SetParameters(
-					new Microsoft.Reporting.WebForms.ReportParameter("info" + i.ToString(), mainData.Rows[0]["info" + i.ToString()].ToString()));
+				ReportViewer1.LocalReport.SetParameters(
+					new ReportParameter("info" + i, mainData.Rows[0]["info" + i].ToString()));
 			}
 		}
 	}
