@@ -29,7 +29,7 @@ namespace PrintService
 					this.ReportViewer1.LocalReport.DataSources.Add(new Microsoft.Reporting.WebForms.ReportDataSource("DataSet", this.GetData(this.GetTableDataSql2())));
 				}
 				var mainData = this.GetData(this.GetMainDataSql());
-				for (var i = 1; i <= 7; i++)
+				for (var i = 1; i <= 8; i++)
 				{
 					this.ReportViewer1.LocalReport.SetParameters(
 						new Microsoft.Reporting.WebForms.ReportParameter("info" + i.ToString(), mainData.Rows[0]["info" + i.ToString()].ToString()));
@@ -59,14 +59,14 @@ namespace PrintService
 		{
 			var tableData = new DataTable();
 			tableData.TableName = "MainInfo";
-			for (var i = 1; i <= 7; i++)
+			for (var i = 1; i <= 8; i++)
 			{
 				tableData.Columns.Add("cln" + i.ToString(), typeof(string));
 			}
 			for (var i = 0; i < 1; i++)
 			{
 				var row = tableData.NewRow();
-				for (var j = 1; j <= 7; j++)
+				for (var j = 1; j <= 8; j++)
 				{
 					row["cln" + j.ToString()] = i * 100 + j;
 				}
@@ -89,16 +89,16 @@ namespace PrintService
 		private string GetMainDataSql()
 		{
 			var sql =
-@"SELECT code AS info1,name AS info2,address AS info3,name1 AS info4,SUM(quantity) AS info5,SUM(price) AS info6, maker AS info7
+@"SELECT code AS info1,name AS info2,address AS info3,name1 AS info4,SUM(quantity) AS info5,SUM(price) AS info6, maker AS info7,madedate AS info8
 FROM(
-	SELECT a.code,c.name,a.address,d.name AS name1,CONVERT(INT,b.quantity) AS quantity,CONVERT(DECIMAL(18,2),b.quantity*b.taxPrice) AS price,a.maker, CONVERT(VARCHAR(10),a.createdtime) AS createdtime
+	SELECT a.code,c.name,a.address,d.name AS name1,CONVERT(INT,b.quantity) AS quantity,CONVERT(DECIMAL(18,2),b.quantity*b.taxPrice) AS price,a.maker, CONVERT(VARCHAR(10),a.createdtime) AS createdtime,ISNULL(CONVERT(VARCHAR(10),a.madedate),'') AS madedate
 	FROM dbo.SA_SaleDelivery AS a
 	LEFT JOIN dbo.SA_SaleDelivery_b AS b ON a.id=b.idSaleDeliveryDTO
 	LEFT JOIN dbo.AA_Partner AS c ON a.idsettleCustomer=c.id
 	LEFT JOIN dbo.AA_Warehouse AS d ON a.idwarehouse=d.id
 	WHERE a.code LIKE '%{0}%'
 ) AS temp
-GROUP BY temp.code,temp.name,temp.address,name1,temp.maker,temp.createdtime";
+GROUP BY temp.code,temp.name,temp.address,name1,temp.maker,temp.createdtime,temp.madedate";
 
 			return string.Format(sql, this.Request["code"]);
 		}
