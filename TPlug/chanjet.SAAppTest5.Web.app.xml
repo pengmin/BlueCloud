@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<App id="chanjet.SAAppTest5.Web" version="1.0" lisense="" name="SAAppTest5" description="" appType="Production">
+	<Extension Point_id="Ufida.T.BAP.Web.AppendAjaxAction">
+		<Codition Page="Voucher" BizCode="SA03">
+			<Do Action="TestAction" class="chanjet.SAAppTest5.Web.TestActionCreator"></Do>
+		</Codition>
+	</Extension>
+</App>

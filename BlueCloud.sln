@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrintService", "PrintServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YiZhuReport", "YiZhuReport\YiZhuReport.csproj", "{98221F99-AC2C-4993-AD87-615F2D0DC511}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPlug", "TPlug\TPlug.csproj", "{D3AD7F47-0799-442A-808A-3F1441BB4C23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{E62AE2F9-723F-4545-8FDA-02F239139033}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,14 @@ Global
 		{98221F99-AC2C-4993-AD87-615F2D0DC511}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{98221F99-AC2C-4993-AD87-615F2D0DC511}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{98221F99-AC2C-4993-AD87-615F2D0DC511}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3AD7F47-0799-442A-808A-3F1441BB4C23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3AD7F47-0799-442A-808A-3F1441BB4C23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3AD7F47-0799-442A-808A-3F1441BB4C23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3AD7F47-0799-442A-808A-3F1441BB4C23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E62AE2F9-723F-4545-8FDA-02F239139033}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E62AE2F9-723F-4545-8FDA-02F239139033}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E62AE2F9-723F-4545-8FDA-02F239139033}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E62AE2F9-723F-4545-8FDA-02F239139033}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

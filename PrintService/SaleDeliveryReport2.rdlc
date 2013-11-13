@@ -2792,7 +2792,7 @@
             <Paragraph>
               <TextRuns>
                 <TextRun>
-                  <Value>打印日期：</Value>
+                  <Value>单据日期：</Value>
                   <Style />
                 </TextRun>
               </TextRuns>

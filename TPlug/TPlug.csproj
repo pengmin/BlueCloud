@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D3AD7F47-0799-442A-808A-3F1441BB4C23}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TPlug</RootNamespace>
+    <AssemblyName>TPlug</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Ufida.T.BAP.Base">
+      <HintPath>C:\ufida\ywt11.500\compiled\pubref\Ufida.T.BAP.Base.dll</HintPath>
+    </Reference>
+    <Reference Include="Ufida.T.BAP.Web">
+      <HintPath>C:\ufida\ywt11.500\compiled\pubref\Ufida.T.BAP.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="Ufida.T.EAP.AppBase">
+      <HintPath>C:\ufida\ywt11.500\compiled\pubref\Ufida.T.EAP.AppBase.dll</HintPath>
+    </Reference>
+    <Reference Include="Ufida.T.EAP.DataStruct">
+      <HintPath>C:\ufida\ywt11.500\compiled\pubref\Ufida.T.EAP.DataStruct.dll</HintPath>
+    </Reference>
+    <Reference Include="Ufida.T.SA.DTO">
+      <HintPath>C:\ufida\ywt11.500\compiled\pubref\Ufida.T.SA.DTO.dll</HintPath>
+    </Reference>
+    <Reference Include="Ufida.T.SA.Interface">
+      <HintPath>C:\ufida\ywt11.500\compiled\pubref\Ufida.T.SA.Interface.dll</HintPath>
+    </Reference>
+    <Reference Include="Ufida.T.SCM.DTO">
+      <HintPath>C:\ufida\ywt11.500\compiled\pubref\Ufida.T.SCM.DTO.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestActionCreator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="apptest5.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="button.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="chanjet.SAAppTest5.Web.app.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
