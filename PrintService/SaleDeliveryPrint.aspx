@@ -9,8 +9,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title></title>
 	<style>
-		#top
-		{
+		#top {
 			position: fixed;
 			_position: absolute;
 			top: 5px;
@@ -27,6 +26,8 @@
 			<asp:RadioButtonList ID="type" runat="server" AutoPostBack="True" RepeatDirection="Horizontal" OnSelectedIndexChanged="type_SelectedIndexChanged">
 				<asp:ListItem Value="1">无单价金额</asp:ListItem>
 				<asp:ListItem Value="2">带单价金额</asp:ListItem>
+				<asp:ListItem Value="3">无单价金额（新）</asp:ListItem>
+				<asp:ListItem Value="4">带单价金额（新）</asp:ListItem>
 			</asp:RadioButtonList>
 		</div>
 		<div>
