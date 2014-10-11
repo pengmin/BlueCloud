@@ -49,7 +49,7 @@
 		<div>
 			<asp:GridView ID="GridView1" runat="server" AllowPaging="True" AutoGenerateColumns="False" DataSourceID="SqlDataSource1" BackColor="White" BorderColor="#CCCCCC" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" PageSize="25">
 				<Columns>
-					<asp:HyperLinkField DataTextField="code" HeaderText="单据编号" SortExpression="code" DataNavigateUrlFormatString="~/SaleDeliveryPrint.aspx?code={0}" DataNavigateUrlFields="code" Target="_blank" />
+					<asp:HyperLinkField DataTextField="code" HeaderText="单据编号" SortExpression="code" DataNavigateUrlFormatString="~/SaleDeliveryPrint.aspx?code={0}&type=1" DataNavigateUrlFields="code" Target="_blank" />
 					<asp:BoundField DataField="name" HeaderText="公司" SortExpression="name" />
 					<asp:BoundField DataField="address" HeaderText="地址" SortExpression="address" />
 					<asp:BoundField DataField="name1" HeaderText="出库仓" SortExpression="name1" />

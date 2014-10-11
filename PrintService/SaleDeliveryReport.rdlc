@@ -1276,7 +1276,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>XXXXL</Value>
+                              <Value>4XL</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -2472,6 +2472,7 @@
         </TablixRowHierarchy>
         <DataSetName>DataSet</DataSetName>
         <Top>0.075in</Top>
+        <Left>0.05in</Left>
         <Height>3.6cm</Height>
         <Width>20.08249cm</Width>
         <Style>
@@ -2485,7 +2486,7 @@
     <Height>3.7905cm</Height>
     <Style />
   </Body>
-  <Width>20.08249cm</Width>
+  <Width>20.37353cm</Width>
   <Page>
     <PageHeader>
       <Height>2.8575cm</Height>

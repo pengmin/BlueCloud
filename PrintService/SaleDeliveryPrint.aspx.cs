@@ -10,9 +10,11 @@ namespace PrintService
 	{
 		protected void Page_Load(object sender, EventArgs e)
 		{
-			if (IsPostBack) return;
+			if (IsPostBack)
+			{
+				return;
+			}
 			var reportType = Request["type"];
-			type.SelectedIndex = 0;
 			BuildReport(reportType);
 		}
 		private DataTable GetData(string sql)
@@ -252,11 +254,6 @@ FROM(
 	) AS temp
 ) AS temp";
 			return string.Format(sql, Request["code"]);
-		}
-
-		protected void type_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			BuildReport(type.SelectedValue);
 		}
 
 		private void BuildReport(string flag)

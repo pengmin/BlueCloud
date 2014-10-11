@@ -23,12 +23,21 @@
 	<form id="form1" runat="server">
 		<asp:ScriptManager runat="server"></asp:ScriptManager>
 		<div id="top">
-			<asp:RadioButtonList ID="type" runat="server" AutoPostBack="True" RepeatDirection="Horizontal" OnSelectedIndexChanged="type_SelectedIndexChanged">
-				<asp:ListItem Value="1">无单价金额</asp:ListItem>
-				<asp:ListItem Value="2">带单价金额</asp:ListItem>
-				<asp:ListItem Value="3">无单价金额（新）</asp:ListItem>
-				<asp:ListItem Value="4">带单价金额（新）</asp:ListItem>
-			</asp:RadioButtonList>
+
+			<table id="TABLE1">
+				<tbody>
+					<tr>
+						<td>
+							<input id="type_0" type="radio" value="1" name="type" onclick="change(1);" <%=Request["type"]=="1"?"checked='checked'":"" %> /><label for="type_0">无单价金额</label></td>
+						<td>
+							<input id="type_1" type="radio" value="2" name="type" onclick="change(2);" <%=Request["type"]=="2"?"checked='checked'":"" %> /><label for="type_1">带单价金额</label></td>
+						<td>
+							<input id="type_2" type="radio" value="3" name="type" onclick="change(3);" <%=Request["type"]=="3"?"checked='checked'":"" %> /><label for="type_2">无单价金额（新）</label></td>
+						<td>
+							<input id="type_3" type="radio" value="4" name="type" onclick="change(4);" <%=Request["type"]=="4"?"checked='checked'":"" %> /><label for="type_3">带单价金额（新）</label></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 		<div>
 			<rsweb:ReportViewer ID="ReportViewer1" runat="server" Height="100%" Width="100%" PageCountMode="Actual" ShowExportControls="true" ShowFindControls="False">
@@ -37,3 +46,8 @@
 	</form>
 </body>
 </html>
+<script>
+	function change(type) {
+		window.location.href = "saledeliveryprint.aspx?type=" + type;
+	}
+</script>

@@ -3672,6 +3672,7 @@
         </TablixRowHierarchy>
         <DataSetName>DataSet</DataSetName>
         <Top>0.0125in</Top>
+        <Left>0.0625in</Left>
         <Height>3.6cm</Height>
         <Width>26.78323cm</Width>
         <Style>
@@ -3682,10 +3683,10 @@
         </Style>
       </Tablix>
     </ReportItems>
-    <Height>3.63175cm</Height>
+    <Height>3.76404cm</Height>
     <Style />
   </Body>
-  <Width>26.83615cm</Width>
+  <Width>27.0584cm</Width>
   <Page>
     <PageHeader>
       <Height>2.73417cm</Height>
