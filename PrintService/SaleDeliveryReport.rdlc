@@ -1308,7 +1308,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>5XL</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1340,7 +1340,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>6XL</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>

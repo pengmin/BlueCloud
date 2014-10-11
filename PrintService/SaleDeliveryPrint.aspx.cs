@@ -281,7 +281,7 @@ FROM(
 					break;
 			}
 			var mainData = GetData(GetMainDataSql());
-			for (var i = 1; i <= 7; i++)
+			for (var i = 1; i <= 8; i++)
 			{
 				ReportViewer1.LocalReport.SetParameters(
 					new ReportParameter("info" + i, mainData.Rows[0]["info" + i].ToString()));
