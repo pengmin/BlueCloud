@@ -48,6 +48,6 @@
 </html>
 <script>
 	function change(type) {
-		window.location.href = "saledeliveryprint.aspx?type=" + type;
+		window.location.href = "saledeliveryprint.aspx?code=<%=Request["code"]%>&type=" + type;
 	}
 </script>
