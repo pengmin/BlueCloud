@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPlug", "TPlug\TPlug.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{E62AE2F9-723F-4545-8FDA-02F239139033}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Excel2Tplus", "Excel2Tplus\Excel2Tplus.csproj", "{32D975C7-97BC-497D-ABFC-AA7C1A7F730F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -55,6 +57,10 @@ Global
 		{E62AE2F9-723F-4545-8FDA-02F239139033}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E62AE2F9-723F-4545-8FDA-02F239139033}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E62AE2F9-723F-4545-8FDA-02F239139033}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32D975C7-97BC-497D-ABFC-AA7C1A7F730F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32D975C7-97BC-497D-ABFC-AA7C1A7F730F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32D975C7-97BC-497D-ABFC-AA7C1A7F730F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32D975C7-97BC-497D-ABFC-AA7C1A7F730F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
