@@ -15,9 +15,7 @@ namespace Excel2Tplus.ExcelImport
 		public IEnumerable<PurchaseRequisition> Import(string excelPath)
 		{
 			var eh = new ExcelHelper(excelPath, true);
-			eh.Open();
 			var dt = eh.Read();
-			eh.Close();
 			return new[]
 			{
 				new PurchaseRequisition

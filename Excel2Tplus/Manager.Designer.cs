@@ -58,6 +58,7 @@
 			this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column6 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
@@ -171,6 +172,7 @@
 			this.toolStripButton2.Name = "toolStripButton2";
 			this.toolStripButton2.Size = new System.Drawing.Size(65, 22);
 			this.toolStripButton2.Text = "导出Excel";
+			this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
 			// 
 			// toolStripSeparator2
 			// 
@@ -306,6 +308,10 @@
 			this.Column7.Name = "Column7";
 			this.Column7.TrueValue = "";
 			// 
+			// saveFileDialog1
+			// 
+			this.saveFileDialog1.DefaultExt = "xls";
+			// 
 			// Manager
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -355,6 +361,7 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn Column6;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
+		private System.Windows.Forms.SaveFileDialog saveFileDialog1;
 
 	}
 }

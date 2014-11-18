@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
@@ -47,9 +48,14 @@ namespace Excel2Tplus.Common
 		/// <returns>保存Excel数据的DataTable对象</returns>
 		public DataTable Read(string sheetName = null)
 		{
-			var data = new DataTable();
+			_excel = new FileStream(_filePath, FileMode.Open, FileAccess.Read);
+			if (_filePath.IndexOf(".xlsx") > 0) // 2007版本
+				_workbook = new XSSFWorkbook(_excel);
+			else if (_filePath.IndexOf(".xls") > 0) // 2003版本
+				_workbook = new HSSFWorkbook(_excel);
 			try
 			{
+				var data = new DataTable();
 				var sheet = sheetName != null ? _workbook.GetSheet(sheetName) : _workbook.GetSheetAt(0);
 				if (sheet == null) return null;
 
@@ -92,6 +98,7 @@ namespace Excel2Tplus.Common
 					data.Rows.Add(dataRow);
 				}
 
+				_excel.Close();
 				return data;
 			}
 			catch (Exception ex)
@@ -102,27 +109,68 @@ namespace Excel2Tplus.Common
 
 		}
 		/// <summary>
-		/// 打开Excel
+		/// 写入DataTable中的数据到Excel
 		/// </summary>
-		public void Open()
+		/// <param name="data">数据</param>
+		/// <param name="sheetName">工作表</param>
+		/// <returns>写入的数据数</returns>
+		public int Write(DataTable data, string sheetName = "Sheet1")
 		{
-			_excel = new FileStream(_filePath, FileMode.Open, FileAccess.Read);
+			_excel = new FileStream(_filePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
 			if (_filePath.IndexOf(".xlsx") > 0) // 2007版本
-				_workbook = new XSSFWorkbook(_excel);
+				_workbook = new XSSFWorkbook();
 			else if (_filePath.IndexOf(".xls") > 0) // 2003版本
-				_workbook = new HSSFWorkbook(_excel);
-		}
-		/// <summary>
-		/// 关闭Excel
-		/// </summary>
-		public void Close()
-		{
-			_excel.Close();
+				_workbook = new HSSFWorkbook();
+
+			try
+			{
+				var count = 0;
+				ISheet sheet;
+				if (_workbook != null)
+				{
+					sheet = _workbook.CreateSheet(sheetName);
+				}
+				else
+				{
+					return -1;
+				}
+
+				if (_firstRowIsColumn) //写入DataTable的列名
+				{
+					var row = sheet.CreateRow(0);
+					for (var i = 0; i < data.Columns.Count; i++)
+					{
+						row.CreateCell(i).SetCellValue(data.Columns[i].ColumnName);
+					}
+					count = 1;
+				}
+
+				for (var i = 0; i < data.Rows.Count; i++)
+				{
+					var row = sheet.CreateRow(count);
+					for (var j = 0; j < data.Columns.Count; j++)
+					{
+						row.CreateCell(j).SetCellValue(data.Rows[i][j].ToString());
+					}
+					++count;
+				}
+				_workbook.Write(_excel); //写入到excel
+				_excel.Close();
+				return count;
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine("Exception: " + ex.Message);
+				return -1;
+			}
 		}
 
 		public void Dispose()
 		{
-			Close();
+			if (_excel != null)
+			{
+				_excel.Close();
+			}
 		}
 	}
 }

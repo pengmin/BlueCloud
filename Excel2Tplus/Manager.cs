@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using Excel2Tplus.Common;
 using Excel2Tplus.DatabaseExport;
 using Excel2Tplus.Entities;
 using Excel2Tplus.ExcelImport;
@@ -27,6 +29,7 @@ namespace Excel2Tplus
 		{
 			InitializeComponent();
 			openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+			saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 		}
 
 		private void toolStripDropDownButton1_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -176,6 +179,38 @@ namespace Excel2Tplus
 				_list = hm.Get<Entity>(hdg.GetSelected());
 				ShowToView(_list);
 			}
+		}
+
+		private void toolStripButton2_Click(object sender, EventArgs e)
+		{
+			var dr = saveFileDialog1.ShowDialog();
+			if (dr != DialogResult.OK)
+			{
+				return;
+			}
+			var path = saveFileDialog1.FileName;
+			if (!File.Exists(path))
+			{
+				File.Create(path).Close();
+			}
+			var dt = new DataTable();
+			var clnCount = dataGridView1.ColumnCount;
+			for (var i = 0; i < clnCount; i++)
+			{
+				dt.Columns.Add(new DataColumn(dataGridView1.Columns[i].HeaderText));
+			}
+			foreach (DataGridViewRow row in dataGridView1.Rows)
+			{
+				var i = 0;
+				var r = dt.NewRow();
+				foreach (DataGridViewCell cell in row.Cells)
+				{
+					r[i++] = cell.Value;
+				}
+				dt.Rows.Add(r);
+			}
+			var eh = new ExcelHelper(path, true);
+			eh.Write(dt);
 		}
 	}
 }
