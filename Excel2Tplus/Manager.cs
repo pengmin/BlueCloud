@@ -44,18 +44,25 @@ namespace Excel2Tplus
 					_list = excelImportManager.Import<PurchaseRequisition>(excelPath);
 					break;
 				case "采购订单":
+					_list = excelImportManager.Import<PurchaseOrder>(excelPath);
 					break;
 				case "进货单":
+					_list = excelImportManager.Import<PurchaseArrival>(excelPath);
 					break;
 				case "采购入库单":
+					_list = excelImportManager.Import<InputWarehouse>(excelPath);
 					break;
 				case "报价单":
+					_list = excelImportManager.Import<SaleQuotation>(excelPath);
 					break;
 				case "销售订单":
+					_list = excelImportManager.Import<SaleOrder>(excelPath);
 					break;
 				case "销售出库单":
+					_list = excelImportManager.Import<OutputWarehouse>(excelPath);
 					break;
 				case "销货单":
+					_list = excelImportManager.Import<SaleDelivery>(excelPath);
 					break;
 			}
 			new PriceHandler().Handler(_list);

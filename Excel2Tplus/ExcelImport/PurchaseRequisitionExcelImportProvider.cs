@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Excel2Tplus.Common;
 using Excel2Tplus.Entities;
 
 namespace Excel2Tplus.ExcelImport
@@ -13,6 +14,10 @@ namespace Excel2Tplus.ExcelImport
 	{
 		public IEnumerable<PurchaseRequisition> Import(string excelPath)
 		{
+			var eh = new ExcelHelper(excelPath, true);
+			eh.Open();
+			var dt = eh.Read();
+			eh.Close();
 			return new[]
 			{
 				new PurchaseRequisition

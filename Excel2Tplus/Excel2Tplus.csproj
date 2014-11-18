@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\Common.cs" />
+    <Compile Include="Common\ExcelHelper.cs" />
     <Compile Include="Common\SqlHelper.cs" />
     <Compile Include="DatabaseExport\DatabaseExportManager.cs" />
     <Compile Include="DatabaseExport\DatabaseExportProviderFactory.cs" />
@@ -73,14 +74,28 @@
       <DependentUpon>DbConfig.cs</DependentUpon>
     </Compile>
     <Compile Include="Entities\Entity.cs" />
+    <Compile Include="Entities\InputWarehouse.cs" />
+    <Compile Include="Entities\OutputWarehouse.cs" />
+    <Compile Include="Entities\PurchaseArrival.cs" />
+    <Compile Include="Entities\PurchaseOrder.cs" />
     <Compile Include="Entities\PurchaseRequisition.cs" />
+    <Compile Include="Entities\SaleDelivery.cs" />
+    <Compile Include="Entities\SaleOrder.cs" />
+    <Compile Include="Entities\SaleQuotation.cs" />
     <Compile Include="ExcelExport\ExcelExportManager.cs" />
     <Compile Include="ExcelExport\ExcelExportProviderFactory.cs" />
     <Compile Include="ExcelExport\IExcelExportProvider.cs" />
     <Compile Include="ExcelImport\ExcelImportManager.cs" />
     <Compile Include="ExcelImport\ExcelImportProviderFactory.cs" />
+    <Compile Include="ExcelImport\InputWarehouseExcelImportProvider.cs" />
+    <Compile Include="ExcelImport\OutputWarehouseExcelImportProvider.cs" />
+    <Compile Include="ExcelImport\PurchaseArrivalExcelImportProvider.cs" />
+    <Compile Include="ExcelImport\PurchaseOrderExcelImportProvider.cs" />
     <Compile Include="ExcelImport\PurchaseRequisitionExcelImportProvider.cs" />
     <Compile Include="ExcelImport\IExcelImportProvider.cs" />
+    <Compile Include="ExcelImport\SaleDeliveryExcelImportProvider.cs" />
+    <Compile Include="ExcelImport\SaleOrderExcelImportProvider.cs" />
+    <Compile Include="ExcelImport\SaleQuotationExcelImportProvider.cs" />
     <Compile Include="Manager.cs">
       <SubType>Form</SubType>
     </Compile>

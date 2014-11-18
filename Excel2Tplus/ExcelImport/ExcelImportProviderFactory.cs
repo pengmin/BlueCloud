@@ -23,6 +23,34 @@ namespace Excel2Tplus.ExcelImport
 			{
 				return (IExcelImportProvider<TEntity>)new PurchaseRequisitionExcelImportProvider();
 			}
+			if (type == typeof(PurchaseOrder))
+			{
+				return (IExcelImportProvider<TEntity>)new PurchaseOrderExcelImportProvider();
+			}
+			if (type == typeof(PurchaseArrival))
+			{
+				return (IExcelImportProvider<TEntity>)new PurchaseArrivalExcelImportProvider();
+			}
+			if (type == typeof(InputWarehouse))
+			{
+				return (IExcelImportProvider<TEntity>)new InputWarehouseExcelImportProvider();
+			}
+			if (type == typeof(SaleQuotation))
+			{
+				return (IExcelImportProvider<TEntity>)new SaleQuotationExcelImportProvider();
+			}
+			if (type == typeof(SaleOrder))
+			{
+				return (IExcelImportProvider<TEntity>)new SaleOrderExcelImportProvider();
+			}
+			if (type == typeof(OutputWarehouse))
+			{
+				return (IExcelImportProvider<TEntity>)new OutputWarehouseExcelImportProvider();
+			}
+			if (type == typeof(SaleDelivery))
+			{
+				return (IExcelImportProvider<TEntity>)new SaleDeliveryExcelImportProvider();
+			}
 			return null;
 		}
 	}
