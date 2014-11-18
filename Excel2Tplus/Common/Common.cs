@@ -75,5 +75,16 @@ namespace Excel2Tplus.Common
 		{
 			return new XmlSerializer(typeof(TEntity)).Deserialize(xml) as TEntity;
 		}
+		/// <summary>
+		/// Xml反序列化
+		/// </summary>
+		/// <typeparam name="TEntity">对象类型</typeparam>
+		/// <param name="xml">序列化结果</param>
+		/// <param name="type">对象的原始类型</param>
+		/// <returns>对象</returns>
+		public static TEntity XmlDeserialize<TEntity>(StringReader xml, Type type) where TEntity : class
+		{
+			return new XmlSerializer(type).Deserialize(xml) as TEntity;
+		}
 	}
 }

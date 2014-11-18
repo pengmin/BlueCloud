@@ -28,17 +28,20 @@ namespace Excel2Tplus.History
 				var list = new List<DateTime>();
 				while (rd.Read())
 				{
-					DateTime dt;
-					DateTime.TryParse(rd[0] as string, out dt);
-					list.Add(dt);
+					list.Add((DateTime)rd[0]);
 				}
 				rd.Close();
 				return list;
 			}
 		}
+		/// <summary>
+		/// 设置导出历史
+		/// </summary>
+		/// <typeparam name="TEntity">单据类型</typeparam>
+		/// <param name="list">单据集合</param>
 		public void Set<TEntity>(IEnumerable<TEntity> list) where TEntity : Entity
 		{
-			const string sql = "insert into Excel2TplusHistory values(@dt,@xml)";
+			const string sql = "insert into Excel2TplusHistory values(@dt,@type,@xml)";
 			string xml;
 			var elType = CommonHelper.GetElementType(list.GetType());
 			if (elType != null && elType != typeof(TEntity))
@@ -59,11 +62,17 @@ namespace Excel2Tplus.History
 			helper.Execute(sql, new[]
 			{
 				new SqlParameter("@dt",DateTime.Now),
+				new SqlParameter("@type",elType.FullName), 
 				new SqlParameter("@xml",xml)
 			});
 			helper.Close();
 		}
-
+		/// <summary>
+		/// 获取导出历史
+		/// </summary>
+		/// <typeparam name="TEntity">单据类型</typeparam>
+		/// <param name="dt">操作日期</param>
+		/// <returns>单据集合</returns>
 		public IEnumerable<TEntity> Get<TEntity>(DateTime dt) where TEntity : Entity
 		{
 			const string sql = "select * from Excel2TplusHistory where datetime=@dt";
@@ -74,7 +83,11 @@ namespace Excel2Tplus.History
 				IEnumerable<TEntity> list = null;
 				if (rd.Read())
 				{
-					list = CommonHelper.XmlDeserialize<IEnumerable<TEntity>>(new System.IO.StringReader(rd["xml"] as string));
+					var typeStr = rd["type"].ToString();
+					var elType = Type.GetType(typeStr);
+					var collType = typeof(List<>);
+					var listType = collType.MakeGenericType(elType);
+					list = CommonHelper.XmlDeserialize<IEnumerable<TEntity>>(new System.IO.StringReader(rd["xml"].ToString()), listType);
 				}
 				rd.Close();
 				return list;

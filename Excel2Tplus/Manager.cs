@@ -71,6 +71,7 @@ namespace Excel2Tplus
 
 		private void ShowToView(IEnumerable<Entity> list)
 		{
+			dataGridView1.Rows.Clear();
 			foreach (var entity in list)
 			{
 				dataGridView1.Rows.Add(
@@ -80,7 +81,7 @@ namespace Excel2Tplus
 					entity.BillPrice,
 					entity.Differential,
 					entity.UseBookPrice,
-					entity.UseBookPrice
+					!entity.UseBookPrice
 				);
 			}
 		}
@@ -89,11 +90,11 @@ namespace Excel2Tplus
 		{
 			if (e.ColumnIndex == 5)
 			{
-				dataGridView1.Rows[e.RowIndex].Cells[6].Value = (bool)dataGridView1.Rows[e.RowIndex].Cells[5].Value;
+				dataGridView1.Rows[e.RowIndex].Cells[6].Value = dataGridView1.Rows[e.RowIndex].Cells[5].Value;
 			}
 			else if (e.ColumnIndex == 6)
 			{
-				dataGridView1.Rows[e.RowIndex].Cells[5].Value = (bool)dataGridView1.Rows[e.RowIndex].Cells[6].Value;
+				dataGridView1.Rows[e.RowIndex].Cells[5].Value = dataGridView1.Rows[e.RowIndex].Cells[6].Value;
 			}
 		}
 
@@ -160,6 +161,20 @@ namespace Excel2Tplus
 			{
 				row.Cells[6].Value = _billPriceAllChecked;
 				row.Cells[5].Value = !_billPriceAllChecked;
+			}
+		}
+
+		private void toolStripButton5_Click(object sender, EventArgs e)
+		{
+			var hm = new HistoryManager();
+			var hdg = new HistoryDg();
+			hdg.InitList(hm.GetHead());
+
+			var dr = hdg.ShowDialog();
+			if (dr == DialogResult.OK)
+			{
+				_list = hm.Get<Entity>(hdg.GetSelected());
+				ShowToView(_list);
 			}
 		}
 	}

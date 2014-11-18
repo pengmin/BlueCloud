@@ -103,49 +103,49 @@
 			// 请购单ToolStripMenuItem
 			// 
 			this.请购单ToolStripMenuItem.Name = "请购单ToolStripMenuItem";
-			this.请购单ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.请购单ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.请购单ToolStripMenuItem.Text = "请购单";
 			// 
 			// 采购订单ToolStripMenuItem
 			// 
 			this.采购订单ToolStripMenuItem.Name = "采购订单ToolStripMenuItem";
-			this.采购订单ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.采购订单ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.采购订单ToolStripMenuItem.Text = "采购订单";
 			// 
 			// 进货单ToolStripMenuItem
 			// 
 			this.进货单ToolStripMenuItem.Name = "进货单ToolStripMenuItem";
-			this.进货单ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.进货单ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.进货单ToolStripMenuItem.Text = "进货单";
 			// 
 			// 采购入库单ToolStripMenuItem
 			// 
 			this.采购入库单ToolStripMenuItem.Name = "采购入库单ToolStripMenuItem";
-			this.采购入库单ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.采购入库单ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.采购入库单ToolStripMenuItem.Text = "采购入库单";
 			// 
 			// 报价单ToolStripMenuItem
 			// 
 			this.报价单ToolStripMenuItem.Name = "报价单ToolStripMenuItem";
-			this.报价单ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.报价单ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.报价单ToolStripMenuItem.Text = "报价单";
 			// 
 			// 销售订单ToolStripMenuItem
 			// 
 			this.销售订单ToolStripMenuItem.Name = "销售订单ToolStripMenuItem";
-			this.销售订单ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.销售订单ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.销售订单ToolStripMenuItem.Text = "销售订单";
 			// 
 			// 销售出库单ToolStripMenuItem
 			// 
 			this.销售出库单ToolStripMenuItem.Name = "销售出库单ToolStripMenuItem";
-			this.销售出库单ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.销售出库单ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.销售出库单ToolStripMenuItem.Text = "销售出库单";
 			// 
 			// 销货单ToolStripMenuItem
 			// 
 			this.销货单ToolStripMenuItem.Name = "销货单ToolStripMenuItem";
-			this.销货单ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+			this.销货单ToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
 			this.销货单ToolStripMenuItem.Text = "销货单";
 			// 
 			// toolStripSeparator1
@@ -210,6 +210,7 @@
 			this.toolStripButton5.Name = "toolStripButton5";
 			this.toolStripButton5.Size = new System.Drawing.Size(60, 22);
 			this.toolStripButton5.Text = "历史记录";
+			this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
 			// 
 			// toolStripDropDownButton2
 			// 
@@ -257,11 +258,13 @@
 			// 
 			this.Column1.HeaderText = "存货编码";
 			this.Column1.Name = "Column1";
+			this.Column1.ReadOnly = true;
 			// 
 			// Column2
 			// 
 			this.Column2.HeaderText = "存货名称明细";
 			this.Column2.Name = "Column2";
+			this.Column2.ReadOnly = true;
 			this.Column2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
 			this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
@@ -269,6 +272,7 @@
 			// 
 			this.Column3.HeaderText = "价格本单价";
 			this.Column3.Name = "Column3";
+			this.Column3.ReadOnly = true;
 			this.Column3.Resizable = System.Windows.Forms.DataGridViewTriState.True;
 			this.Column3.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
@@ -276,6 +280,7 @@
 			// 
 			this.Column4.HeaderText = "单据价格";
 			this.Column4.Name = "Column4";
+			this.Column4.ReadOnly = true;
 			this.Column4.Resizable = System.Windows.Forms.DataGridViewTriState.True;
 			this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
@@ -283,18 +288,23 @@
 			// 
 			this.Column5.HeaderText = "差价（过滤）";
 			this.Column5.Name = "Column5";
+			this.Column5.ReadOnly = true;
 			this.Column5.Resizable = System.Windows.Forms.DataGridViewTriState.True;
 			this.Column5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
 			// 
 			// Column6
 			// 
+			this.Column6.FalseValue = "";
 			this.Column6.HeaderText = "价格本确认";
 			this.Column6.Name = "Column6";
+			this.Column6.TrueValue = "";
 			// 
 			// Column7
 			// 
+			this.Column7.FalseValue = "";
 			this.Column7.HeaderText = "单据价格确认";
 			this.Column7.Name = "Column7";
+			this.Column7.TrueValue = "";
 			// 
 			// Manager
 			// 
@@ -328,13 +338,6 @@
 		private System.Windows.Forms.ToolStripMenuItem 销货单ToolStripMenuItem;
 		private System.Windows.Forms.OpenFileDialog openFileDialog1;
 		private System.Windows.Forms.DataGridView dataGridView1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-		private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
-		private System.Windows.Forms.DataGridViewCheckBoxColumn Column6;
-		private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
 		private System.Windows.Forms.ToolStripButton toolStripButton1;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripButton toolStripButton2;
@@ -345,6 +348,13 @@
 		private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton2;
 		private System.Windows.Forms.ToolStripMenuItem 数据库配置ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripButton toolStripButton5;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+		private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
+		private System.Windows.Forms.DataGridViewCheckBoxColumn Column6;
+		private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
 
 	}
 }

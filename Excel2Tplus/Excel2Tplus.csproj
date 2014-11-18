@@ -96,6 +96,12 @@
     <Compile Include="ExcelImport\SaleDeliveryExcelImportProvider.cs" />
     <Compile Include="ExcelImport\SaleOrderExcelImportProvider.cs" />
     <Compile Include="ExcelImport\SaleQuotationExcelImportProvider.cs" />
+    <Compile Include="HistoryDg.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HistoryDg.Designer.cs">
+      <DependentUpon>HistoryDg.cs</DependentUpon>
+    </Compile>
     <Compile Include="Manager.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +120,9 @@
     <Compile Include="SysConfig\SystemConfig.cs" />
     <EmbeddedResource Include="DbConfig.resx">
       <DependentUpon>DbConfig.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HistoryDg.resx">
+      <DependentUpon>HistoryDg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Manager.resx">
       <DependentUpon>Manager.cs</DependentUpon>
