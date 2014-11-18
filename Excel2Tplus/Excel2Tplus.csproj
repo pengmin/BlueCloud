@@ -79,7 +79,7 @@
     <Compile Include="ExcelExport\IExcelExportProvider.cs" />
     <Compile Include="ExcelImport\ExcelImportManager.cs" />
     <Compile Include="ExcelImport\ExcelImportProviderFactory.cs" />
-    <Compile Include="ExcelImport\ExcelImportPurchaseRequisitionProvider.cs" />
+    <Compile Include="ExcelImport\PurchaseRequisitionExcelImportProvider.cs" />
     <Compile Include="ExcelImport\IExcelImportProvider.cs" />
     <Compile Include="Manager.cs">
       <SubType>Form</SubType>

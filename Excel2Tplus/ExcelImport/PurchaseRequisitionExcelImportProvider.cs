@@ -9,7 +9,7 @@ namespace Excel2Tplus.ExcelImport
 	/// <summary>
 	/// 请购单Excel导入提供程序
 	/// </summary>
-	class ExcelImportPurchaseRequisitionProvider : IExcelImportProvider<PurchaseRequisition>
+	class PurchaseRequisitionExcelImportProvider : IExcelImportProvider<PurchaseRequisition>
 	{
 		public IEnumerable<PurchaseRequisition> Import(string excelPath)
 		{

@@ -21,7 +21,7 @@ namespace Excel2Tplus.ExcelImport
 			var type = typeof(TEntity);
 			if (type == typeof(PurchaseRequisition))
 			{
-				return (IExcelImportProvider<TEntity>)new ExcelImportPurchaseRequisitionProvider();
+				return (IExcelImportProvider<TEntity>)new PurchaseRequisitionExcelImportProvider();
 			}
 			return null;
 		}
