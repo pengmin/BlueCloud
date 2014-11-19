@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using Excel2Tplus.Common;
@@ -10,39 +11,7 @@ namespace Excel2Tplus.ExcelImport
 	/// <summary>
 	/// 请购单Excel导入提供程序
 	/// </summary>
-	class PurchaseRequisitionExcelImportProvider : IExcelImportProvider<PurchaseRequisition>
+	class PurchaseRequisitionExcelImportProvider : DefaultExcelImportProvider<PurchaseRequisition>
 	{
-		public IEnumerable<PurchaseRequisition> Import(string excelPath)
-		{
-			var eh = new ExcelHelper(excelPath, true);
-			var dt = eh.Read();
-			return new[]
-			{
-				new PurchaseRequisition
-				{
-					PriceCode="1",
-					InventoryCode="123",
-					InventoryName="ddd",
-					BookPrice=33.3m,
-					BillPrice=22.1m
-				},
-				new PurchaseRequisition
-				{
-					PriceCode="2",
-					InventoryCode="123",
-					InventoryName="ddd",
-					BookPrice=33.3m,
-					BillPrice=22.1m
-				},
-				new PurchaseRequisition
-				{
-					PriceCode="1",
-					InventoryCode="123",
-					InventoryName="ddd",
-					BookPrice=33.3m,
-					BillPrice=22.1m
-				}
-			};
-		}
 	}
 }
