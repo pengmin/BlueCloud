@@ -53,5 +53,30 @@ namespace Excel2Tplus.Common
 			}
 			return cmd.ExecuteNonQuery();
 		}
+
+		public int Execute(IEnumerable<Tuple<string, IEnumerable<DbParameter>>> cmds)
+		{
+			using (var tran = _conn.BeginTransaction())
+			{
+				var cmd = _conn.CreateCommand();
+				cmd.Transaction = tran;
+				try
+				{
+					foreach (var c in cmds)
+					{
+						cmd.CommandText = c.Item1;
+						cmd.Parameters.AddRange(c.Item2.ToArray());
+						cmd.ExecuteNonQuery();
+					}
+					tran.Commit();
+					return cmds.Count();
+				}
+				catch
+				{
+					tran.Rollback();
+					return -1;
+				}
+			}
+		}
 	}
 }

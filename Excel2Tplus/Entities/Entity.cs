@@ -11,7 +11,7 @@ namespace Excel2Tplus.Entities
 	public class Entity
 	{
 		/// <summary>
-		/// 价格本编码
+		/// 价格本编码，依据单据类型，其值来源于存货编码或是供应商编码
 		/// </summary>
 		public string PriceCode { get; set; }
 		/// <summary>

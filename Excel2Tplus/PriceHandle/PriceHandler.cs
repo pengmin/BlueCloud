@@ -21,9 +21,13 @@ namespace Excel2Tplus.PriceHandle
 		{
 			var provider = new PriceBookProviderFactory().GetProvider(CommonHelper.GetElementType(list.GetType()));
 			var pb = provider.Get();
-			foreach (var item in list.Where(item => pb.SingleOrDefault(_ => _.Code == item.PriceCode) != null))
+			foreach (var item in list)
 			{
-				item.BookPrice = pb.SingleOrDefault(_ => _.Code == item.PriceCode).Price;
+				var p = pb.SingleOrDefault(_ => _.Code == item.InventoryCode);
+				if (p != null)
+				{
+					item.BookPrice = p.Price;
+				}
 			}
 		}
 	}

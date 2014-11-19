@@ -6,12 +6,12 @@ using System.Text;
 namespace Excel2Tplus.PriceHandle
 {
 	/// <summary>
-	/// 价格表
+	/// 价格本
 	/// </summary>
 	class PriceBook
 	{
 		/// <summary>
-		/// 价格表编码
+		/// 价格本编码
 		/// </summary>
 		public string Code { get; set; }
 		/// <summary>
