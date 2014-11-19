@@ -17,7 +17,7 @@ namespace Excel2Tplus.ExcelImport
 		/// <typeparam name="TEntity">单据类型</typeparam>
 		/// <param name="excelPath">Excel文件路径</param>
 		/// <returns>单据对象集合</returns>
-		public IEnumerable<TEntity> Import<TEntity>(string excelPath) where TEntity : Entity
+		public IEnumerable<TEntity> Import<TEntity>(string excelPath) where TEntity : Entity, new()
 		{
 			return new ExcelImportProviderFactory().GetProvider<TEntity>().Import(excelPath);
 		}

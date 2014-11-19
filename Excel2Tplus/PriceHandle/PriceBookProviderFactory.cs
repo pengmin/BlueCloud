@@ -27,7 +27,8 @@ namespace Excel2Tplus.PriceHandle
 			{
 				return new InventoryPriceBookProvider();
 			}
-			return null;
+			//todo:测试用
+			return new InventoryPriceBookProvider();
 		}
 	}
 }

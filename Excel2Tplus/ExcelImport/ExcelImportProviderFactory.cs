@@ -16,8 +16,9 @@ namespace Excel2Tplus.ExcelImport
 		/// </summary>
 		/// <typeparam name="TEntity">单据类型</typeparam>
 		/// <returns>提供程序</returns>
-		public IExcelImportProvider<TEntity> GetProvider<TEntity>() where TEntity : Entity
+		public IExcelImportProvider<TEntity> GetProvider<TEntity>() where TEntity : Entity, new()
 		{
+			return new DefaultExcelImportProvider<TEntity>();
 			var type = typeof(TEntity);
 			if (type == typeof(PurchaseRequisition))
 			{
