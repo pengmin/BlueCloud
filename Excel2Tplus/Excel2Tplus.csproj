@@ -67,6 +67,7 @@
     <Compile Include="DatabaseExport\DatabaseExportManager.cs" />
     <Compile Include="DatabaseExport\DatabaseExportProviderFactory.cs" />
     <Compile Include="DatabaseExport\IDatabaseExportProvider.cs" />
+    <Compile Include="DatabaseExport\PurchaseArrivalDatabaseExportProvider.cs" />
     <Compile Include="DatabaseExport\PurchaseOrderDatabaseExportProvider.cs" />
     <Compile Include="DatabaseExport\PurchaseRequisitionDatabaseExportProvider.cs" />
     <Compile Include="DbConfig.cs">
