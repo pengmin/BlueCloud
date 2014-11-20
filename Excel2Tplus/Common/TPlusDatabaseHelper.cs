@@ -38,7 +38,7 @@ namespace Excel2Tplus.Common
 		/// </summary>
 		/// <param name="name">部门名称</param>
 		/// <returns>部门id</returns>
-		public Guid? GetDepartmentIdByName(string name)
+		public object GetDepartmentIdByName(string name)
 		{
 			if (_department == null)
 			{
@@ -50,7 +50,7 @@ namespace Excel2Tplus.Common
 			{
 				return (Guid)row["id"];
 			}
-			return null;
+			return DBNull.Value;
 		}
 
 		private DataTable _inventory;
@@ -59,7 +59,7 @@ namespace Excel2Tplus.Common
 		/// </summary>
 		/// <param name="code">存货编码</param>
 		/// <returns>存货id</returns>
-		public Guid? GetInventoryIdByCode(string code)
+		public object GetInventoryIdByCode(string code)
 		{
 			if (_inventory == null)
 			{
@@ -67,11 +67,93 @@ namespace Excel2Tplus.Common
 				_inventory = _sqlHelper.GetDataTable("SELECT * FROM AA_Inventory");
 				_sqlHelper.Close();
 			}
-			foreach (var row in _inventory.Rows.Cast<DataRow>().Where(row => String.Equals(row["name"].ToString(), code, StringComparison.CurrentCultureIgnoreCase)))
+			foreach (var row in _inventory.Rows.Cast<DataRow>().Where(row => String.Equals(row["code"].ToString(), code, StringComparison.CurrentCultureIgnoreCase)))
 			{
 				return (Guid)row["id"];
 			}
-			return null;
+			return DBNull.Value;
+		}
+
+		private DataTable _warehouse;
+		/// <summary>
+		/// 依据仓库名称获取仓库id
+		/// </summary>
+		/// <param name="name">仓库名称</param>
+		/// <returns>仓库id</returns>
+		public object GetWarehouseIdByName(string name)
+		{
+			if (_warehouse == null)
+			{
+				_sqlHelper.Open();
+				_warehouse = _sqlHelper.GetDataTable("SELECT * FROM AA_Warehouse");
+				_sqlHelper.Close();
+			}
+			foreach (var row in _warehouse.Rows.Cast<DataRow>().Where(row => String.Equals(row["name"].ToString(), name, StringComparison.CurrentCultureIgnoreCase)))
+			{
+				return (Guid)row["id"];
+			}
+			return DBNull.Value;
+		}
+
+		private DataTable _partner;
+		/// <summary>
+		/// 依据供应商名称获取供应商id。也是往来单位。
+		/// </summary>
+		/// <param name="name">供应商名称</param>
+		/// <returns>供应商id</returns>
+		public object GetPartnerIdByName(string name)
+		{
+			if (_partner == null)
+			{
+				_sqlHelper.Open();
+				_partner = _sqlHelper.GetDataTable("SELECT * FROM dbo.AA_Partner");
+				_sqlHelper.Close();
+			}
+			foreach (var row in _partner.Rows.Cast<DataRow>().Where(row => String.Equals(row["name"].ToString(), name, StringComparison.CurrentCultureIgnoreCase)))
+			{
+				return (Guid)row["id"];
+			}
+			return DBNull.Value;
+		}
+		/// <summary>
+		/// 依据供应商编码获取供应商id。也是往来单位。
+		/// </summary>
+		/// <param name="code">供应商编码</param>
+		/// <returns>供应商id</returns>
+		public object GetPartnerIdByCode(string code)
+		{
+			if (_partner == null)
+			{
+				_sqlHelper.Open();
+				_partner = _sqlHelper.GetDataTable("SELECT * FROM dbo.AA_Partner");
+				_sqlHelper.Close();
+			}
+			foreach (var row in _partner.Rows.Cast<DataRow>().Where(row => String.Equals(row["code"].ToString(), code, StringComparison.CurrentCultureIgnoreCase)))
+			{
+				return (Guid)row["id"];
+			}
+			return DBNull.Value;
+		}
+
+		private DataTable _project;
+		/// <summary>
+		/// 依据项目名称获取项目id
+		/// </summary>
+		/// <param name="name">项目名称</param>
+		/// <returns>项目id</returns>
+		public object GetProjectIdByName(string name)
+		{
+			if (_project == null)
+			{
+				_sqlHelper.Open();
+				_project = _sqlHelper.GetDataTable("SELECT * FROM dbo.AA_Project");
+				_sqlHelper.Close();
+			}
+			foreach (var row in _project.Rows.Cast<DataRow>().Where(row => String.Equals(row["name"].ToString(), name, StringComparison.CurrentCultureIgnoreCase)))
+			{
+				return (Guid)row["id"];
+			}
+			return DBNull.Value;
 		}
 	}
 }

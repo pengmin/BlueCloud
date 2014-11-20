@@ -23,6 +23,10 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				return new PurchaseRequisitionDatabaseExportProvider();
 			}
+			if (entityType == typeof(PurchaseOrder))
+			{
+				return new PurchaseOrderDatabaseExportProvider();
+			}
 			return null;
 		}
 	}
