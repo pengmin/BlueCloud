@@ -8,7 +8,7 @@ namespace Excel2Tplus.Entities
 	/// <summary>
 	/// 采购入库单
 	/// </summary>
-	class InputWarehouse : Entity
+	public class InputWarehouse : Entity
 	{
 		public string 供应商 { get; set; }
 		public string 项目 { get; set; }

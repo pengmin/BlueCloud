@@ -43,6 +43,14 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				return new SaleDeliveryDatabaseExportProvider();
 			}
+			if (entityType == typeof(InputWarehouse))
+			{
+				return new InputWarehouseDatabaseExportProvider();
+			}
+			if (entityType == typeof(OutputWarehouse))
+			{
+				return new OutputWarehouseDatabaseExportProvider();
+			}
 			return null;
 		}
 	}
