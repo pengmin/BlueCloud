@@ -35,6 +35,10 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				return new SaleQuotationDatabaseExportProvider();
 			}
+			if (entityType == typeof(SaleOrder))
+			{
+				return new SaleOrderDatabaseExportProvider();
+			}
 			return null;
 		}
 	}

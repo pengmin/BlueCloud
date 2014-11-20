@@ -10,7 +10,7 @@ using Excel2Tplus.SysConfig;
 
 namespace Excel2Tplus.DatabaseExport
 {
-	class SaleQuotationDatabaseExportProvider : IDatabaseExportProvider
+	class SaleOrderDatabaseExportProvider : IDatabaseExportProvider
 	{
 		public IEnumerable<string> Export<TEntity>(IEnumerable<TEntity> list) where TEntity : Entity
 		{
@@ -18,8 +18,8 @@ namespace Excel2Tplus.DatabaseExport
 			foreach (var item in list)
 			{
 				Guid id;
-				sqlList.Add(BuildMainInsertSql(item as SaleQuotation, out id));
-				sqlList.Add(BuildDetailInsertSql(item as SaleQuotation, id));
+				sqlList.Add(BuildMainInsertSql(item as SaleOrder, out id));
+				sqlList.Add(BuildDetailInsertSql(item as SaleOrder, id));
 			}
 
 			var sh = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
@@ -30,12 +30,12 @@ namespace Excel2Tplus.DatabaseExport
 			return new[] { r.ToString() };
 		}
 
-		private static Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(SaleQuotation obj, out Guid id)
+		private static Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(SaleOrder obj, out Guid id)
 		{
 			id = Guid.NewGuid();
 
-			var sql = "insert into SA_SaleQuotation(id,voucherdate,code,idcustomer,iddepartment,idproject)";
-			sql += " values(@id,@voucherdate,@code,@idcustomer,@iddepartment,@idproject);";
+			var sql = "insert into SA_SaleOrder(id,voucherdate,code,idcustomer,iddepartment,idproject,idwarehouse)";
+			sql += " values(@id,@voucherdate,@code,@idcustomer,@iddepartment,@idproject,@idwarehouse);";
 			var ps = new DbParameter[]
 			{
 				new SqlParameter("@id",id), 
@@ -43,20 +43,21 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@code",obj.单据编号), 
 				new SqlParameter("@idcustomer",TplusDatabaseHelper.Instance.GetPartnerIdByName(obj.客户)), 
 				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司)), 
-				new SqlParameter("@idproject",TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目))
+				new SqlParameter("@idproject",TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)),
+				new SqlParameter("@idwarehouse",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(sql, ps);
 		}
 
-		private static Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(SaleQuotation obj, Guid pid)
+		private static Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(SaleOrder obj, Guid pid)
 		{
-			var sql = "insert into SA_SaleQuotation_b(id,idSaleQuotationDTO,idinventory,quantity,price)";
-			sql += " values(@id,@idSaleQuotationDTO,@idinventory,@quantity,@price);";
+			var sql = "insert into SA_SaleOrder_b(id,idSaleOrderDTO,idinventory,quantity,price)";
+			sql += " values(@id,@idSaleOrderDTO,@idinventory,@quantity,@price);";
 			var ps = new DbParameter[]
 			{
 				new SqlParameter("@id",Guid.NewGuid()), 
-				new SqlParameter("@idSaleQuotationDTO",pid), 
+				new SqlParameter("@idSaleOrderDTO",pid), 
 				new SqlParameter("@idinventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)), 
 				new SqlParameter("@quantity",obj.数量), 
 				new SqlParameter("@price",obj.UseBookPrice?obj.BookPrice:obj.BillPrice)
