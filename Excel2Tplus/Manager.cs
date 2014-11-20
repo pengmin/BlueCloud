@@ -112,8 +112,12 @@ namespace Excel2Tplus
 			{
 				_list.ElementAt(i).UseBookPrice = (bool)dataGridView1.Rows[i].Cells[5].Value;
 			}
-			new HistoryManager().Set(_list);
-			new DatabaseExportManager().Export(_list);
+
+			if (new DatabaseExportManager().Export(_list).ElementAt(0) != "-1")
+			{
+				new HistoryManager().Set(_list);
+				MessageBox.Show("导入成功");
+			}
 		}
 
 		private void 数据库配置ToolStripMenuItem_Click(object sender, EventArgs e)

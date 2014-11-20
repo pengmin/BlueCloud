@@ -63,6 +63,7 @@
     <Compile Include="Common\Common.cs" />
     <Compile Include="Common\ExcelHelper.cs" />
     <Compile Include="Common\SqlHelper.cs" />
+    <Compile Include="Common\TPlusDatabaseHelper.cs" />
     <Compile Include="DatabaseExport\DatabaseExportManager.cs" />
     <Compile Include="DatabaseExport\DatabaseExportProviderFactory.cs" />
     <Compile Include="DatabaseExport\IDatabaseExportProvider.cs" />
