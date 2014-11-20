@@ -118,6 +118,10 @@ namespace Excel2Tplus
 				new HistoryManager().Set(_list);
 				MessageBox.Show("导入成功");
 			}
+			else
+			{
+				MessageBox.Show("导入失败");
+			}
 		}
 
 		private void 数据库配置ToolStripMenuItem_Click(object sender, EventArgs e)

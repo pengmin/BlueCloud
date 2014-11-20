@@ -8,7 +8,7 @@ namespace Excel2Tplus.Entities
 	/// <summary>
 	/// 报价单
 	/// </summary>
-	class SaleQuotation : Entity
+	public class SaleQuotation : Entity
 	{
 		public string 客户 { get; set; }
 		public string 项目 { get; set; }

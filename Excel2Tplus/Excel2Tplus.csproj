@@ -70,6 +70,7 @@
     <Compile Include="DatabaseExport\PurchaseArrivalDatabaseExportProvider.cs" />
     <Compile Include="DatabaseExport\PurchaseOrderDatabaseExportProvider.cs" />
     <Compile Include="DatabaseExport\PurchaseRequisitionDatabaseExportProvider.cs" />
+    <Compile Include="DatabaseExport\SaleQuotationDatabaseExportProvider.cs" />
     <Compile Include="DbConfig.cs">
       <SubType>Form</SubType>
     </Compile>
