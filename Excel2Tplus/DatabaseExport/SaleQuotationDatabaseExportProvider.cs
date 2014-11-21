@@ -10,16 +10,28 @@ using Excel2Tplus.SysConfig;
 
 namespace Excel2Tplus.DatabaseExport
 {
+	/// <summary>
+	/// 报价单数据库导出提供程序
+	/// </summary>
 	class SaleQuotationDatabaseExportProvider : IDatabaseExportProvider
 	{
 		public IEnumerable<string> Export<TEntity>(IEnumerable<TEntity> list) where TEntity : Entity
 		{
-			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
-			foreach (var item in list)
+			if (CommonHelper.GetElementType(list.GetType()) != typeof(SaleQuotation))
 			{
-				Guid id;
-				sqlList.Add(BuildMainInsertSql(item as SaleQuotation, out id));
-				sqlList.Add(BuildDetailInsertSql(item as SaleQuotation, id));
+				throw new Exception("单据类型不是报价单类型");
+			}
+			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
+			Guid id = Guid.Empty;//单据主表id
+			string code = null;//单据编号
+			foreach (var item in list.Cast<SaleQuotation>())
+			{
+				if (code != item.单据编号)
+				{
+					code = item.单据编号;
+					sqlList.Add(BuildMainInsertSql(item, out id));
+				}
+				sqlList.Add(BuildDetailInsertSql(item, id));
 			}
 
 			var sh = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
@@ -51,15 +63,22 @@ namespace Excel2Tplus.DatabaseExport
 
 		private static Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(SaleQuotation obj, Guid pid)
 		{
-			var sql = "insert into SA_SaleQuotation_b(id,idSaleQuotationDTO,idinventory,quantity,price)";
-			sql += " values(@id,@idSaleQuotationDTO,@idinventory,@quantity,@price);";
+			var sql = "insert into SA_SaleQuotation_b(id,idSaleQuotationDTO,idinventory,idunit,quantity,discountPrice,taxRate,taxPrice,discountAmount,taxAmount)";
+			sql += " values(@id,@idSaleQuotationDTO,@idinventory,@idunit,@quantity,@discountPrice,@taxRate,@taxPrice,@discountAmount,@taxAmount);";
+			double tr;//税率
 			var ps = new DbParameter[]
 			{
 				new SqlParameter("@id",Guid.NewGuid()), 
 				new SqlParameter("@idSaleQuotationDTO",pid), 
 				new SqlParameter("@idinventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)), 
+				new SqlParameter("@idunit",TplusDatabaseHelper.Instance.GetUnitIdByName(obj.销售单位)),
 				new SqlParameter("@quantity",obj.数量), 
-				new SqlParameter("@price",obj.UseBookPrice?obj.BookPrice:obj.BillPrice)
+				new SqlParameter("@discountPrice",obj.UseBookPrice?obj.BookPrice:obj.BillPrice),
+				new SqlParameter("@taxRate",(double.TryParse(obj.税率,out tr)?tr:tr)/100),
+				new SqlParameter("@taxPrice",obj.含税单价),
+				new SqlParameter("@discountAmount",obj.金额),
+				//todo:税额没找到对应的字段
+				new SqlParameter("@taxAmount",obj.含税金额)
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(sql, ps);

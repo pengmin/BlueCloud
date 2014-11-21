@@ -30,5 +30,8 @@ namespace Excel2Tplus.Entities
 		public string 代收运费 { get; set; }
 		public string 抽佣 { get; set; }
 		public string 售价 { get { return 单价; } set { 单价 = value; } }
+		public string 含税售价 { get { return 含税单价; } set { 含税单价 = value; } }
+		public string 销售金额 { get; set; }
+		public string 含税销售金额 { get; set; }
 	}
 }

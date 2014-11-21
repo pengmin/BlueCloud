@@ -10,16 +10,29 @@ using Excel2Tplus.SysConfig;
 
 namespace Excel2Tplus.DatabaseExport
 {
+	/// <summary>
+	/// 销货单数据库导出提供程序
+	/// </summary>
 	class SaleDeliveryDatabaseExportProvider : IDatabaseExportProvider
 	{
 		public IEnumerable<string> Export<TEntity>(IEnumerable<TEntity> list) where TEntity : Entities.Entity
 		{
-			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
-			foreach (var item in list)
+			if (CommonHelper.GetElementType(list.GetType()) != typeof(SaleDelivery))
 			{
-				Guid id;
-				sqlList.Add(BuildMainInsertSql(item as SaleDelivery, out id));
-				sqlList.Add(BuildDetailInsertSql(item as SaleDelivery, id));
+				throw new Exception("单据类型不是销货单类型");
+			}
+
+			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
+			Guid id = Guid.Empty;//单据主表id
+			string code = null;//单据编号
+			foreach (var item in list.Cast<SaleDelivery>())
+			{
+				if (code != item.单据编号)
+				{
+					code = item.单据编号;
+					sqlList.Add(BuildMainInsertSql(item, out id));
+				}
+				sqlList.Add(BuildDetailInsertSql(item, id));
 			}
 
 			var sh = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
@@ -56,15 +69,32 @@ namespace Excel2Tplus.DatabaseExport
 
 		private static Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(SaleDelivery obj, Guid pid)
 		{
-			var sql = "insert into SA_SaleDelivery_b(id,idSaleDeliveryDTO,idinventory,quantity,price)";
-			sql += " values(@id,@idSaleDeliveryDTO,@idinventory,@quantity,@price);";
+			var sql = "insert into SA_SaleDelivery_b(id,idSaleDeliveryDTO,idinventory,idunit,quantity,discountPrice,amount,salePrice,taxSalePrice,saleAmount,origTax,origTaxSaleAmount,priuserdefnvc1,pubuserdefnvc1,pubuserdefnvc2,pubuserdefnvc3,pubuserdefnvc4,pubuserdefdecm1,pubuserdefdecm2,pubuserdefdecm3,pubuserdefdecm4)";
+			sql += " values(@id,@idSaleDeliveryDTO,@idinventory,@idunit,@quantity,@discountPrice,@amount,@salePrice,@taxSalePrice,@saleAmount,@origTax,@origTaxSaleAmount,@priuserdefnvc1,@pubuserdefnvc1,@pubuserdefnvc2,@pubuserdefnvc3,@pubuserdefnvc4,@pubuserdefdecm1,@pubuserdefdecm2,@pubuserdefdecm3,@pubuserdefdecm4);";
+			decimal amount;
 			var ps = new DbParameter[]
 			{
 				new SqlParameter("@id",Guid.NewGuid()), 
 				new SqlParameter("@idSaleDeliveryDTO",pid), 
 				new SqlParameter("@idinventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)), 
+				new SqlParameter("@idunit",TplusDatabaseHelper.Instance.GetUnitIdByName(obj.计量单位)),
 				new SqlParameter("@quantity",obj.数量), 
-				new SqlParameter("@price",obj.UseBookPrice?obj.BookPrice:obj.BillPrice)
+				new SqlParameter("@discountPrice",obj.UseBookPrice?obj.BookPrice:obj.BillPrice),
+				new SqlParameter("@amount",decimal.TryParse(obj.成本金额,out amount)?amount:0m),
+				new SqlParameter("@salePrice",decimal.TryParse(obj.售价,out amount)?amount:0m),
+				new SqlParameter("@taxSalePrice",decimal.TryParse(obj.含税售价,out amount)?amount:0m),
+				new SqlParameter("@saleAmount",decimal.TryParse(obj.销售金额,out amount)?amount:0m),
+				new SqlParameter("@origTax",decimal.TryParse(obj.税额,out amount)?amount:0m),
+				new SqlParameter("@origTaxSaleAmount",decimal.TryParse(obj.含税销售金额,out amount)?amount:0m),
+				new SqlParameter("@priuserdefnvc1",obj.销售订单号),
+				new SqlParameter("@pubuserdefnvc1",obj.物流名称单号),
+				new SqlParameter("@pubuserdefnvc2",obj.发货信息),
+				new SqlParameter("@pubuserdefnvc3",obj.客户收货信息),
+				new SqlParameter("@pubuserdefnvc4",obj.平台单号),
+				new SqlParameter("@pubuserdefdecm1",decimal.TryParse(obj.满减活动,out amount)?amount:0m),
+				new SqlParameter("@pubuserdefdecm2",decimal.TryParse(obj.抵用券,out amount)?amount:0m),
+				new SqlParameter("@pubuserdefdecm3",decimal.TryParse(obj.代收运费,out amount)?amount:0m),
+				new SqlParameter("@pubuserdefdecm4",decimal.TryParse(obj.抽佣,out amount)?amount:0m)
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(sql, ps);

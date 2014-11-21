@@ -164,7 +164,7 @@ namespace Excel2Tplus.Common
 		/// <returns>计量单位id</returns>
 		public object GetUnitIdByName(string name)
 		{
-			if (_project == null)
+			if (_unit == null)
 			{
 				_sqlHelper.Open();
 				_unit = _sqlHelper.GetDataTable("SELECT * FROM dbo.AA_Unit");
