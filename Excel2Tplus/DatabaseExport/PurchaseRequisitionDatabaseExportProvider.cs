@@ -17,12 +17,22 @@ namespace Excel2Tplus.DatabaseExport
 	{
 		public IEnumerable<string> Export<TEntity>(IEnumerable<TEntity> list) where TEntity : Entity
 		{
-			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
-			foreach (var item in list)
+			if (CommonHelper.GetElementType(list.GetType()) != typeof(PurchaseRequisition))
 			{
-				Guid id;
-				sqlList.Add(BuildPu_PurchaseRequisitionInsertSql(item as PurchaseRequisition, out id));
-				sqlList.Add(BuildPu_PurchaseRequisition_bInsertSql(item as PurchaseRequisition, id));
+				throw new Exception("单据类型不是请购单类型");
+			}
+			var lt = list.Cast<PurchaseRequisition>();
+			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
+			Guid id = Guid.Empty;//单据主表id
+			string code = null;//单据编号
+			foreach (var item in lt)
+			{
+				if (code != item.单据编号)
+				{
+					code = item.单据编号;
+					sqlList.Add(BuildPu_PurchaseRequisitionInsertSql(item, out id));
+				}
+				sqlList.Add(BuildPu_PurchaseRequisition_bInsertSql(item, id));
 			}
 
 			var sh = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
