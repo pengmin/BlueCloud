@@ -38,16 +38,16 @@ namespace Excel2Tplus.DatabaseExport
 		/// <param name="obj">请购单对象</param>
 		/// <param name="id">id</param>
 		/// <returns>sql信息</returns>
-		private static Tuple<string, IEnumerable<DbParameter>> BuildPu_PurchaseRequisitionInsertSql(Entity obj, out Guid id)
+		private static Tuple<string, IEnumerable<DbParameter>> BuildPu_PurchaseRequisitionInsertSql(PurchaseRequisition obj, out Guid id)
 		{
 			id = Guid.NewGuid();
 
-			var sql = "insert into Pu_PurchaseRequisition(id,requireDate,code,iddepartment)";
-			sql += " values(@id,@requireDate,@code,@iddepartment);";
+			var sql = "insert into Pu_PurchaseRequisition(id,voucherdate,code,iddepartment)";
+			sql += " values(@id,@voucherdate,@code,@iddepartment);";
 			var dbParams = new List<DbParameter>
 			{
 				new SqlParameter("@id",id),
-				new SqlParameter("@requireDate", obj.单据日期),
+				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期)), 
 				new SqlParameter("@code",obj.单据编号),
 				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司))
 			};
@@ -60,16 +60,24 @@ namespace Excel2Tplus.DatabaseExport
 		/// <param name="obj">请购单对象</param>
 		/// <param name="pid">主表id</param>
 		/// <returns>sql信息</returns>
-		private static Tuple<string, IEnumerable<DbParameter>> BuildPu_PurchaseRequisition_bInsertSql(Entity obj, Guid pid)
+		private static Tuple<string, IEnumerable<DbParameter>> BuildPu_PurchaseRequisition_bInsertSql(PurchaseRequisition obj, Guid pid)
 		{
-			var sql = "insert into Pu_PurchaseRequisition_b(id,idPurchaseRequisitionDTO,idinventory,quantity,price)";
-			sql += " values(NEWID(),@idPurchaseRequisitionDTO,@idinventory,@quantity,@price)";
+			var sql = "insert into Pu_PurchaseRequisition_b(id,idPurchaseRequisitionDTO,idinventory,idunit,quantity,discountPrice,taxRate,taxPrice,discountAmount,taxAmount)";
+			sql += " values(@id,@idPurchaseRequisitionDTO,@idinventory,@idunit,@quantity,@discountPrice,@taxRate,@taxPrice,@discountAmount,@taxAmount)";
+			double tr;//税率
 			var dbParams = new List<DbParameter>
 			{
+				new SqlParameter("@id",Guid.NewGuid()),
 				new SqlParameter("@idPurchaseRequisitionDTO",pid),
 				new SqlParameter("@idinventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)),
+				new SqlParameter("@idunit",TplusDatabaseHelper.Instance.GetUnitIdByName(obj.采购单位)),
 				new SqlParameter("@quantity",obj.数量),
-				new SqlParameter("@price",obj.UseBookPrice?obj.BookPrice:obj.BillPrice)
+				new SqlParameter("@discountPrice",obj.UseBookPrice?obj.BookPrice:obj.BillPrice),
+				new SqlParameter("@taxRate",(double.TryParse(obj.税率,out tr)?tr:tr)/100),
+				new SqlParameter("@taxPrice",obj.含税单价),
+				new SqlParameter("@discountAmount",obj.金额),
+				//todo:税额没找到对应的字段
+				new SqlParameter("@taxAmount",obj.含税金额)
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(sql, dbParams);

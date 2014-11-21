@@ -155,5 +155,26 @@ namespace Excel2Tplus.Common
 			}
 			return DBNull.Value;
 		}
+
+		private DataTable _unit;
+		/// <summary>
+		/// 依据计量单位名称获取单位id
+		/// </summary>
+		/// <param name="name">计量单位名称</param>
+		/// <returns>计量单位id</returns>
+		public object GetUnitIdByName(string name)
+		{
+			if (_project == null)
+			{
+				_sqlHelper.Open();
+				_unit = _sqlHelper.GetDataTable("SELECT * FROM dbo.AA_Unit");
+				_sqlHelper.Close();
+			}
+			foreach (var row in _unit.Rows.Cast<DataRow>().Where(row => String.Equals(row["name"].ToString(), name, StringComparison.CurrentCultureIgnoreCase)))
+			{
+				return (Guid)row["id"];
+			}
+			return DBNull.Value;
+		}
 	}
 }
