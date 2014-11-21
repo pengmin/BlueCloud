@@ -30,9 +30,9 @@ namespace Excel2Tplus.DatabaseExport
 				if (code != item.单据编号)
 				{
 					code = item.单据编号;
-					sqlList.Add(BuildPu_PurchaseRequisitionInsertSql(item, out id));
+					sqlList.Add(BuildMainInsertSql(item, out id));
 				}
-				sqlList.Add(BuildPu_PurchaseRequisition_bInsertSql(item, id));
+				sqlList.Add(BuildDetailInsertSql(item, id));
 			}
 
 			var sh = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
@@ -48,7 +48,7 @@ namespace Excel2Tplus.DatabaseExport
 		/// <param name="obj">请购单对象</param>
 		/// <param name="id">id</param>
 		/// <returns>sql信息</returns>
-		private static Tuple<string, IEnumerable<DbParameter>> BuildPu_PurchaseRequisitionInsertSql(PurchaseRequisition obj, out Guid id)
+		private static Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(PurchaseRequisition obj, out Guid id)
 		{
 			id = Guid.NewGuid();
 
@@ -70,7 +70,7 @@ namespace Excel2Tplus.DatabaseExport
 		/// <param name="obj">请购单对象</param>
 		/// <param name="pid">主表id</param>
 		/// <returns>sql信息</returns>
-		private static Tuple<string, IEnumerable<DbParameter>> BuildPu_PurchaseRequisition_bInsertSql(PurchaseRequisition obj, Guid pid)
+		private static Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(PurchaseRequisition obj, Guid pid)
 		{
 			var sql = "insert into Pu_PurchaseRequisition_b(id,idPurchaseRequisitionDTO,idinventory,idunit,quantity,discountPrice,taxRate,taxPrice,discountAmount,taxAmount)";
 			sql += " values(@id,@idPurchaseRequisitionDTO,@idinventory,@idunit,@quantity,@discountPrice,@taxRate,@taxPrice,@discountAmount,@taxAmount)";
