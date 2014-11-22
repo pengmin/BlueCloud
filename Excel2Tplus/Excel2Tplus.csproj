@@ -123,6 +123,7 @@
     <Compile Include="PriceHandle\PriceBook.cs" />
     <Compile Include="PriceHandle\PriceBookProviderFactory.cs" />
     <Compile Include="PriceHandle\PriceHandler.cs" />
+    <Compile Include="PriceHandle\VendorPriceBookProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SysConfig\SysConfigManager.cs" />

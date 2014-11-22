@@ -19,15 +19,7 @@ namespace Excel2Tplus.SysConfig
 			set { _excel2TplusHistorySql = value; }
 		}
 		private string _excel2TplusHistorySql =
-@"SET ANSI_NULLS ON
-GO
-
-SET QUOTED_IDENTIFIER ON
-GO
-
-SET ANSI_PADDING ON
-GO
-
+@"
 CREATE TABLE [dbo].[Excel2TplusHistory](
 	[id] [INT] IDENTITY(1,1) NOT NULL,
 	[datetime] [DATETIME] NOT NULL,
@@ -37,12 +29,7 @@ CREATE TABLE [dbo].[Excel2TplusHistory](
 (
 	[id] ASC
 )WITH (PAD_INDEX  = OFF, STATISTICS_NORECOMPUTE  = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS  = ON, ALLOW_PAGE_LOCKS  = ON) ON [PRIMARY]
-) ON [PRIMARY]
-
-GO
-
-SET ANSI_PADDING OFF
-GO";
+) ON [PRIMARY]";
 		/// <summary>
 		/// 数据库配置
 		/// </summary>

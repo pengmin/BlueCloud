@@ -16,16 +16,22 @@ namespace Excel2Tplus.Common
 		/// <summary>
 		/// 供应商价格表类型
 		/// </summary>
-		public static readonly IEnumerable<Type> SupplierType = new List<Type>
+		public static readonly IEnumerable<Type> VendorType = new List<Type>
 		{
-
+			typeof(PurchaseOrder),
+			typeof(PurchaseArrival),
+			typeof(InputWarehouse)
 		};
 		/// <summary>
 		/// 存货价格表类型
 		/// </summary>
 		public static readonly IEnumerable<Type> InventoryType = new List<Type>
 		{
-			typeof(PurchaseRequisition)
+			typeof(PurchaseRequisition),
+			typeof(SaleQuotation),
+			typeof(SaleOrder),
+			typeof(OutputWarehouse),
+			typeof(SaleDelivery)
 		};
 		/// <summary>
 		/// 获取集合对象元素的类型

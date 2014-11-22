@@ -7,10 +7,7 @@ using Excel2Tplus.SysConfig;
 
 namespace Excel2Tplus.PriceHandle
 {
-	/// <summary>
-	/// 存货价格表提供程序
-	/// </summary>
-	class InventoryPriceBookProvider : IPriceBookProvider
+	class VendorPriceBookProvider : IPriceBookProvider
 	{
 		private const string Sql = @"select * from AA_InventoryPrice";
 
@@ -24,7 +21,7 @@ namespace Excel2Tplus.PriceHandle
 				while (rd.Read())
 				{
 					decimal price;
-					decimal.TryParse(rd["retailPrice"].ToString(), out price);
+					decimal.TryParse(rd["agreementPrice"].ToString(), out price);
 					list.Add(new PriceBook { Code = rd["code"].ToString(), Price = price });
 				}
 				rd.Close();

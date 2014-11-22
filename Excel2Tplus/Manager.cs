@@ -30,6 +30,10 @@ namespace Excel2Tplus
 			InitializeComponent();
 			openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 			saveFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+			if (!new SysConfigManager().Get().HasDbConfig)
+			{
+				数据库配置ToolStripMenuItem_Click(数据库配置ToolStripMenuItem, new EventArgs());
+			}
 		}
 
 		private void toolStripDropDownButton1_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -130,10 +134,28 @@ namespace Excel2Tplus
 			var form = new DbConfig();
 			form.InitConfig(_sysCfg.DbConfig);
 			var result = form.ShowDialog();
-			if (result == DialogResult.OK)
+
+			if (result != DialogResult.OK) return;
+
+			form.SetConfig(_sysCfg.DbConfig);
+			var sh = new SqlHelper(_sysCfg.DbConfig.GetConnectionString());
+			try
 			{
-				form.SetConfig(_sysCfg.DbConfig);
+				sh.Open();
 				new SysConfigManager().Set(_sysCfg);
+				try
+				{
+					sh.Execute(_sysCfg.Excel2TplusHistorySql);
+				}
+				catch { }
+			}
+			catch
+			{
+				MessageBox.Show("数据库无法连接");
+			}
+			finally
+			{
+				sh.Close();
 			}
 		}
 
