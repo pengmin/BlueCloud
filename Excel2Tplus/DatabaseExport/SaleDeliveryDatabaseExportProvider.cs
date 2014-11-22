@@ -69,8 +69,8 @@ namespace Excel2Tplus.DatabaseExport
 
 		private static Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(SaleDelivery obj, Guid pid)
 		{
-			var sql = "insert into SA_SaleDelivery_b(id,idSaleDeliveryDTO,idinventory,idunit,quantity,discountPrice,amount,salePrice,taxSalePrice,saleAmount,origTax,origTaxSaleAmount,priuserdefnvc1,pubuserdefnvc1,pubuserdefnvc2,pubuserdefnvc3,pubuserdefnvc4,pubuserdefdecm1,pubuserdefdecm2,pubuserdefdecm3,pubuserdefdecm4)";
-			sql += " values(@id,@idSaleDeliveryDTO,@idinventory,@idunit,@quantity,@discountPrice,@amount,@salePrice,@taxSalePrice,@saleAmount,@origTax,@origTaxSaleAmount,@priuserdefnvc1,@pubuserdefnvc1,@pubuserdefnvc2,@pubuserdefnvc3,@pubuserdefnvc4,@pubuserdefdecm1,@pubuserdefdecm2,@pubuserdefdecm3,@pubuserdefdecm4);";
+			var sql = "insert into SA_SaleDelivery_b(id,idSaleDeliveryDTO,idinventory,idunit,quantity,discountPrice,costAmount,Retailprice,TaxPrice,DiscountAmount,origTax,TaxAmount,priuserdefnvc1,pubuserdefnvc1,pubuserdefnvc2,pubuserdefnvc3,pubuserdefnvc4,pubuserdefdecm1,pubuserdefdecm2,pubuserdefdecm3,pubuserdefdecm4)";
+			sql += " values(@id,@idSaleDeliveryDTO,@idinventory,@idunit,@quantity,@discountPrice,@costAmount,@Retailprice,@TaxPrice,@DiscountAmount,@origTax,@TaxAmount,@priuserdefnvc1,@pubuserdefnvc1,@pubuserdefnvc2,@pubuserdefnvc3,@pubuserdefnvc4,@pubuserdefdecm1,@pubuserdefdecm2,@pubuserdefdecm3,@pubuserdefdecm4);";
 			decimal amount;
 			var ps = new DbParameter[]
 			{
@@ -80,12 +80,12 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@idunit",TplusDatabaseHelper.Instance.GetUnitIdByName(obj.计量单位)),
 				new SqlParameter("@quantity",obj.数量), 
 				new SqlParameter("@discountPrice",obj.UseBookPrice?obj.BookPrice:obj.BillPrice),
-				new SqlParameter("@amount",decimal.TryParse(obj.成本金额,out amount)?amount:0m),
-				new SqlParameter("@salePrice",decimal.TryParse(obj.售价,out amount)?amount:0m),
-				new SqlParameter("@taxSalePrice",decimal.TryParse(obj.含税售价,out amount)?amount:0m),
-				new SqlParameter("@saleAmount",decimal.TryParse(obj.销售金额,out amount)?amount:0m),
+				new SqlParameter("@costAmount",decimal.TryParse(obj.成本金额,out amount)?amount:0m),
+				new SqlParameter("@Retailprice",decimal.TryParse(obj.售价,out amount)?amount:0m),
+				new SqlParameter("@TaxPrice",decimal.TryParse(obj.含税售价,out amount)?amount:0m),
+				new SqlParameter("@DiscountAmount",decimal.TryParse(obj.销售金额,out amount)?amount:0m),
 				new SqlParameter("@origTax",decimal.TryParse(obj.税额,out amount)?amount:0m),
-				new SqlParameter("@origTaxSaleAmount",decimal.TryParse(obj.含税销售金额,out amount)?amount:0m),
+				new SqlParameter("@TaxAmount",decimal.TryParse(obj.含税销售金额,out amount)?amount:0m),
 				new SqlParameter("@priuserdefnvc1",obj.销售订单号),
 				new SqlParameter("@pubuserdefnvc1",obj.物流名称单号),
 				new SqlParameter("@pubuserdefnvc2",obj.发货信息),
