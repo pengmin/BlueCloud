@@ -15,18 +15,36 @@ namespace Excel2Tplus.DatabaseExport
 	/// </summary>
 	class PurchaseRequisitionDatabaseExportProvider : IDatabaseExportProvider
 	{
+		private static string prefix;//单据编码前缀
+		private static int serialno = 0;//单据编码起始编号
+		private static int length;//单据编号长度
+
+		public PurchaseRequisitionDatabaseExportProvider()
+		{
+			prefix = string.Empty;
+			serialno = 0;
+			length = 0;
+		}
 		public IEnumerable<string> Export<TEntity>(IEnumerable<TEntity> list) where TEntity : Entity
 		{
 			if (CommonHelper.GetElementType(list.GetType()) != typeof(PurchaseRequisition))
 			{
 				throw new Exception("单据类型不是请购单类型");
 			}
-			var lt = list.Cast<PurchaseRequisition>();
+			var msgList = new List<string>();
 			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
-			Guid id = Guid.Empty;//单据主表id
+			var id = Guid.Empty;//单据主表id
 			string code = null;//单据编号
-			foreach (var item in lt)
+
+			prefix = TplusDatabaseHelper.Instance.GetVoucherCodePrefix("请购单", out length);
+			serialno = TplusDatabaseHelper.Instance.GetMaxSerialno("Pu_PurchaseRequisition", length);
+			foreach (var item in list.Cast<PurchaseRequisition>())
 			{
+				if (TplusDatabaseHelper.Instance.ExistVoucher(item.单据编号, "Pu_PurchaseRequisition"))
+				{
+					msgList.Add("单据编码：" + item.单据编号 + "已存在");
+					continue;
+				}
 				if (code != item.单据编号)
 				{
 					code = item.单据编号;
@@ -37,10 +55,10 @@ namespace Excel2Tplus.DatabaseExport
 
 			var sh = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
 			sh.Open();
-			var r = sh.Execute(sqlList);
+			msgList.Add(sh.Execute(sqlList).ToString());
 			sh.Close();
 
-			return new[] { r.ToString() };
+			return msgList;
 		}
 		/// <summary>
 		/// 构造请购单主表的插入sql
@@ -52,15 +70,16 @@ namespace Excel2Tplus.DatabaseExport
 		{
 			id = Guid.NewGuid();
 
-			var sql = "insert into Pu_PurchaseRequisition(createdtime,id,voucherdate,code,iddepartment)";
-			sql += " values(@createdtime,@id,@voucherdate,@code,@iddepartment);";
+			var sql = "insert into Pu_PurchaseRequisition(createdtime,id,voucherdate,code,iddepartment,idrequisitionperson)";
+			sql += " values(@createdtime,@id,@voucherdate,@code,@iddepartment,@idrequisitionperson);";
 			var dbParams = new List<DbParameter>
 			{
 				new SqlParameter("@createdtime",DateTime.Now),
 				new SqlParameter("@id",id),
 				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期)), 
-				new SqlParameter("@code",obj.单据编号),
-				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司))
+				new SqlParameter("@code",string.IsNullOrWhiteSpace(obj.单据编号)?prefix+(++serialno).ToString().PadLeft(length,'0'):obj.单据编号),
+				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司)),
+				new SqlParameter("@idrequisitionperson",TplusDatabaseHelper.Instance.GetPensonIdByDepartmentName(obj.所属公司))
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(sql, dbParams);

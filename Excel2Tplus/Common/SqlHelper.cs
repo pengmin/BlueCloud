@@ -120,5 +120,21 @@ namespace Excel2Tplus.Common
 			adapter.Fill(dt);
 			return dt;
 		}
+		/// <summary>
+		/// 获取查询结果的第一行第一列的值
+		/// </summary>
+		/// <param name="sql">查询sql</param>
+		/// <param name="param">查询参数</param>
+		/// <returns>查询结果</returns>
+		public object Scalar(string sql, params DbParameter[] param)
+		{
+			var cmd = _conn.CreateCommand();
+			cmd.CommandText = sql;
+			if (param.Length > 0)
+			{
+				cmd.Parameters.AddRange(param);
+			}
+			return cmd.ExecuteScalar();
+		}
 	}
 }

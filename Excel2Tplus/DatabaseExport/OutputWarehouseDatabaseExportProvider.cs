@@ -15,6 +15,17 @@ namespace Excel2Tplus.DatabaseExport
 	/// </summary>
 	class OutputWarehouseDatabaseExportProvider : IDatabaseExportProvider
 	{
+		private static string prefix;//单据编码前缀
+		private static int serialno = 0;//单据编码起始编号
+		private static int length;//单据编号长度
+
+		public OutputWarehouseDatabaseExportProvider()
+		{
+			prefix = string.Empty;
+			serialno = 0;
+			length = 0;
+		}
+
 		public IEnumerable<string> Export<TEntity>(IEnumerable<TEntity> list) where TEntity : Entities.Entity
 		{
 			if (CommonHelper.GetElementType(list.GetType()) != typeof(OutputWarehouse))
@@ -25,6 +36,9 @@ namespace Excel2Tplus.DatabaseExport
 			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
 			Guid id = Guid.Empty;//单据主表id
 			string code = null;//单据编号
+
+			prefix = TplusDatabaseHelper.Instance.GetVoucherCodePrefix("销售出库单", out length);
+			serialno = TplusDatabaseHelper.Instance.GetMaxSerialno("ST_RDRecord", length);
 			foreach (var item in list.Cast<OutputWarehouse>())
 			{
 				if (code != item.单据编号)
@@ -56,7 +70,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@id",id),
 				new SqlParameter("@rdDirectionFlag",false),
 				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期)), 
-				new SqlParameter("@code",obj.单据编号),
+				new SqlParameter("@code",string.IsNullOrWhiteSpace(obj.单据编号)?prefix+(++serialno).ToString().PadLeft(length,'0'):obj.单据编号),
 				new SqlParameter("@idwarehouse",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
 				new SqlParameter("@idpartner",TplusDatabaseHelper.Instance.GetPartnerIdByName(obj.客户)), 
 				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司)),

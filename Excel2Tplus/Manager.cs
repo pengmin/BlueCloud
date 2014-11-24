@@ -124,15 +124,16 @@ namespace Excel2Tplus
 			{
 				_list.ElementAt(i).UseBookPrice = (bool)dataGridView1.Rows[i].Cells[5].Value;
 			}
-
-			if (new DatabaseExportManager().Export(_list).ElementAt(0) != "-1")
+			var msgList = new DatabaseExportManager().Export(_list);
+			var msgStr = string.Join("\r\n", msgList.ToArray());
+			if (msgList.Last() != "-1")
 			{
 				new HistoryManager().Set(_list);
-				MessageBox.Show("导入成功");
+				MessageBox.Show("导入成功\r\n" + msgStr);
 			}
 			else
 			{
-				MessageBox.Show("导入失败");
+				MessageBox.Show("导入失败\r\n" + msgStr);
 			}
 		}
 

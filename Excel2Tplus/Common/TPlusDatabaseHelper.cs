@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Common;
+using System.Data.Odbc;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using Excel2Tplus.SysConfig;
@@ -175,6 +178,78 @@ namespace Excel2Tplus.Common
 				return (Guid)row["id"];
 			}
 			return DBNull.Value;
+		}
+
+		private DataTable _userRole;
+		/// <summary>
+		/// 获取订单的编码格式
+		/// </summary>
+		/// <param name="name">订单的中文名称</param>
+		/// <param name="serialnoLength">订单序号的长度</param>
+		/// <returns>订单编码的前缀</returns>
+		public string GetVoucherCodePrefix(string name, out int serialnoLength)
+		{
+			var sql = @"SELECT a.*,b.name AS voucherName
+FROM dbo.SM_UsedRule AS a
+JOIN dbo.SM_VoucherType AS b ON a.idvouchertype=b.id";
+			if (_userRole == null)
+			{
+				_sqlHelper.Open();
+				_userRole = _sqlHelper.GetDataTable(sql);
+				_sqlHelper.Close();
+			}
+			foreach (var row in _userRole.Rows.Cast<DataRow>().Where(row => (string)row["voucherName"] == name))
+			{
+				serialnoLength = (int)row["serialnolength"];
+				return (string)row["allprefixion"];
+			}
+			serialnoLength = 0;
+			return null;
+		}
+		/// <summary>
+		/// 获取单据已使用的最大编号
+		/// </summary>
+		/// <param name="voucher">单据的表名称</param>
+		/// <param name="length">单据编码长度</param>
+		/// <returns>已使用的最大编号</returns>
+		public int GetMaxSerialno(string voucher, int length)
+		{
+			var sql = "SELECT RIGHT(MAX(code),{1}) FROM {0}";
+			_sqlHelper.Open();
+			var r = _sqlHelper.Scalar(string.Format(sql, voucher, length));
+			_sqlHelper.Close();
+
+			int i;
+			int.TryParse(r.ToString(), out i);
+			return i;
+		}
+		/// <summary>
+		/// 获取部门的员工id，只获取找到的第一个员工的id
+		/// </summary>
+		/// <param name="name">部门尖</param>
+		/// <returns>员工id</returns>
+		public object GetPensonIdByDepartmentName(string name)
+		{
+			var sql = "SELECT a.id FROM AA_Person AS a JOIN dbo.AA_Department AS b ON a.iddepartment=b.id WHERE b.name=@name";
+			_sqlHelper.Open();
+			var r = _sqlHelper.Scalar(sql, new SqlParameter("@name", name));
+			_sqlHelper.Close();
+
+			return r is Guid ? r : DBNull.Value;
+		}
+		/// <summary>
+		/// 判断指据编码的单据是否已存在
+		/// </summary>
+		/// <param name="code">单据编码</param>
+		/// <param name="voucher">单据表名称</param>
+		/// <returns></returns>
+		public bool ExistVoucher(string code, string voucher)
+		{
+			var sql = "select count(0) from {0} where code=@code";
+			_sqlHelper.Open();
+			var r = _sqlHelper.Scalar(string.Format(sql, voucher), new SqlParameter("@code", code));
+			_sqlHelper.Close();
+			return (int)r > 0;
 		}
 	}
 }
