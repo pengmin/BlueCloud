@@ -47,11 +47,12 @@ namespace Excel2Tplus.DatabaseExport
 		{
 			id = Guid.NewGuid();
 
-			var sql = "insert into SA_SaleDelivery(id,voucherdate,code,idwarehouse,idcustomer,iddepartment,priuserdefdecm1,pubuserdefnvc1,pubuserdefnvc2,pubuserdefnvc3)";
-			sql += " values(@id,@voucherdate,@code,@idwarehouse,@idcustomer,@iddepartment,@priuserdefdecm1,@pubuserdefnvc1,@pubuserdefnvc2,@pubuserdefnvc3);";
+			var sql = "insert into SA_SaleDelivery(createdtime,id,voucherdate,code,idwarehouse,idcustomer,iddepartment,priuserdefdecm1,pubuserdefnvc1,pubuserdefnvc2,pubuserdefnvc3)";
+			sql += " values(@createdtime,@id,@voucherdate,@code,@idwarehouse,@idcustomer,@iddepartment,@priuserdefdecm1,@pubuserdefnvc1,@pubuserdefnvc2,@pubuserdefnvc3);";
 			decimal d;
 			var ps = new DbParameter[]
 			{
+				new SqlParameter("@createdtime",DateTime.Now), 
 				new SqlParameter("@id",id), 
 				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期)), 
 				new SqlParameter("@code",obj.单据编号), 
@@ -69,11 +70,12 @@ namespace Excel2Tplus.DatabaseExport
 
 		private static Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(SaleDelivery obj, Guid pid)
 		{
-			var sql = "insert into SA_SaleDelivery_b(id,idSaleDeliveryDTO,idinventory,idunit,quantity,discountPrice,costAmount,Retailprice,TaxPrice,DiscountAmount,origTax,TaxAmount,priuserdefnvc1,pubuserdefnvc1,pubuserdefnvc2,pubuserdefnvc3,pubuserdefnvc4,pubuserdefdecm1,pubuserdefdecm2,pubuserdefdecm3,pubuserdefdecm4)";
-			sql += " values(@id,@idSaleDeliveryDTO,@idinventory,@idunit,@quantity,@discountPrice,@costAmount,@Retailprice,@TaxPrice,@DiscountAmount,@origTax,@TaxAmount,@priuserdefnvc1,@pubuserdefnvc1,@pubuserdefnvc2,@pubuserdefnvc3,@pubuserdefnvc4,@pubuserdefdecm1,@pubuserdefdecm2,@pubuserdefdecm3,@pubuserdefdecm4);";
+			var sql = "insert into SA_SaleDelivery_b(createdtime,id,idSaleDeliveryDTO,idinventory,idunit,quantity,discountPrice,costAmount,Retailprice,TaxPrice,DiscountAmount,origTax,TaxAmount,priuserdefnvc1,pubuserdefnvc1,pubuserdefnvc2,pubuserdefnvc3,pubuserdefnvc4,pubuserdefdecm1,pubuserdefdecm2,pubuserdefdecm3,pubuserdefdecm4)";
+			sql += " values(@createdtime,@id,@idSaleDeliveryDTO,@idinventory,@idunit,@quantity,@discountPrice,@costAmount,@Retailprice,@TaxPrice,@DiscountAmount,@origTax,@TaxAmount,@priuserdefnvc1,@pubuserdefnvc1,@pubuserdefnvc2,@pubuserdefnvc3,@pubuserdefnvc4,@pubuserdefdecm1,@pubuserdefdecm2,@pubuserdefdecm3,@pubuserdefdecm4);";
 			decimal amount;
 			var ps = new DbParameter[]
 			{
+				new SqlParameter("@createdtime",DateTime.Now), 
 				new SqlParameter("@id",Guid.NewGuid()), 
 				new SqlParameter("@idSaleDeliveryDTO",pid), 
 				new SqlParameter("@idinventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)), 

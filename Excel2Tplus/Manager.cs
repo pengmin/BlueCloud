@@ -45,32 +45,40 @@ namespace Excel2Tplus
 
 			var excelPath = openFileDialog1.FileName;
 			var excelImportManager = new ExcelImportManager();
-			switch (_billType)
+			try
 			{
-				case "请购单":
-					_list = excelImportManager.Import<PurchaseRequisition>(excelPath);
-					break;
-				case "采购订单":
-					_list = excelImportManager.Import<PurchaseOrder>(excelPath);
-					break;
-				case "进货单":
-					_list = excelImportManager.Import<PurchaseArrival>(excelPath);
-					break;
-				case "采购入库单":
-					_list = excelImportManager.Import<InputWarehouse>(excelPath);
-					break;
-				case "报价单":
-					_list = excelImportManager.Import<SaleQuotation>(excelPath);
-					break;
-				case "销售订单":
-					_list = excelImportManager.Import<SaleOrder>(excelPath);
-					break;
-				case "销售出库单":
-					_list = excelImportManager.Import<OutputWarehouse>(excelPath);
-					break;
-				case "销货单":
-					_list = excelImportManager.Import<SaleDelivery>(excelPath);
-					break;
+				switch (_billType)
+				{
+					case "请购单":
+						_list = excelImportManager.Import<PurchaseRequisition>(excelPath);
+						break;
+					case "采购订单":
+						_list = excelImportManager.Import<PurchaseOrder>(excelPath);
+						break;
+					case "进货单":
+						_list = excelImportManager.Import<PurchaseArrival>(excelPath);
+						break;
+					case "采购入库单":
+						_list = excelImportManager.Import<InputWarehouse>(excelPath);
+						break;
+					case "报价单":
+						_list = excelImportManager.Import<SaleQuotation>(excelPath);
+						break;
+					case "销售订单":
+						_list = excelImportManager.Import<SaleOrder>(excelPath);
+						break;
+					case "销售出库单":
+						_list = excelImportManager.Import<OutputWarehouse>(excelPath);
+						break;
+					case "销货单":
+						_list = excelImportManager.Import<SaleDelivery>(excelPath);
+						break;
+				}
+			}
+			catch
+			{
+				MessageBox.Show("Excel文件已被其他程序打开");
+				return;
 			}
 			new PriceHandler().Handler(_list);
 			ShowToView(_list);

@@ -97,14 +97,16 @@ namespace Excel2Tplus.Common
 					}
 					data.Rows.Add(dataRow);
 				}
-
-				_excel.Close();
 				return data;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine("Exception: " + ex.Message);
 				return null;
+			}
+			finally
+			{
+				_excel.Close();
 			}
 
 		}
@@ -155,13 +157,17 @@ namespace Excel2Tplus.Common
 					++count;
 				}
 				_workbook.Write(_excel); //写入到excel
-				_excel.Close();
+
 				return count;
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine("Exception: " + ex.Message);
 				return -1;
+			}
+			finally
+			{
+				_excel.Close();
 			}
 		}
 

@@ -46,10 +46,11 @@ namespace Excel2Tplus.DatabaseExport
 		{
 			id = Guid.NewGuid();
 
-			var sql = "insert into SA_SaleQuotation(id,voucherdate,code,idcustomer,iddepartment,idproject)";
-			sql += " values(@id,@voucherdate,@code,@idcustomer,@iddepartment,@idproject);";
+			var sql = "insert into SA_SaleQuotation(createdtime,id,voucherdate,code,idcustomer,iddepartment,idproject)";
+			sql += " values(@createdtime,@id,@voucherdate,@code,@idcustomer,@iddepartment,@idproject);";
 			var ps = new DbParameter[]
 			{
+				new SqlParameter("@createdtime",DateTime.Now), 
 				new SqlParameter("@id",id), 
 				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期)), 
 				new SqlParameter("@code",obj.单据编号), 
@@ -63,11 +64,12 @@ namespace Excel2Tplus.DatabaseExport
 
 		private static Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(SaleQuotation obj, Guid pid)
 		{
-			var sql = "insert into SA_SaleQuotation_b(id,idSaleQuotationDTO,idinventory,idunit,quantity,discountPrice,taxRate,taxPrice,discountAmount,taxAmount)";
-			sql += " values(@id,@idSaleQuotationDTO,@idinventory,@idunit,@quantity,@discountPrice,@taxRate,@taxPrice,@discountAmount,@taxAmount);";
+			var sql = "insert into SA_SaleQuotation_b(createdtime,id,idSaleQuotationDTO,idinventory,idunit,quantity,discountPrice,taxRate,taxPrice,discountAmount,taxAmount)";
+			sql += " values(@createdtime,@id,@idSaleQuotationDTO,@idinventory,@idunit,@quantity,@discountPrice,@taxRate,@taxPrice,@discountAmount,@taxAmount);";
 			double tr;//税率
 			var ps = new DbParameter[]
 			{
+				new SqlParameter("@createdtime",DateTime.Now), 
 				new SqlParameter("@id",Guid.NewGuid()), 
 				new SqlParameter("@idSaleQuotationDTO",pid), 
 				new SqlParameter("@idinventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)), 

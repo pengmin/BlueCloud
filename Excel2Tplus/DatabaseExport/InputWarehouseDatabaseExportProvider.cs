@@ -47,10 +47,11 @@ namespace Excel2Tplus.DatabaseExport
 		{
 			id = Guid.NewGuid();
 
-			var sql = "insert into ST_RDRecord(id,rdDirectionFlag,voucherdate,code,idpartner,iddepartment,idproject,pubuserdefnvc1,pubuserdefnvc2,pubuserdefnvc3,idwarehouse)";
-			sql += " values(@id,@rdDirectionFlag,@voucherdate,@code,@idpartner,@iddepartment,@idproject,@pubuserdefnvc1,@pubuserdefnvc2,@pubuserdefnvc3,@idwarehouse);";
+			var sql = "insert into ST_RDRecord(createdtime,id,rdDirectionFlag,voucherdate,code,idpartner,iddepartment,idproject,pubuserdefnvc1,pubuserdefnvc2,pubuserdefnvc3,idwarehouse)";
+			sql += " values(@createdtime,@id,@rdDirectionFlag,@voucherdate,@code,@idpartner,@iddepartment,@idproject,@pubuserdefnvc1,@pubuserdefnvc2,@pubuserdefnvc3,@idwarehouse);";
 			var ps = new DbParameter[]
 			{
+				new SqlParameter("@createdtime",DateTime.Now), 
 				new SqlParameter("@id",id),
 				new SqlParameter("@rdDirectionFlag",true),
 				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期)), 
@@ -69,12 +70,13 @@ namespace Excel2Tplus.DatabaseExport
 
 		private static Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(InputWarehouse obj, Guid pid)
 		{
-			var sql = "insert into ST_RDRecord_b(id,idRDRecordDTO,idinventory,idunit,quantity,price,taxRate,taxPrice,amount,taxAmount,priuserdefdecm1)";
-			sql += " values(@id,@idRDRecordDTO,@idinventory,@idunit,@quantity,@price,@taxRate,@taxPrice,@amount,@taxAmount,@priuserdefdecm1);";
+			var sql = "insert into ST_RDRecord_b(createdtime,id,idRDRecordDTO,idinventory,idunit,quantity,price,taxRate,taxPrice,amount,taxAmount,priuserdefdecm1)";
+			sql += " values(@createdtime,@id,@idRDRecordDTO,@idinventory,@idunit,@quantity,@price,@taxRate,@taxPrice,@amount,@taxAmount,@priuserdefdecm1);";
 			double tr;//税率
 			decimal yf;//运费
 			var ps = new DbParameter[]
 			{
+				new SqlParameter("@createdtime",DateTime.Now), 
 				new SqlParameter("@id",Guid.NewGuid()), 
 				new SqlParameter("@idRDRecordDTO",pid), 
 				new SqlParameter("@idinventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)), 

@@ -52,10 +52,11 @@ namespace Excel2Tplus.DatabaseExport
 		{
 			id = Guid.NewGuid();
 
-			var sql = "insert into Pu_PurchaseRequisition(id,voucherdate,code,iddepartment)";
-			sql += " values(@id,@voucherdate,@code,@iddepartment);";
+			var sql = "insert into Pu_PurchaseRequisition(createdtime,id,voucherdate,code,iddepartment)";
+			sql += " values(@createdtime,@id,@voucherdate,@code,@iddepartment);";
 			var dbParams = new List<DbParameter>
 			{
+				new SqlParameter("@createdtime",DateTime.Now),
 				new SqlParameter("@id",id),
 				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期)), 
 				new SqlParameter("@code",obj.单据编号),
@@ -72,11 +73,12 @@ namespace Excel2Tplus.DatabaseExport
 		/// <returns>sql信息</returns>
 		private static Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(PurchaseRequisition obj, Guid pid)
 		{
-			var sql = "insert into Pu_PurchaseRequisition_b(id,idPurchaseRequisitionDTO,idinventory,idunit,quantity,discountPrice,taxRate,taxPrice,discountAmount,taxAmount)";
-			sql += " values(@id,@idPurchaseRequisitionDTO,@idinventory,@idunit,@quantity,@discountPrice,@taxRate,@taxPrice,@discountAmount,@taxAmount)";
+			var sql = "insert into Pu_PurchaseRequisition_b(createdtime,id,idPurchaseRequisitionDTO,idinventory,idunit,quantity,discountPrice,taxRate,taxPrice,discountAmount,taxAmount)";
+			sql += " values(@createdtime,@id,@idPurchaseRequisitionDTO,@idinventory,@idunit,@quantity,@discountPrice,@taxRate,@taxPrice,@discountAmount,@taxAmount)";
 			double tr;//税率
 			var dbParams = new List<DbParameter>
 			{
+				new SqlParameter("@createdtime",DateTime.Now),
 				new SqlParameter("@id",Guid.NewGuid()),
 				new SqlParameter("@idPurchaseRequisitionDTO",pid),
 				new SqlParameter("@idinventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)),

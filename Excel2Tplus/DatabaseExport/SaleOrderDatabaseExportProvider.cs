@@ -47,10 +47,11 @@ namespace Excel2Tplus.DatabaseExport
 		{
 			id = Guid.NewGuid();
 
-			var sql = "insert into SA_SaleOrder(id,voucherdate,code,idcustomer,iddepartment,idproject,idwarehouse)";
-			sql += " values(@id,@voucherdate,@code,@idcustomer,@iddepartment,@idproject,@idwarehouse);";
+			var sql = "insert into SA_SaleOrder(createdtime,id,voucherdate,code,idcustomer,iddepartment,idproject,idwarehouse)";
+			sql += " values(@createdtime,@id,@voucherdate,@code,@idcustomer,@iddepartment,@idproject,@idwarehouse);";
 			var ps = new DbParameter[]
 			{
+				new SqlParameter("@createdtime",DateTime.Now), 
 				new SqlParameter("@id",id), 
 				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期)), 
 				new SqlParameter("@code",obj.单据编号), 
