@@ -10,6 +10,17 @@ namespace Excel2Tplus.Entities
 	/// </summary>
 	public class SaleQuotation : Entity
 	{
+		public override string PriceCode
+		{
+			get
+			{
+				return InventoryCode;
+			}
+			set
+			{
+				InventoryCode = value;
+			}
+		}
 		public string 客户 { get; set; }
 		public string 项目 { get; set; }
 		public string 规格型号 { get; set; }

@@ -10,6 +10,17 @@ namespace Excel2Tplus.Entities
 	/// </summary>
 	public class PurchaseOrder : Entity
 	{
+		public override string PriceCode
+		{
+			get
+			{
+				return 供应商;
+			}
+			set
+			{
+				供应商 = value;
+			}
+		}
 		public string 仓库 { get; set; }
 		public string 供应商 { get; set; }
 		public string 供应商名称 { get; set; }

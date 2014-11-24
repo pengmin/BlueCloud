@@ -251,5 +251,18 @@ JOIN dbo.SM_VoucherType AS b ON a.idvouchertype=b.id";
 			_sqlHelper.Close();
 			return (int)r > 0;
 		}
+		/// <summary>
+		/// 获取单据状态id
+		/// </summary>
+		/// <param name="name">状态名称</param>
+		/// <returns>状态id</returns>
+		public object GetVoucherStateIdByStateName(string name)
+		{
+			var sql = "select a.id from eap_EnumItem as a join eap_Enum as b on a.idEnum=b.id where b.Title='单据状态' and a.Name=@name";
+			_sqlHelper.Open();
+			var r = _sqlHelper.Scalar(sql, new SqlParameter("@name", name));
+			_sqlHelper.Close();
+			return r is Guid ? r : DBNull.Value;
+		}
 	}
 }

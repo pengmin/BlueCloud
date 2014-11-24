@@ -23,7 +23,7 @@ namespace Excel2Tplus.PriceHandle
 			var pb = provider.Get();
 			foreach (var item in list)
 			{
-				var p = pb.SingleOrDefault(_ => _.Code == item.InventoryCode);
+				var p = pb.SingleOrDefault(_ => _.Code == item.PriceCode);
 				if (p != null)
 				{
 					item.BookPrice = p.Price;

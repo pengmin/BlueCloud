@@ -9,7 +9,7 @@ namespace Excel2Tplus.PriceHandle
 {
 	class VendorPriceBookProvider : IPriceBookProvider
 	{
-		private const string Sql = @"select * from AA_InventoryPrice";
+		private const string Sql = @"select * from AA_VendorInventoryPrice";
 
 		public IEnumerable<PriceBook> Get()
 		{

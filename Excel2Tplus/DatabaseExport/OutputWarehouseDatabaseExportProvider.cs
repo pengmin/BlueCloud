@@ -32,7 +32,7 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				throw new Exception("单据类型不是销售出库单类型");
 			}
-
+			var msgList = new List<string>();
 			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
 			Guid id = Guid.Empty;//单据主表id
 			string code = null;//单据编号
@@ -41,6 +41,11 @@ namespace Excel2Tplus.DatabaseExport
 			serialno = TplusDatabaseHelper.Instance.GetMaxSerialno("ST_RDRecord", length);
 			foreach (var item in list.Cast<OutputWarehouse>())
 			{
+				if (TplusDatabaseHelper.Instance.ExistVoucher(item.单据编号, "Pu_PurchaseRequisition"))
+				{
+					msgList.Add("单据编码：" + item.单据编号 + "已存在");
+					continue;
+				}
 				if (code != item.单据编号)
 				{
 					code = item.单据编号;
@@ -51,25 +56,25 @@ namespace Excel2Tplus.DatabaseExport
 
 			var sh = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
 			sh.Open();
-			var r = sh.Execute(sqlList);
+			msgList.Add(sh.Execute(sqlList).ToString());
 			sh.Close();
 
-			return new[] { r.ToString() };
+			return msgList;
 		}
 
 		private static Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(OutputWarehouse obj, out Guid id)
 		{
 			id = Guid.NewGuid();
 
-			var sql = "insert into ST_RDRecord(createdtime,id,rdDirectionFlag,voucherdate,code,idwarehouse,idpartner,iddepartment,priuserdefdecm1,pubuserdefnvc1,pubuserdefnvc2,pubuserdefnvc3)";
-			sql += " values(@createdtime,@id,@rdDirectionFlag,@voucherdate,@code,@idwarehouse,@idpartner,@iddepartment,@priuserdefdecm1,@pubuserdefnvc1,@pubuserdefnvc2,@pubuserdefnvc3);";
+			var sql = "insert into ST_RDRecord(createdtime,id,rdDirectionFlag,voucherdate,code,idwarehouse,idpartner,iddepartment,priuserdefdecm1,pubuserdefnvc1,pubuserdefnvc2,pubuserdefnvc3,voucherState)";
+			sql += " values(@createdtime,@id,@rdDirectionFlag,@voucherdate,@code,@idwarehouse,@idpartner,@iddepartment,@priuserdefdecm1,@pubuserdefnvc1,@pubuserdefnvc2,@pubuserdefnvc3,@voucherState);";
 			decimal cy;//抽佣比率
 			var ps = new DbParameter[]
 			{
-				new SqlParameter("@createdtime",DateTime.Now), 
+				new SqlParameter("@createdtime",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")), 
 				new SqlParameter("@id",id),
 				new SqlParameter("@rdDirectionFlag",false),
-				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期)), 
+				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期).ToString("yyyy-MM-dd HH:mm:ss")), 
 				new SqlParameter("@code",string.IsNullOrWhiteSpace(obj.单据编号)?prefix+(++serialno).ToString().PadLeft(length,'0'):obj.单据编号),
 				new SqlParameter("@idwarehouse",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
 				new SqlParameter("@idpartner",TplusDatabaseHelper.Instance.GetPartnerIdByName(obj.客户)), 
@@ -78,6 +83,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@pubuserdefnvc1",obj.部门), 
 				new SqlParameter("@pubuserdefnvc2",obj.业务员),
 				new SqlParameter("@pubuserdefnvc3",obj.退货日期),
+				new SqlParameter("@voucherState",TplusDatabaseHelper.Instance.GetVoucherStateIdByStateName("未审"))
 				
 			};
 

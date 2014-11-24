@@ -14,7 +14,7 @@ namespace Excel2Tplus.SysConfig
 	{
 		private string ConfigPath
 		{
-			get { return Environment.CurrentDirectory + "SysConfig.xml"; }
+			get { return Environment.CurrentDirectory + "\\SysConfig.xml"; }
 		}
 
 		/// <summary>

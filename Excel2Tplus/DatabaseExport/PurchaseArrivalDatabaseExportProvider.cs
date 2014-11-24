@@ -15,17 +15,37 @@ namespace Excel2Tplus.DatabaseExport
 	/// </summary>
 	internal class PurchaseArrivalDatabaseExportProvider : IDatabaseExportProvider
 	{
+		private static string prefix;//单据编码前缀
+		private static int serialno = 0;//单据编码起始编号
+		private static int length;//单据编号长度
+
+		public PurchaseArrivalDatabaseExportProvider()
+		{
+			prefix = string.Empty;
+			serialno = 0;
+			length = 0;
+		}
+
 		public IEnumerable<string> Export<TEntity>(IEnumerable<TEntity> list) where TEntity : Entities.Entity
 		{
 			if (CommonHelper.GetElementType(list.GetType()) != typeof(PurchaseArrival))
 			{
 				throw new Exception("单据类型不是进货单类型");
 			}
+			var msgList = new List<string>();
 			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
 			Guid id = Guid.Empty;//单据主表id
 			string code = null;//单据编号
+
+			prefix = TplusDatabaseHelper.Instance.GetVoucherCodePrefix("请购单", out length);
+			serialno = TplusDatabaseHelper.Instance.GetMaxSerialno("Pu_PurchaseRequisition", length);
 			foreach (var item in list.Cast<PurchaseArrival>())
 			{
+				if (TplusDatabaseHelper.Instance.ExistVoucher(item.单据编号, "Pu_PurchaseRequisition"))
+				{
+					msgList.Add("单据编码：" + item.单据编号 + "已存在");
+					continue;
+				}
 				if (code != item.单据编号)
 				{
 					code = item.单据编号;
@@ -36,24 +56,24 @@ namespace Excel2Tplus.DatabaseExport
 
 			var sh = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
 			sh.Open();
-			var r = sh.Execute(sqlList);
+			msgList.Add(sh.Execute(sqlList).ToString());
 			sh.Close();
 
-			return new[] { r.ToString() };
+			return msgList;
 		}
 
 		private Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(PurchaseArrival obj, out Guid id)
 		{
 			id = Guid.NewGuid();
 
-			var sql = "insert into PU_PurchaseArrival(createdtime,id,voucherdate,code,idpartner,iddepartment,idproject,pubuserdefnvc1,pubuserdefnvc2,pubuserdefnvc3,idwarehouse)";
-			sql += " values(@createdtime,@id,@voucherdate,@code,@idpartner,@iddepartment,@idproject,@pubuserdefnvc1,@pubuserdefnvc2,@pubuserdefnvc3,@idwarehouse);";
+			var sql = "insert into PU_PurchaseArrival(createdtime,id,voucherdate,code,idpartner,iddepartment,idproject,pubuserdefnvc1,pubuserdefnvc2,pubuserdefnvc3,idwarehouse,voucherState)";
+			sql += " values(@createdtime,@id,@voucherdate,@code,@idpartner,@iddepartment,@idproject,@pubuserdefnvc1,@pubuserdefnvc2,@pubuserdefnvc3,@idwarehouse,@voucherState);";
 			var ps = new DbParameter[]
 			{
-				new SqlParameter("@createdtime",DateTime.Now), 
+				new SqlParameter("@createdtime",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")), 
 				new SqlParameter("@id",id), 
-				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期)), 
-				new SqlParameter("@code",obj.单据编号), 
+				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期).ToString("yyyy-MM-dd HH:mm:ss")), 
+				new SqlParameter("@code",string.IsNullOrWhiteSpace(obj.单据编号)?prefix+(++serialno).ToString().PadLeft(length,'0'):obj.单据编号), 
 				new SqlParameter("@idpartner",TplusDatabaseHelper.Instance.GetPartnerIdByCode(obj.供应商)),
  				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司)), 
 				new SqlParameter("@idproject",TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)), 
@@ -61,6 +81,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@pubuserdefnvc2",obj.业务员),
 				new SqlParameter("@pubuserdefnvc3",obj.退货日期),
 				new SqlParameter("@idwarehouse",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
+				new SqlParameter("@voucherState",TplusDatabaseHelper.Instance.GetVoucherStateIdByStateName("未审"))
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(sql, ps);

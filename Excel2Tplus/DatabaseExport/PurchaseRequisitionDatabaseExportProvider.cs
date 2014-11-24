@@ -70,16 +70,17 @@ namespace Excel2Tplus.DatabaseExport
 		{
 			id = Guid.NewGuid();
 
-			var sql = "insert into Pu_PurchaseRequisition(createdtime,id,voucherdate,code,iddepartment,idrequisitionperson)";
-			sql += " values(@createdtime,@id,@voucherdate,@code,@iddepartment,@idrequisitionperson);";
+			var sql = "insert into Pu_PurchaseRequisition(createdtime,id,voucherdate,code,iddepartment,idrequisitionperson,voucherState)";
+			sql += " values(@createdtime,@id,@voucherdate,@code,@iddepartment,@idrequisitionperson,@voucherState);";
 			var dbParams = new List<DbParameter>
 			{
-				new SqlParameter("@createdtime",DateTime.Now),
+				new SqlParameter("@createdtime",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
 				new SqlParameter("@id",id),
-				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期)), 
+				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期).ToString("yyyy-MM-dd HH:mm:ss")), 
 				new SqlParameter("@code",string.IsNullOrWhiteSpace(obj.单据编号)?prefix+(++serialno).ToString().PadLeft(length,'0'):obj.单据编号),
 				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司)),
-				new SqlParameter("@idrequisitionperson",TplusDatabaseHelper.Instance.GetPensonIdByDepartmentName(obj.所属公司))
+				new SqlParameter("@idrequisitionperson",TplusDatabaseHelper.Instance.GetPensonIdByDepartmentName(obj.所属公司)),
+				new SqlParameter("@voucherState",TplusDatabaseHelper.Instance.GetVoucherStateIdByStateName("未审"))
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(sql, dbParams);

@@ -10,6 +10,17 @@ namespace Excel2Tplus.Entities
 	/// </summary>
 	public class SaleDelivery : Entity
 	{
+		public override string PriceCode
+		{
+			get
+			{
+				return InventoryCode;
+			}
+			set
+			{
+				InventoryCode = value;
+			}
+		}
 		public string 仓库 { get; set; }
 		public string 客户 { get; set; }
 		public string 抽佣比率 { get; set; }

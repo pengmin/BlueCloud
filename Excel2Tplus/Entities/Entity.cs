@@ -8,12 +8,12 @@ namespace Excel2Tplus.Entities
 	/// <summary>
 	/// 单据实体
 	/// </summary>
-	public class Entity
+	public abstract class Entity
 	{
 		/// <summary>
 		/// 价格本编码，依据单据类型，其值来源于存货编码或是供应商编码
 		/// </summary>
-		public string PriceCode { get; set; }
+		public abstract string PriceCode { get; set; }
 		/// <summary>
 		/// 存货编码
 		/// </summary>
