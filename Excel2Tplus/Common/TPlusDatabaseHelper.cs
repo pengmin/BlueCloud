@@ -264,5 +264,18 @@ JOIN dbo.SM_VoucherType AS b ON a.idvouchertype=b.id";
 			_sqlHelper.Close();
 			return r is Guid ? r : DBNull.Value;
 		}
+		/// <summary>
+		/// 获取采购单付款方式id
+		/// </summary>
+		/// <param name="name">付款方式名称</param>
+		/// <returns></returns>
+		public object GetPayTypeIdByTypeName(string name)
+		{
+			var sql = "select a.id from eap_EnumItem as a join eap_Enum as b on a.idEnum=b.id where b.Title='采购付款方式' and a.Name=@name";
+			_sqlHelper.Open();
+			var r = _sqlHelper.Scalar(sql, new SqlParameter("@name", name));
+			_sqlHelper.Close();
+			return r is Guid ? r : DBNull.Value;
+		}
 	}
 }

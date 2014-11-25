@@ -18,12 +18,14 @@ namespace Excel2Tplus.DatabaseExport
 		private static string prefix;//单据编码前缀
 		private static int serialno = 0;//单据编码起始编号
 		private static int length;//单据编号长度
+		private static int code;//明细的编号
 
 		public PurchaseArrivalDatabaseExportProvider()
 		{
 			prefix = string.Empty;
 			serialno = 0;
 			length = 0;
+			code = 0;
 		}
 
 		public IEnumerable<string> Export<TEntity>(IEnumerable<TEntity> list) where TEntity : Entities.Entity
@@ -37,7 +39,7 @@ namespace Excel2Tplus.DatabaseExport
 			Guid id = Guid.Empty;//单据主表id
 			string code = null;//单据编号
 
-			prefix = TplusDatabaseHelper.Instance.GetVoucherCodePrefix("采购进货单", out length);
+			prefix = TplusDatabaseHelper.Instance.GetVoucherCodePrefix("进货单", out length);
 			serialno = TplusDatabaseHelper.Instance.GetMaxSerialno("PU_PurchaseArrival", length);
 			foreach (var item in list.Cast<PurchaseArrival>())
 			{
@@ -89,8 +91,8 @@ namespace Excel2Tplus.DatabaseExport
 
 		private Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(PurchaseArrival obj, Guid pid)
 		{
-			var sql = "insert into PU_PurchaseArrival_b(id,idPurchaseArrivalDTO,idinventory,idunit,quantity,discountPrice,taxRate,taxPrice,discountAmount,taxAmount)";
-			sql += " values(@id,@idPurchaseArrivalDTO,@idinventory,@idunit,@quantity,@discountPrice,@taxRate,@taxPrice,@discountAmount,@taxAmount);";
+			var sql = "insert into PU_PurchaseArrival_b(id,idPurchaseArrivalDTO,idinventory,idunit,quantity,origDiscountPrice,taxRate,origTaxPrice,origDiscountAmount,origTax,origTaxAmount,code)";
+			sql += " values(@id,@idPurchaseArrivalDTO,@idinventory,@idunit,@quantity,@origDiscountPrice,@taxRate,@origTaxPrice,@origDiscountAmount,@origTax,@origTaxAmount,@code);";
 			double tr;//税率
 			var ps = new DbParameter[]
 			{
@@ -99,12 +101,13 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@idinventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)), 
 				new SqlParameter("@idunit",TplusDatabaseHelper.Instance.GetUnitIdByName(obj.采购单位)),
 				new SqlParameter("@quantity",obj.数量), 
-				new SqlParameter("@discountPrice",obj.UseBookPrice?obj.BookPrice:obj.BillPrice),
+				new SqlParameter("@origDiscountPrice",obj.UseBookPrice?obj.BookPrice:obj.BillPrice),
 				new SqlParameter("@taxRate",(double.TryParse(obj.税率,out tr)?tr:tr)/100),
-				new SqlParameter("@taxPrice",obj.含税单价),
-				new SqlParameter("@discountAmount",obj.金额),
-				//todo:税额没找到对应的字段
-				new SqlParameter("@taxAmount",obj.含税金额)
+				new SqlParameter("@origTaxPrice",obj.含税单价),
+				new SqlParameter("@origDiscountAmount",obj.金额),
+				new SqlParameter("@origTax",obj.税额),
+				new SqlParameter("@origTaxAmount",obj.含税金额),
+				new SqlParameter("@code",(code++).ToString().PadLeft(4,'0'))
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(sql, ps);

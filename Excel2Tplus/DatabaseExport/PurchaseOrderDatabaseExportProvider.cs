@@ -70,8 +70,8 @@ namespace Excel2Tplus.DatabaseExport
 		{
 			id = Guid.NewGuid();
 
-			var sql = "insert into PU_PurchaseOrder(createdtime,id,voucherdate,code,idwarehouse,idpartner,iddepartment,idproject,pubuserdefnvc1,pubuserdefnvc2,voucherState,discountRate)";
-			sql += " values(@createdtime,@id,@voucherdate,@code,@idwarehouse,@idpartner,@iddepartment,@idproject,@pubuserdefnvc1,@pubuserdefnvc2,@voucherState,@discountRate);";
+			var sql = "insert into PU_PurchaseOrder(createdtime,id,voucherdate,code,idwarehouse,idpartner,iddepartment,idproject,pubuserdefnvc1,pubuserdefnvc2,voucherState,discountRate,paytype)";
+			sql += " values(@createdtime,@id,@voucherdate,@code,@idwarehouse,@idpartner,@iddepartment,@idproject,@pubuserdefnvc1,@pubuserdefnvc2,@voucherState,@discountRate,@paytype);";
 			var ps = new DbParameter[]
 			{
 				new SqlParameter("@createdtime",DateTime.Now.ToString("yyy-MM-dd HH:mm:ss")), 
@@ -86,6 +86,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@pubuserdefnvc2",obj.业务员),
 				new SqlParameter("@voucherState",TplusDatabaseHelper.Instance.GetVoucherStateIdByStateName("未审")),
 				new SqlParameter("@discountRate",1m), 
+				new SqlParameter("@paytype",TplusDatabaseHelper.Instance.GetPayTypeIdByTypeName("其它"))
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(sql, ps);
