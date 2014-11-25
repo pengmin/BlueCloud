@@ -70,8 +70,8 @@ namespace Excel2Tplus.DatabaseExport
 		{
 			id = Guid.NewGuid();
 
-			var sql = "insert into Pu_PurchaseRequisition(createdtime,id,voucherdate,code,iddepartment,idrequisitionperson,voucherState)";
-			sql += " values(@createdtime,@id,@voucherdate,@code,@iddepartment,@idrequisitionperson,@voucherState);";
+			var sql = "insert into Pu_PurchaseRequisition(createdtime,id,voucherdate,code,iddepartment,idrequisitionperson,voucherState,priuserdefnvc1,priuserdefnvc2,idproject)";
+			sql += " values(@createdtime,@id,@voucherdate,@code,@iddepartment,@idrequisitionperson,@voucherState,@priuserdefnvc1,@priuserdefnvc2,@idproject);";
 			var dbParams = new List<DbParameter>
 			{
 				new SqlParameter("@createdtime",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
@@ -80,7 +80,10 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@code",string.IsNullOrWhiteSpace(obj.单据编号)?prefix+(++serialno).ToString().PadLeft(length,'0'):obj.单据编号),
 				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司)),
 				new SqlParameter("@idrequisitionperson",TplusDatabaseHelper.Instance.GetPensonIdByDepartmentName(obj.所属公司)),
-				new SqlParameter("@voucherState",TplusDatabaseHelper.Instance.GetVoucherStateIdByStateName("未审"))
+				new SqlParameter("@voucherState",TplusDatabaseHelper.Instance.GetVoucherStateIdByStateName("未审")),
+				new SqlParameter("@priuserdefnvc1",obj.供应商),
+				new SqlParameter("@priuserdefnvc2",obj.仓库),
+				new SqlParameter("@idproject",TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)), 
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(sql, dbParams);

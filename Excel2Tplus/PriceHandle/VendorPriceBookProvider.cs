@@ -22,7 +22,7 @@ namespace Excel2Tplus.PriceHandle
 				{
 					decimal price;
 					decimal.TryParse(rd["agreementPrice"].ToString(), out price);
-					list.Add(new PriceBook { Code = rd["code"].ToString(), Price = price });
+					list.Add(new PriceBook { Code = rd["name"].ToString(), Price = price });
 				}
 				rd.Close();
 				return list;

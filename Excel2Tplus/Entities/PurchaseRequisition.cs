@@ -14,14 +14,17 @@ namespace Excel2Tplus.Entities
 		{
 			get
 			{
-				return InventoryCode;
+				return 供应商;
 			}
 			set
 			{
-				InventoryCode = value;
+				供应商 = value;
 			}
 		}
 		public string 规格型号 { get; set; }
 		public string 采购单位 { get; set; }
+		public string 供应商 { get; set; }
+		public string 仓库 { get; set; }
+		public string 项目 { get; set; }
 	}
 }

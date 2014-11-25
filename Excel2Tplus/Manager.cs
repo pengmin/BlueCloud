@@ -45,8 +45,8 @@ namespace Excel2Tplus
 
 			var excelPath = openFileDialog1.FileName;
 			var excelImportManager = new ExcelImportManager();
-			try
-			{
+			//try
+			//{
 				switch (_billType)
 				{
 					case "请购单":
@@ -74,12 +74,12 @@ namespace Excel2Tplus
 						_list = excelImportManager.Import<SaleDelivery>(excelPath);
 						break;
 				}
-			}
-			catch
-			{
-				MessageBox.Show("Excel文件已被其他程序打开");
-				return;
-			}
+			//}
+			//catch
+			//{
+			//	MessageBox.Show("Excel文件已被其他程序打开");
+			//	return;
+			//}
 			new PriceHandler().Handler(_list);
 			ShowToView(_list);
 		}

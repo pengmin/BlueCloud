@@ -18,6 +18,7 @@ namespace Excel2Tplus.Common
 		/// </summary>
 		public static readonly IEnumerable<Type> VendorType = new List<Type>
 		{
+			typeof(PurchaseRequisition),
 			typeof(PurchaseOrder),
 			typeof(PurchaseArrival),
 			typeof(InputWarehouse)
@@ -27,7 +28,6 @@ namespace Excel2Tplus.Common
 		/// </summary>
 		public static readonly IEnumerable<Type> InventoryType = new List<Type>
 		{
-			typeof(PurchaseRequisition),
 			typeof(SaleQuotation),
 			typeof(SaleOrder),
 			typeof(OutputWarehouse),
