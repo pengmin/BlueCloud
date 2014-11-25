@@ -18,12 +18,14 @@ namespace Excel2Tplus.DatabaseExport
 		private static string prefix;//单据编码前缀
 		private static int serialno = 0;//单据编码起始编号
 		private static int length;//单据编号长度
+		private static int code;//明细的编号
 
 		public PurchaseRequisitionDatabaseExportProvider()
 		{
 			prefix = string.Empty;
 			serialno = 0;
 			length = 0;
+			code = 0;
 		}
 		public IEnumerable<string> Export<TEntity>(IEnumerable<TEntity> list) where TEntity : Entity
 		{
@@ -83,7 +85,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@voucherState",TplusDatabaseHelper.Instance.GetVoucherStateIdByStateName("未审")),
 				new SqlParameter("@priuserdefnvc1",obj.供应商),
 				new SqlParameter("@priuserdefnvc2",obj.仓库),
-				new SqlParameter("@idproject",TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)), 
+				new SqlParameter("@idproject",TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目))
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(sql, dbParams);
@@ -96,12 +98,12 @@ namespace Excel2Tplus.DatabaseExport
 		/// <returns>sql信息</returns>
 		private static Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(PurchaseRequisition obj, Guid pid)
 		{
-			var sql = "insert into Pu_PurchaseRequisition_b(createdtime,id,idPurchaseRequisitionDTO,idinventory,idunit,quantity,discountPrice,taxRate,taxPrice,discountAmount,taxAmount)";
-			sql += " values(@createdtime,@id,@idPurchaseRequisitionDTO,@idinventory,@idunit,@quantity,@discountPrice,@taxRate,@taxPrice,@discountAmount,@taxAmount)";
+			var sql = "insert into Pu_PurchaseRequisition_b(createdtime,id,idPurchaseRequisitionDTO,idinventory,idunit,quantity,discountPrice,taxRate,taxPrice,discountAmount,taxAmount,idproject,code,isPraRequire)";
+			sql += " values(@createdtime,@id,@idPurchaseRequisitionDTO,@idinventory,@idunit,@quantity,@discountPrice,@taxRate,@taxPrice,@discountAmount,@taxAmount,@idproject,@code,@isPraRequire)";
 			double tr;//税率
 			var dbParams = new List<DbParameter>
 			{
-				new SqlParameter("@createdtime",DateTime.Now),
+				new SqlParameter("@createdtime",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
 				new SqlParameter("@id",Guid.NewGuid()),
 				new SqlParameter("@idPurchaseRequisitionDTO",pid),
 				new SqlParameter("@idinventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)),
@@ -112,7 +114,10 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@taxPrice",obj.含税单价),
 				new SqlParameter("@discountAmount",obj.金额),
 				//todo:税额没找到对应的字段
-				new SqlParameter("@taxAmount",obj.含税金额)
+				new SqlParameter("@taxAmount",obj.含税金额),
+				new SqlParameter("@idproject",TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)),
+				new SqlParameter("@code",(code++).ToString().PadLeft(4,'0')),
+				new SqlParameter("@isPraRequire",false)
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(sql, dbParams);

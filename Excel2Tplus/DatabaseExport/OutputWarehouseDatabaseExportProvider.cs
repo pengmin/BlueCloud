@@ -41,7 +41,7 @@ namespace Excel2Tplus.DatabaseExport
 			serialno = TplusDatabaseHelper.Instance.GetMaxSerialno("ST_RDRecord", length);
 			foreach (var item in list.Cast<OutputWarehouse>())
 			{
-				if (TplusDatabaseHelper.Instance.ExistVoucher(item.单据编号, "Pu_PurchaseRequisition"))
+				if (TplusDatabaseHelper.Instance.ExistVoucher(item.单据编号, "ST_RDRecord"))
 				{
 					msgList.Add("单据编码：" + item.单据编号 + "已存在");
 					continue;

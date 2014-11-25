@@ -14,7 +14,7 @@ namespace Excel2Tplus.Entities
 		{
 			get
 			{
-				return 供应商;
+				return 供应商 + 存货编码;
 			}
 			set
 			{

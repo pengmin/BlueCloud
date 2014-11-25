@@ -37,11 +37,11 @@ namespace Excel2Tplus.DatabaseExport
 			Guid id = Guid.Empty;//单据主表id
 			string code = null;//单据编号
 
-			prefix = TplusDatabaseHelper.Instance.GetVoucherCodePrefix("请购单", out length);
-			serialno = TplusDatabaseHelper.Instance.GetMaxSerialno("Pu_PurchaseRequisition", length);
+			prefix = TplusDatabaseHelper.Instance.GetVoucherCodePrefix("销货单", out length);
+			serialno = TplusDatabaseHelper.Instance.GetMaxSerialno("SA_SaleDelivery", length);
 			foreach (var item in list.Cast<SaleDelivery>())
 			{
-				if (TplusDatabaseHelper.Instance.ExistVoucher(item.单据编号, "Pu_PurchaseRequisition"))
+				if (TplusDatabaseHelper.Instance.ExistVoucher(item.单据编号, "SA_SaleDelivery"))
 				{
 					msgList.Add("单据编码：" + item.单据编号 + "已存在");
 					continue;
