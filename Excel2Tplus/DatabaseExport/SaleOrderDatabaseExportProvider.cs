@@ -13,98 +13,138 @@ namespace Excel2Tplus.DatabaseExport
 	/// <summary>
 	/// 销售订单数据库导出提供程序
 	/// </summary>
-	class SaleOrderDatabaseExportProvider : IDatabaseExportProvider
+	class SaleOrderDatabaseExportProvider : BaseDatabaseExportProvider<SaleOrder>
 	{
-		private static string prefix;//单据编码前缀
-		private static int serialno = 0;//单据编码起始编号
-		private static int length;//单据编号长度
-
-		public SaleOrderDatabaseExportProvider()
+		protected override string VoucherName
 		{
-			prefix = string.Empty;
-			serialno = 0;
-			length = 0;
+			get { return "销售订单"; }
+		}
+		protected override string VoucherTable
+		{
+			get { return "SA_SaleOrder"; }
 		}
 
-		public IEnumerable<string> Export<TEntity>(IEnumerable<TEntity> list) where TEntity : Entity
-		{
-			if (CommonHelper.GetElementType(list.GetType()) != typeof(SaleOrder))
-			{
-				throw new Exception("单据类型不是报价单类型");
-			}
-			var msgList = new List<string>();
-			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
-			Guid id = Guid.Empty;//单据主表id
-			string code = null;//单据编号
-
-			prefix = TplusDatabaseHelper.Instance.GetVoucherCodePrefix("销售订单", out length);
-			serialno = TplusDatabaseHelper.Instance.GetMaxSerialno("SA_SaleOrder", length);
-			foreach (var item in list.Cast<SaleOrder>())
-			{
-				if (TplusDatabaseHelper.Instance.ExistVoucher(item.单据编号, "SA_SaleOrder"))
-				{
-					msgList.Add("单据编码：" + item.单据编号 + "已存在");
-					continue;
-				}
-				if (code != item.单据编号)
-				{
-					code = item.单据编号;
-					sqlList.Add(BuildMainInsertSql(item, out id));
-				}
-				sqlList.Add(BuildDetailInsertSql(item, id));
-			}
-
-			var sh = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
-			sh.Open();
-			msgList.Add(sh.Execute(sqlList).ToString());
-			sh.Close();
-
-			return msgList;
-		}
-
-		private static Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(SaleOrder obj, out Guid id)
+		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(SaleOrder obj, out Guid id)
 		{
 			id = Guid.NewGuid();
 
-			var sql = "insert into SA_SaleOrder(createdtime,id,voucherdate,code,idcustomer,iddepartment,idproject,idwarehouse,voucherState)";
-			sql += " values(@createdtime,@id,@voucherdate,@code,@idcustomer,@iddepartment,@idproject,@idwarehouse,@voucherState);";
 			var ps = new DbParameter[]
 			{
-				new SqlParameter("@createdtime",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")), 
-				new SqlParameter("@id",id), 
-				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期).ToString("yyyy-MM-dd HH:mm:ss")), 
-				new SqlParameter("@code",string.IsNullOrWhiteSpace(obj.单据编号)?prefix+(++serialno).ToString().PadLeft(length,'0'):obj.单据编号), 
-				new SqlParameter("@idcustomer",TplusDatabaseHelper.Instance.GetPartnerIdByName(obj.客户)), 
-				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司)), 
+				new SqlParameter("@id",id),
+				new SqlParameter("@makerid",new Guid("6bd0a3b0-5701-4c70-9cb8-a37b010e56ee")),
+				new SqlParameter("@reciveType",new Guid("ef370928-98f5-4312-a1c6-021587d17af1")),
+				new SqlParameter("@iscarriedforwardin",false),
+				//new SqlParameter("@amount",6515.38),
+				new SqlParameter("@createdtime",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
+				new SqlParameter("@madedate",DateTime.Parse("2013-06-01 00:00:00")),
+				new SqlParameter("@auditor",""),
+				new SqlParameter("@discountRate",1),
+				//new SqlParameter("@origTaxAmount",7623.00),
+				new SqlParameter("@pubuserdefnvc2",""),
+				new SqlParameter("@MemberAddress",""),
+				new SqlParameter("@PrintCount",Convert.ToInt32(0)),
+				new SqlParameter("@accountingperiod",Convert.ToInt32(0)),
 				new SqlParameter("@idproject",TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)),
+				new SqlParameter("@DataSource",new Guid("3d362676-d6d5-4439-9be5-40c67514b9f5")),
+				new SqlParameter("@accountingyear",Convert.ToInt32("0")),
+				new SqlParameter("@origEarnestMoney",Convert.ToInt32(0)),
+				new SqlParameter("@idmarketingOrgan",new Guid("4ad74463-e871-4dc1-beb0-6e6eaa0a6386")),
+				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司)),
+				new SqlParameter("@voucherState",TplusDatabaseHelper.Instance.GetVoucherStateIdByStateName("未审")),
+				new SqlParameter("@pubuserdefnvc1",""),
+				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期).ToString("yyyy-MM-dd HH:mm:ss")),
+				new SqlParameter("@ismodifiedcode",false),
+				//new SqlParameter("@origAmount",6515.38),
+				new SqlParameter("@idcustomer",TplusDatabaseHelper.Instance.GetPartnerIdByName(obj.客户)),
+				new SqlParameter("@earnestMoney",Convert.ToInt32(0)),
+				new SqlParameter("@idbusinesstype",new Guid("db58a9e1-d6ad-4c7a-8d07-23fdddc51d98")),
+				new SqlParameter("@Mobilephone",DBNull.Value),
+				new SqlParameter("@pubuserdefnvc4",""),
+				new SqlParameter("@memo",""),
+				new SqlParameter("@idcurrency",new Guid("f407692f-d14e-4a7f-84a4-87df16406b5b")),
+				new SqlParameter("@code",string.IsNullOrWhiteSpace(obj.单据编号)?Prefix+(++Serialno).ToString().PadLeft(Length,'0'):obj.单据编号),
+				new SqlParameter("@sequencenumber",Convert.ToInt32(0)),
+				new SqlParameter("@origDiscountAmount",DBNull.Value),
+				new SqlParameter("@changer",""),
+				new SqlParameter("@isautogeneratesaleorderbom",false),
+				new SqlParameter("@idsettlecustomer",new Guid("c8412a2e-d9f9-46d0-8fd4-a39a012e5099")),
+				//new SqlParameter("@updated",DateTime.Parse("2014-11-26 21:56:03")),
+				new SqlParameter("@contractCode",""),
+				new SqlParameter("@isautogeneraterouting",false),
+				new SqlParameter("@address",""),
+				new SqlParameter("@contactPhone",""),
+				new SqlParameter("@linkMan",""),
+				new SqlParameter("@discountAmount",DBNull.Value),
+				new SqlParameter("@iscarriedforwardout",Convert.ToInt32(0)),
+				//new SqlParameter("@taxAmount",7623.00),
+				new SqlParameter("@exchangeRate",1),
+				new SqlParameter("@reviser",""),
+				new SqlParameter("@maker","DEMO"),
 				new SqlParameter("@idwarehouse",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
-				new SqlParameter("@voucherState",TplusDatabaseHelper.Instance.GetVoucherStateIdByStateName("未审"))
 			};
 
-			return new Tuple<string, IEnumerable<DbParameter>>(sql, ps);
+			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable, ps);
 		}
 
-		private static Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(SaleOrder obj, Guid pid)
+		protected override Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(SaleOrder obj, Guid pid)
 		{
-			var sql = "insert into SA_SaleOrder_b(id,idSaleOrderDTO,idinventory,idunit,quantity,discountPrice,taxRate,taxPrice,discountAmount,taxAmount)";
-			sql += " values(@id,@idSaleOrderDTO,@idinventory,@idunit,@quantity,@discountPrice,@taxRate,@taxPrice,@discountAmount,@taxAmount);";
 			double tr;//税率
 			var ps = new DbParameter[]
 			{
-				new SqlParameter("@id",Guid.NewGuid()), 
-				new SqlParameter("@idSaleOrderDTO",pid), 
-				new SqlParameter("@idinventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)), 
+				new SqlParameter("@id",Guid.NewGuid()),
+				new SqlParameter("@basePrice",DBNull.Value),
+				new SqlParameter("@inventoryBarCode",""),
+				new SqlParameter("@unitExchangeRate",DBNull.Value),
+				new SqlParameter("@executedQuantity",DBNull.Value),
+				new SqlParameter("@manufactureQuantity",DBNull.Value),
+				new SqlParameter("@subQuantity",DBNull.Value),
+				new SqlParameter("@discountRate",1),
+				new SqlParameter("@prarequiretimes",Convert.ToInt32(0)),
+				//new SqlParameter("@origTaxAmount",7623.00),
+				new SqlParameter("@manufactureQuantity2",DBNull.Value),
+				new SqlParameter("@deliveryQuantity",DBNull.Value),
+				new SqlParameter("@quantity2",DBNull.Value),
 				new SqlParameter("@idunit",TplusDatabaseHelper.Instance.GetUnitIdByName(obj.销售单位)),
-				new SqlParameter("@quantity",obj.数量), 
-				new SqlParameter("@discountPrice",obj.UseBookPrice?obj.BookPrice:obj.BillPrice),
-				new SqlParameter("@taxRate",(double.TryParse(obj.税率,out tr)?tr:tr)/100),
+				//new SqlParameter("@baseQuantity",77.00),
+				new SqlParameter("@lastmodifiedfield",""),
+				new SqlParameter("@purchaseQuantity2",DBNull.Value),
+				new SqlParameter("@taxAmount",obj.含税金额),
+				new SqlParameter("@price",DBNull.Value),
+				//new SqlParameter("@origDiscountPrice",84.62),
+				new SqlParameter("@idSaleOrderDTO",pid),
 				new SqlParameter("@taxPrice",obj.含税单价),
-				new SqlParameter("@discountAmount",obj.金额),
-				//todo:税额没找到对应的字段
-				new SqlParameter("@taxAmount",obj.含税金额)
+				new SqlParameter("@idinventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)),
+				new SqlParameter("@saleOutQuantity2",DBNull.Value),
+				new SqlParameter("@discount",DBNull.Value),
+				new SqlParameter("@origDiscount",DBNull.Value),
+				new SqlParameter("@baseDiscountPrice",DBNull.Value),
+				new SqlParameter("@executedQuantity2",DBNull.Value),
+				new SqlParameter("@taxRate",(double.TryParse(obj.税率,out tr)?tr:tr)/100),
+				//new SqlParameter("@origTax", 1107.62),
+				new SqlParameter("@discountPrice",obj.单价),
+				new SqlParameter("@idbaseunit",new Guid("3c390f6c-e76a-439d-8d14-a37b01447494")),
+				new SqlParameter("@code",(Code++).ToString().PadLeft(4,'0')),
+				new SqlParameter("@deliveryQuantity2",DBNull.Value),
+				new SqlParameter("@purchaseQuantity",DBNull.Value),
+				//new SqlParameter("@origTaxPrice",99.00),
+				//new SqlParameter("@origDiscountAmount",6515.38),
+				new SqlParameter("@isPresent",false),
+				new SqlParameter("@origPrice",DBNull.Value),
+				new SqlParameter("@quantity",obj.数量),
+				new SqlParameter("@tax",obj.税额),
+				new SqlParameter("@idproject",new Guid("666374a4-6341-4b3a-96fc-a3930150f584")),
+				new SqlParameter("@hasmrp",Convert.ToInt32(0)),
+				new SqlParameter("@mrprequiretimes",Convert.ToInt32(0)),
+				new SqlParameter("@haspra",Convert.ToInt32(0)),
+				new SqlParameter("@baseTaxPrice",DBNull.Value),
+				new SqlParameter("@saleOutQuantity",DBNull.Value),
+				new SqlParameter("@discountAmount", obj.金额),
+				new SqlParameter("@taxFlag",1),
+				//new SqlParameter("@updated",DateTime.Parse("2014-11-26 21:56:03")),
+				new SqlParameter("@referenceCount",Convert.ToInt32(0)),
 			};
 
-			return new Tuple<string, IEnumerable<DbParameter>>(sql, ps);
+			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps);
 		}
 	}
 }

@@ -71,6 +71,7 @@
     <Compile Include="DatabaseExport\InputWarehouseDatabaseExportProvider.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DatabaseExport\OutputWarehouseDatabaseExportProvider.cs" />
     <Compile Include="DatabaseExport\PurchaseArrivalDatabaseExportProvider.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -78,6 +79,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DatabaseExport\PurchaseRequisitionDatabaseExportProvider.cs" />
+    <Compile Include="DatabaseExport\SaleOrderDatabaseExportProvider.cs" />
+    <Compile Include="DatabaseExport\SaleQuotationDatabaseExportProvider.cs" />
     <Compile Include="DbConfig.cs">
       <SubType>Form</SubType>
     </Compile>
