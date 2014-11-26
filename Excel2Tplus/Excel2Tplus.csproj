@@ -68,6 +68,9 @@
     <Compile Include="DatabaseExport\DatabaseExportManager.cs" />
     <Compile Include="DatabaseExport\DatabaseExportProviderFactory.cs" />
     <Compile Include="DatabaseExport\IDatabaseExportProvider.cs" />
+    <Compile Include="DatabaseExport\InputWarehouseDatabaseExportProvider.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DatabaseExport\PurchaseArrivalDatabaseExportProvider.cs">
       <SubType>Code</SubType>
     </Compile>

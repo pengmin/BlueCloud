@@ -33,6 +33,10 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				return new PurchaseArrivalDatabaseExportProvider().Export(list as IEnumerable<PurchaseArrival>);
 			}
+			if (elType == typeof(InputWarehouse))
+			{
+				return new InputWarehouseDatabaseExportProvider().Export(list as IEnumerable<InputWarehouse>);
+			}
 			return new[] { "-1" };
 		}
 	}
