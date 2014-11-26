@@ -47,33 +47,33 @@ namespace Excel2Tplus
 			var excelImportManager = new ExcelImportManager();
 			//try
 			//{
-				switch (_billType)
-				{
-					case "请购单":
-						_list = excelImportManager.Import<PurchaseRequisition>(excelPath);
-						break;
-					case "采购订单":
-						_list = excelImportManager.Import<PurchaseOrder>(excelPath);
-						break;
-					case "进货单":
-						_list = excelImportManager.Import<PurchaseArrival>(excelPath);
-						break;
-					case "采购入库单":
-						_list = excelImportManager.Import<InputWarehouse>(excelPath);
-						break;
-					case "报价单":
-						_list = excelImportManager.Import<SaleQuotation>(excelPath);
-						break;
-					case "销售订单":
-						_list = excelImportManager.Import<SaleOrder>(excelPath);
-						break;
-					case "销售出库单":
-						_list = excelImportManager.Import<OutputWarehouse>(excelPath);
-						break;
-					case "销货单":
-						_list = excelImportManager.Import<SaleDelivery>(excelPath);
-						break;
-				}
+			switch (_billType)
+			{
+				case "请购单":
+					_list = excelImportManager.Import<PurchaseRequisition>(excelPath);
+					break;
+				case "采购订单":
+					_list = excelImportManager.Import<PurchaseOrder>(excelPath);
+					break;
+				case "进货单":
+					_list = excelImportManager.Import<PurchaseArrival>(excelPath);
+					break;
+				case "采购入库单":
+					_list = excelImportManager.Import<InputWarehouse>(excelPath);
+					break;
+				case "报价单":
+					_list = excelImportManager.Import<SaleQuotation>(excelPath);
+					break;
+				case "销售订单":
+					_list = excelImportManager.Import<SaleOrder>(excelPath);
+					break;
+				case "销售出库单":
+					_list = excelImportManager.Import<OutputWarehouse>(excelPath);
+					break;
+				case "销货单":
+					_list = excelImportManager.Import<SaleDelivery>(excelPath);
+					break;
+			}
 			//}
 			//catch
 			//{
@@ -120,10 +120,12 @@ namespace Excel2Tplus
 				MessageBox.Show("请先导入单据");
 				return;
 			}
+
 			for (var i = 0; i < _list.Count(); i++)
 			{
 				_list.ElementAt(i).UseBookPrice = (bool)dataGridView1.Rows[i].Cells[5].Value;
 			}
+
 			var msgList = new DatabaseExportManager().Export(_list);
 			var msgStr = string.Join("\r\n", msgList.ToArray());
 			if (msgList.Last() != "-1")

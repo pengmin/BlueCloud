@@ -20,7 +20,20 @@ namespace Excel2Tplus.DatabaseExport
 		/// <returns>导出结果</returns>
 		public IEnumerable<string> Export<TEntity>(IEnumerable<TEntity> list) where TEntity : Entity
 		{
-			return new DatabaseExportProviderFactory().GetProvider(CommonHelper.GetElementType(list.GetType())).Export(list);
+			var elType = CommonHelper.GetElementType(list.GetType());
+			if (elType == typeof(PurchaseRequisition))
+			{
+				return new PurchaseRequisitionDatabaseExportProvider().Export(list as IEnumerable<PurchaseRequisition>);
+			}
+			if (elType == typeof(PurchaseOrder))
+			{
+				return new PurchaseOrderDatabaseExportProvider().Export(list as IEnumerable<PurchaseOrder>);
+			}
+			if (elType == typeof(PurchaseArrival))
+			{
+				return new PurchaseArrivalDatabaseExportProvider().Export(list as IEnumerable<PurchaseArrival>);
+			}
+			return new[] { "-1" };
 		}
 	}
 }

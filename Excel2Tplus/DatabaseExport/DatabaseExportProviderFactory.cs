@@ -17,40 +17,40 @@ namespace Excel2Tplus.DatabaseExport
 		/// </summary>
 		/// <param name="entityType">单据类型</param>
 		/// <returns></returns>
-		public IDatabaseExportProvider GetProvider(Type entityType)
+		public IDatabaseExportProvider<TEntity> GetProvider<TEntity>(Type entityType) where TEntity : Entity
 		{
-			if (entityType == typeof(PurchaseRequisition))
-			{
-				return new PurchaseRequisitionDatabaseExportProvider();
-			}
-			if (entityType == typeof(PurchaseOrder))
-			{
-				return new PurchaseOrderDatabaseExportProvider();
-			}
-			if (entityType == typeof(PurchaseArrival))
-			{
-				return new PurchaseArrivalDatabaseExportProvider();
-			}
-			if (entityType == typeof(SaleQuotation))
-			{
-				return new SaleQuotationDatabaseExportProvider();
-			}
-			if (entityType == typeof(SaleOrder))
-			{
-				return new SaleOrderDatabaseExportProvider();
-			}
-			if (entityType == typeof(SaleDelivery))
-			{
-				return new SaleDeliveryDatabaseExportProvider();
-			}
-			if (entityType == typeof(InputWarehouse))
-			{
-				return new InputWarehouseDatabaseExportProvider();
-			}
-			if (entityType == typeof(OutputWarehouse))
-			{
-				return new OutputWarehouseDatabaseExportProvider();
-			}
+			//if (entityType == typeof(PurchaseRequisition))
+			//{
+			//	return new PurchaseRequisitionDatabaseExportProvider();
+			//}
+			//if (entityType == typeof(PurchaseOrder))
+			//{
+			//	return new PurchaseOrderDatabaseExportProvider();
+			//}
+			//if (entityType == typeof(PurchaseArrival))
+			//{
+			//	return new PurchaseArrivalDatabaseExportProvider();
+			//}
+			//if (entityType == typeof(SaleQuotation))
+			//{
+			//	return new SaleQuotationDatabaseExportProvider();
+			//}
+			//if (entityType == typeof(SaleOrder))
+			//{
+			//	return new SaleOrderDatabaseExportProvider();
+			//}
+			//if (entityType == typeof(SaleDelivery))
+			//{
+			//	return new SaleDeliveryDatabaseExportProvider();
+			//}
+			//if (entityType == typeof(InputWarehouse))
+			//{
+			//	return new InputWarehouseDatabaseExportProvider();
+			//}
+			//if (entityType == typeof(OutputWarehouse))
+			//{
+			//	return new OutputWarehouseDatabaseExportProvider();
+			//}
 			return null;
 		}
 	}
