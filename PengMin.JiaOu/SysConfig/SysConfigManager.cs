@@ -28,6 +28,7 @@ namespace PengMin.JiaOu.SysConfig
 			{
 				var buf = Encoding.Default.GetBytes(sw.ToString());
 				file.Write(buf, 0, buf.Length);
+				file.SetLength(buf.Length);
 				file.Close();
 			}
 		}

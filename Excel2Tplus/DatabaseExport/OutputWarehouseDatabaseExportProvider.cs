@@ -221,7 +221,7 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				list.Add("单据[" + obj.单据编号 + "]部门不存在");
 			}
-			if (TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.业务员) is DBNull)
+			if (TplusDatabaseHelper.Instance.GetUserIdbyUserName(obj.业务员) is DBNull)
 			{
 				list.Add("单据[" + obj.单据编号 + "]业务员不存在");
 			}

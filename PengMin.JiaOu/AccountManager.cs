@@ -21,9 +21,16 @@ namespace PengMin.JiaOu
 		{
 			var info = new AccountInfo();
 			var accForm = new Account(info);
-			if (accForm.ShowDialog() == DialogResult.OK)
+			if (accForm.ShowDialog() != DialogResult.OK) return;
+
+			var config = new SysConfigManager().Get();
+			config.AddAccountInfo(info);
+			new SysConfigManager().Set(config);
+
+			dataGridView1.Rows.Clear();
+			foreach (var item in config.Accounts)
 			{
-				//todo:保存账套信息
+				dataGridView1.Rows.Add(item.Name, item.Server, item.User, item.Password, item.Database);
 			}
 		}
 	}

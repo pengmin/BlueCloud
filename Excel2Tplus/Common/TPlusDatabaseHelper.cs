@@ -67,7 +67,7 @@ namespace Excel2Tplus.Common
 			if (_department == null)
 			{
 				_sqlHelper.Open();
-				_department = _sqlHelper.GetDataTable(" SELECT * FROM dbo.EAP_UserDefineArticleDTO_0001");
+				_department = _sqlHelper.GetDataTable("SELECT * FROM dbo.EAP_UserDefineArticleDTO_0002");
 				_sqlHelper.Close();
 			}
 			foreach (var row in _department.Rows.Cast<DataRow>().Where(row => String.Equals(row["name"].ToString(), name, StringComparison.CurrentCultureIgnoreCase)))
