@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Excel2Tplus.Common;
+using PengMin.Infrastructure;
 
-namespace Excel2Tplus.SysConfig
+namespace PengMin.JiaOu.SysConfig
 {
 	/// <summary>
 	/// 系统配置管理器

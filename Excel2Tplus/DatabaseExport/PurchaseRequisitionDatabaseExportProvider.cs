@@ -56,7 +56,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@memo",""),
 				new SqlParameter("@code",string.IsNullOrWhiteSpace(obj.单据编号)?Prefix+(++Serialno).ToString().PadLeft(Length,'0'):obj.单据编号),
 				new SqlParameter("@sequencenumber",Convert.ToInt32(0)),
-				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司)),
+				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司)),
 				new SqlParameter("@updated",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
 				new SqlParameter("@acceptAddress",""),
 				new SqlParameter("@priuserdefnvc1",obj.供应商),
@@ -128,7 +128,7 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				list.Add("单据[" + obj.单据编号 + "]供应商不存在");
 			}
-			if (TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司) is DBNull)
+			if (TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司) is DBNull)
 			{
 				list.Add("单据[" + obj.单据编号 + "]所属公司不存在");
 			}

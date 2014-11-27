@@ -49,7 +49,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@accountingyear",Convert.ToInt32("0")),
 				new SqlParameter("@origEarnestMoney",Convert.ToInt32(0)),
 				new SqlParameter("@idmarketingOrgan",new Guid("4ad74463-e871-4dc1-beb0-6e6eaa0a6386")),
-				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司)),
+				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司)),
 				new SqlParameter("@voucherState",TplusDatabaseHelper.Instance.GetVoucherStateIdByStateName("未审")),
 				new SqlParameter("@pubuserdefnvc1",""),
 				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期).ToString("yyyy-MM-dd HH:mm:ss")),
@@ -154,7 +154,7 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				list.Add("单据[" + obj.单据编号 + "]仓库不存在");
 			}
-			if (TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司) is DBNull)
+			if (TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司) is DBNull)
 			{
 				list.Add("单据[" + obj.单据编号 + "]所属公司不存在");
 			}

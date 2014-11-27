@@ -67,7 +67,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@exchangeRate",1),
 				new SqlParameter("@reviser",""),
 				new SqlParameter("@idcustomer",TplusDatabaseHelper.Instance.GetPartnerIdByName(obj.客户)), 
-				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司)), 
+				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司)), 
 				new SqlParameter("@idproject",TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)),
 			};
 
@@ -120,7 +120,7 @@ namespace Excel2Tplus.DatabaseExport
 		protected override bool CanExport(SaleQuotation obj, out IEnumerable<string> msgs)
 		{
 			var list = new List<string>();
-			if (TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司) is DBNull)
+			if (TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司) is DBNull)
 			{
 				list.Add("单据[" + obj.单据编号 + "]所属公司不存在");
 			}

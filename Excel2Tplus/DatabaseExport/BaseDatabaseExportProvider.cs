@@ -35,7 +35,7 @@ namespace Excel2Tplus.DatabaseExport
 
 		public IEnumerable<string> Export(IEnumerable<TEntity> list)
 		{
-			if (CommonHelper.GetElementType(list.GetType()) != typeof(TEntity))
+			if (CommonFunction.GetElementType(list.GetType()) != typeof(TEntity))
 			{
 				throw new Exception("单据类型是" + VoucherName + "类型");
 			}

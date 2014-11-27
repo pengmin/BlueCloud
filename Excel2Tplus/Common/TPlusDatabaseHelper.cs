@@ -35,6 +35,27 @@ namespace Excel2Tplus.Common
 			_sqlHelper = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
 		}
 
+		private DataTable _company;
+		/// <summary>
+		/// 获取所属公司id
+		/// </summary>
+		/// <param name="name">公司名称</param>
+		/// <returns>公司id</returns>
+		public object GetCompanyIdByName(string name)
+		{
+			if (_company == null)
+			{
+				_sqlHelper.Open();
+				_company = _sqlHelper.GetDataTable("SELECT * FROM dbo.AA_Department");
+				_sqlHelper.Close();
+			}
+			foreach (var row in _company.Rows.Cast<DataRow>().Where(row => String.Equals(row["name"].ToString(), name, StringComparison.CurrentCultureIgnoreCase)))
+			{
+				return (Guid)row["id"];
+			}
+			return DBNull.Value;
+		}
+
 		private DataTable _department;
 		/// <summary>
 		/// 依据部门名称获取部门id
@@ -46,7 +67,7 @@ namespace Excel2Tplus.Common
 			if (_department == null)
 			{
 				_sqlHelper.Open();
-				_department = _sqlHelper.GetDataTable("SELECT * FROM dbo.AA_Department");
+				_department = _sqlHelper.GetDataTable(" SELECT * FROM dbo.EAP_UserDefineArticleDTO_0001");
 				_sqlHelper.Close();
 			}
 			foreach (var row in _department.Rows.Cast<DataRow>().Where(row => String.Equals(row["name"].ToString(), name, StringComparison.CurrentCultureIgnoreCase)))
@@ -280,16 +301,16 @@ JOIN dbo.SM_VoucherType AS b ON a.idvouchertype=b.id";
 
 		private DataTable _user;
 		/// <summary>
-		/// 获取用户id
+		/// 获取业务员id
 		/// </summary>
-		/// <param name="name">用户名称</param>
-		/// <returns>用户id</returns>
+		/// <param name="name">业务员名称</param>
+		/// <returns>业务员id</returns>
 		public object GetUserIdbyUserName(string name)
 		{
 			if (_user == null)
 			{
 				_sqlHelper.Open();
-				_user = _sqlHelper.GetDataTable("SELECT * FROM dbo.EAP_User");
+				_user = _sqlHelper.GetDataTable(" SELECT * FROM dbo.EAP_UserDefineArticleDTO_0003");
 				_sqlHelper.Close();
 			}
 			foreach (var row in _user.Rows.Cast<DataRow>().Where(row => String.Equals(row["name"].ToString(), name, StringComparison.CurrentCultureIgnoreCase)))

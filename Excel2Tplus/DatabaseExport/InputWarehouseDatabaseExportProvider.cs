@@ -51,7 +51,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@pubuserdefnvc3",obj.退货日期),
 				new SqlParameter("@idbusitype",new Guid("d6b6deeb-88fb-4e28-bacc-a8f2bb3b449c")),
 				new SqlParameter("@IdMarketingOrgan",new Guid("4ad74463-e871-4dc1-beb0-6e6eaa0a6386")),
-				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司)),
+				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司)),
 				//new SqlParameter("@VoucherPeriod",6),
 				new SqlParameter("@voucherState",TplusDatabaseHelper.Instance.GetVoucherStateIdByStateName("未审")),
 				new SqlParameter("@pubuserdefnvc1",obj.部门),
@@ -203,7 +203,7 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				list.Add("单据[" + obj.单据编号 + "]供应商不存在");
 			}
-			if (TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司) is DBNull)
+			if (TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司) is DBNull)
 			{
 				list.Add("单据[" + obj.单据编号 + "]所属公司不存在");
 			}
@@ -215,7 +215,7 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				list.Add("单据[" + obj.单据编号 + "]部门不存在");
 			}
-			if (TplusDatabaseHelper.Instance.GetUnitIdByName(obj.业务员) is DBNull)
+			if (TplusDatabaseHelper.Instance.GetUserIdbyUserName(obj.业务员) is DBNull)
 			{
 				list.Add("单据[" + obj.单据编号 + "]业务员不存在");
 			}

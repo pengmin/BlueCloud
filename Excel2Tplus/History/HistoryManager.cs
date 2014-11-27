@@ -43,7 +43,7 @@ namespace Excel2Tplus.History
 		{
 			const string sql = "insert into Excel2TplusHistory values(@dt,@type,@xml)";
 			string xml;
-			var elType = CommonHelper.GetElementType(list.GetType());
+			var elType = CommonFunction.GetElementType(list.GetType());
 			if (elType != null && elType != typeof(TEntity))
 			{
 				var listType = typeof(List<>);
@@ -51,11 +51,11 @@ namespace Excel2Tplus.History
 				var tempList = Activator.CreateInstance(tempType);
 				var tempListType = tempList.GetType();
 				tempListType.GetMethod("AddRange").Invoke(tempList, new object[] { list });
-				xml = CommonHelper.XmlSerializer(tempListType.GetMethod("ToArray").Invoke(tempList, null), tempListType).ToString();
+				xml = CommonFunction.XmlSerializer(tempListType.GetMethod("ToArray").Invoke(tempList, null), tempListType).ToString();
 			}
 			else
 			{
-				xml = CommonHelper.XmlSerializer(list.ToArray()).ToString();
+				xml = CommonFunction.XmlSerializer(list.ToArray()).ToString();
 			}
 			var helper = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
 			helper.Open();
@@ -87,7 +87,7 @@ namespace Excel2Tplus.History
 					var elType = Type.GetType(typeStr);
 					var collType = typeof(List<>);
 					var listType = collType.MakeGenericType(elType);
-					list = CommonHelper.XmlDeserialize<IEnumerable<TEntity>>(new System.IO.StringReader(rd["xml"].ToString()), listType);
+					list = CommonFunction.XmlDeserialize<IEnumerable<TEntity>>(new System.IO.StringReader(rd["xml"].ToString()), listType);
 				}
 				rd.Close();
 				return list;

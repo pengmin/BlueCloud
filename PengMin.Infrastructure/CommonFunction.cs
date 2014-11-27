@@ -4,35 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Serialization;
-using Excel2Tplus.Entities;
 
-namespace Excel2Tplus.Common
+namespace PengMin.Infrastructure
 {
 	/// <summary>
 	/// 公共方法
 	/// </summary>
-	static class CommonHelper
+	public static class CommonFunction
 	{
-		/// <summary>
-		/// 供应商价格表类型
-		/// </summary>
-		public static readonly IEnumerable<Type> VendorType = new List<Type>
-		{
-			typeof(PurchaseRequisition),
-			typeof(PurchaseOrder),
-			typeof(PurchaseArrival),
-			typeof(InputWarehouse)
-		};
-		/// <summary>
-		/// 存货价格表类型
-		/// </summary>
-		public static readonly IEnumerable<Type> InventoryType = new List<Type>
-		{
-			typeof(SaleQuotation),
-			typeof(SaleOrder),
-			typeof(OutputWarehouse),
-			typeof(SaleDelivery)
-		};
 		/// <summary>
 		/// 获取集合对象元素的类型
 		/// </summary>

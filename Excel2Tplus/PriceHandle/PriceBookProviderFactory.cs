@@ -19,11 +19,11 @@ namespace Excel2Tplus.PriceHandle
 		/// <returns></returns>
 		public IPriceBookProvider GetProvider(Type entityType)
 		{
-			if (CommonHelper.VendorType.Contains(entityType))
+			if (CommonFunction.VendorType.Contains(entityType))
 			{
 				return new VendorPriceBookProvider();
 			}
-			if (CommonHelper.InventoryType.Contains(entityType))
+			if (CommonFunction.InventoryType.Contains(entityType))
 			{
 				return new InventoryPriceBookProvider();
 			}

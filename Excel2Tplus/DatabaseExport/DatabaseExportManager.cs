@@ -20,7 +20,7 @@ namespace Excel2Tplus.DatabaseExport
 		/// <returns>导出结果</returns>
 		public IEnumerable<string> Export<TEntity>(IEnumerable<TEntity> list) where TEntity : Entity
 		{
-			var elType = CommonHelper.GetElementType(list.GetType());
+			var elType = CommonFunction.GetElementType(list.GetType());
 			if (elType == typeof(PurchaseRequisition))
 			{
 				return new PurchaseRequisitionDatabaseExportProvider().Export(list as IEnumerable<PurchaseRequisition>);

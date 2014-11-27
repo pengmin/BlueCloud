@@ -131,7 +131,7 @@ namespace Excel2Tplus
 			if (msgList.Last() != "-1")
 			{
 				new HistoryManager().Set(_list);
-				MessageBox.Show("导入成功\r\n" + msgStr);
+				MessageBox.Show("导入完成\r\n" + msgStr);
 			}
 			else
 			{

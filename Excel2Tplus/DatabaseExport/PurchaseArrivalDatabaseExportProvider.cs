@@ -71,7 +71,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@sequencenumber",Convert.ToInt32(0)),
 				new SqlParameter("@purchaseInvoiceNo",""),
 				new SqlParameter("@changer",""),
-				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司)),
+				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司)),
 				//new SqlParameter("@updated",DateTime.Parse("2014-11-26 15:46:49")),
 				new SqlParameter("@isNoArapBookkeeping",false),
 				new SqlParameter("@isPriceCheck",true),
@@ -197,7 +197,7 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				list.Add("单据[" + obj.单据编号 + "]供应商不存在");
 			}
-			if (TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司) is DBNull)
+			if (TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司) is DBNull)
 			{
 				list.Add("单据[" + obj.单据编号 + "]所属公司不存在");
 			}
@@ -209,7 +209,7 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				list.Add("单据[" + obj.单据编号 + "]部门不存在");
 			}
-			if (TplusDatabaseHelper.Instance.GetUnitIdByName(obj.业务员) is DBNull)
+			if (TplusDatabaseHelper.Instance.GetUserIdbyUserName(obj.业务员) is DBNull)
 			{
 				list.Add("单据[" + obj.单据编号 + "]业务员不存在");
 			}

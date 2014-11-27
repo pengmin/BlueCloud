@@ -19,7 +19,7 @@ namespace Excel2Tplus.PriceHandle
 		/// <param name="list">单据对象集合</param>
 		public void Handler<TEntity>(IEnumerable<TEntity> list) where TEntity : Entity
 		{
-			var provider = new PriceBookProviderFactory().GetProvider(CommonHelper.GetElementType(list.GetType()));
+			var provider = new PriceBookProviderFactory().GetProvider(CommonFunction.GetElementType(list.GetType()));
 			var pb = provider.Get();
 			foreach (var item in list)
 			{

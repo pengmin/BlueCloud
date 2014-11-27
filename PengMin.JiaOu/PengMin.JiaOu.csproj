@@ -64,6 +64,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SysConfig\AccountInfo.cs" />
+    <Compile Include="SysConfig\SysConfigManager.cs" />
+    <Compile Include="SysConfig\SystemConfig.cs" />
     <EmbeddedResource Include="Account.resx">
       <DependentUpon>Account.cs</DependentUpon>
     </EmbeddedResource>
@@ -93,7 +96,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="SysConfig\" />
+    <ProjectReference Include="..\PengMin.Infrastructure\PengMin.Infrastructure.csproj">
+      <Project>{b56edf09-2225-4890-b5a8-2aa9c3d92176}</Project>
+      <Name>PengMin.Infrastructure</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
