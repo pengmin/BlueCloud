@@ -79,6 +79,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DatabaseExport\PurchaseRequisitionDatabaseExportProvider.cs" />
+    <Compile Include="DatabaseExport\SaleDeliveryDatabaseExportProvider.cs" />
     <Compile Include="DatabaseExport\SaleOrderDatabaseExportProvider.cs" />
     <Compile Include="DatabaseExport\SaleQuotationDatabaseExportProvider.cs" />
     <Compile Include="DbConfig.cs">

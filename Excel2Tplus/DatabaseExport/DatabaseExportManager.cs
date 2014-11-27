@@ -49,6 +49,10 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				return new OutputWarehouseDatabaseExportProvider().Export(list as IEnumerable<OutputWarehouse>);
 			}
+			if (elType == typeof(SaleDelivery))
+			{
+				return new SaleDeliveryDatabaseExportProvider().Export(list as IEnumerable<SaleDelivery>);
+			}
 			return new[] { "-1" };
 		}
 	}
