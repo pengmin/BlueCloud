@@ -277,5 +277,26 @@ JOIN dbo.SM_VoucherType AS b ON a.idvouchertype=b.id";
 			_sqlHelper.Close();
 			return r is Guid ? r : DBNull.Value;
 		}
+
+		private DataTable _user;
+		/// <summary>
+		/// 获取用户id
+		/// </summary>
+		/// <param name="name">用户名称</param>
+		/// <returns>用户id</returns>
+		public object GetUserIdbyUserName(string name)
+		{
+			if (_user == null)
+			{
+				_sqlHelper.Open();
+				_user = _sqlHelper.GetDataTable("SELECT * FROM dbo.EAP_User");
+				_sqlHelper.Close();
+			}
+			foreach (var row in _user.Rows.Cast<DataRow>().Where(row => String.Equals(row["name"].ToString(), name, StringComparison.CurrentCultureIgnoreCase)))
+			{
+				return (Guid)row["id"];
+			}
+			return DBNull.Value;
+		}
 	}
 }

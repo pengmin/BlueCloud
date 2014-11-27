@@ -53,6 +53,12 @@ namespace Excel2Tplus.DatabaseExport
 					msgList.Add("单据编码：" + item.单据编号 + "已存在");
 					continue;
 				}
+				IEnumerable<string> ckMsg;//可导入验证结果信息
+				if (!CanExport(item, out ckMsg))
+				{
+					msgList.AddRange(ckMsg);
+					continue;
+				}
 
 				Tuple<string, IEnumerable<DbParameter>> sqlInfo;
 				if (单据编号 != item.单据编号)
@@ -88,6 +94,13 @@ namespace Excel2Tplus.DatabaseExport
 		/// <param name="pid">主表id</param>
 		/// <returns>sql信息</returns>
 		protected abstract Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(TEntity obj, Guid pid);
+		/// <summary>
+		/// 单据能否导入到数据库中。
+		/// </summary>
+		/// <param name="obj">要导入的单据</param>
+		/// <param name="msgs">验证结果信息</param>
+		/// <returns></returns>
+		protected abstract bool CanExport(TEntity obj, out IEnumerable<string> msgs);
 
 		private static string BuildSql(Tuple<string, IEnumerable<DbParameter>> sqlInfo)
 		{

@@ -116,5 +116,24 @@ namespace Excel2Tplus.DatabaseExport
 
 			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps);
 		}
+
+		protected override bool CanExport(SaleQuotation obj, out IEnumerable<string> msgs)
+		{
+			var list = new List<string>();
+			if (TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.所属公司) is DBNull)
+			{
+				list.Add("单据[" + obj.单据编号 + "]所属公司不存在");
+			}
+			if (TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目) is DBNull)
+			{
+				list.Add("单据[" + obj.单据编号 + "]项目不存在");
+			}
+			if (TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码) is DBNull)
+			{
+				list.Add("单据[" + obj.单据编号 + "]存货编码不存在");
+			}
+			msgs = list;
+			return !msgs.Any();
+		}
 	}
 }
