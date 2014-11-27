@@ -26,7 +26,7 @@ namespace PengMin.JiaOu.SysConfig
 			var sw = CommonFunction.XmlSerializer(config);
 			using (var file = File.OpenWrite(ConfigPath))
 			{
-				var buf = Encoding.Default.GetBytes(sw.ToString());
+				var buf = Encoding.UTF8.GetBytes(sw.ToString());
 				file.Write(buf, 0, buf.Length);
 				file.SetLength(buf.Length);
 				file.Close();

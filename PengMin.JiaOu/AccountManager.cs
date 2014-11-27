@@ -12,9 +12,23 @@ namespace PengMin.JiaOu
 {
 	public partial class AccountManager : Form
 	{
+		private readonly SystemConfig _config;
+
 		public AccountManager()
 		{
+			_config = new SysConfigManager().Get();
 			InitializeComponent();
+			Init();
+		}
+
+		private void Init()
+		{
+			dataGridView1.Rows.Clear();
+			foreach (var item in _config.Accounts)
+			{
+				dataGridView1.Rows.Add(false, item.Name, item.Server, item.User, item.Password, item.Database);
+				dataGridView1.Rows[dataGridView1.Rows.Count - 1].Tag = item;
+			}
 		}
 
 		private void toolStripButton1_Click(object sender, EventArgs e)
@@ -23,15 +37,23 @@ namespace PengMin.JiaOu
 			var accForm = new Account(info);
 			if (accForm.ShowDialog() != DialogResult.OK) return;
 
-			var config = new SysConfigManager().Get();
-			config.AddAccountInfo(info);
-			new SysConfigManager().Set(config);
+			_config.AddAccountInfo(info);
+			new SysConfigManager().Set(_config);
 
-			dataGridView1.Rows.Clear();
-			foreach (var item in config.Accounts)
+			Init();
+		}
+
+		private void toolStripButton3_Click(object sender, EventArgs e)
+		{
+			foreach (DataGridViewRow row in dataGridView1.Rows)
 			{
-				dataGridView1.Rows.Add(item.Name, item.Server, item.User, item.Password, item.Database);
+				if (row.Cells[0].EditedFormattedValue.ToString() == true.ToString())
+				{
+					_config.RemoveAccountInfo((AccountInfo)row.Tag);
+				}
 			}
+			new SysConfigManager().Set(_config);
+			Init();
 		}
 	}
 }

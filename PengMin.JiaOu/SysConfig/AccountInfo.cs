@@ -12,5 +12,10 @@ namespace PengMin.JiaOu.SysConfig
 		public string User { get; set; }
 		public string Password { get; set; }
 		public string Database { get; set; }
+
+		public override string ToString()
+		{
+			return Name;
+		}
 	}
 }
