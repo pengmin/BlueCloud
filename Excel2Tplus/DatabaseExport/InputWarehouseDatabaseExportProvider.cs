@@ -153,7 +153,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@sequencenumber",Convert.ToInt32(0)),
 				new SqlParameter("@origSalePrice2",DBNull.Value),
 				new SqlParameter("@OrigManuPrice2",DBNull.Value),
-				new SqlParameter("@idwarehouse",new Guid("daa79ee8-66b1-4045-8bfe-a37b015b5c34")),
+				new SqlParameter("@idwarehouse",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
 				new SqlParameter("@salePrice",DBNull.Value),
 				new SqlParameter("@cumulativeSaleDispatchQuantity",DBNull.Value),
 				new SqlParameter("@RetailAmount",DBNull.Value),
@@ -186,7 +186,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@baseManuPrice",DBNull.Value),
 				new SqlParameter("@countQuantity2",DBNull.Value),
 				new SqlParameter("@price",obj.单价),
-				new SqlParameter("@priuserdefdecm1",decimal.TryParse(obj.每双运费,out yf)?yf:yf)				
+				new SqlParameter("@priuserdefdecm1",decimal.TryParse(obj.每双运费,out yf)?yf:yf),
 			};
 
 			return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps), BuildCurrentStockSql(obj) };

@@ -181,6 +181,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@basePrice",DBNull.Value),
 				//new SqlParameter("@discountAmount",594.00),
 				new SqlParameter("@price",DBNull.Value),
+				new SqlParameter("@idwarehouse",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
 			};
 
 			return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps) };
