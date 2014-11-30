@@ -60,5 +60,8 @@ namespace Excel2Tplus.Entities
 		public string 金额 { get; set; }
 		public string 税额 { get; set; }
 		public string 含税金额 { get; set; }
+		public string 部门 { get; set; }
+		public string 业务员 { get; set; }
+		public string 项目 { get; set; }
 	}
 }

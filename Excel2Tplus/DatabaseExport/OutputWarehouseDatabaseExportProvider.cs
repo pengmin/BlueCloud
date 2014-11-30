@@ -87,7 +87,7 @@ namespace Excel2Tplus.DatabaseExport
 			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable, ps);
 		}
 
-		protected override Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(OutputWarehouse obj, Guid pid)
+		protected override IEnumerable<Tuple<string, IEnumerable<DbParameter>>> BuildDetailInsertSql(OutputWarehouse obj, Guid pid)
 		{
 			decimal amount;//金额
 			var ps = new DbParameter[]
@@ -203,7 +203,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@pubuserdefdecm3",decimal.TryParse(obj.代收运费,out amount)?amount:0m),
 			};
 
-			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps);
+			return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps) };
 		}
 
 		protected override bool CanExport(OutputWarehouse obj, out IEnumerable<string> msgs)

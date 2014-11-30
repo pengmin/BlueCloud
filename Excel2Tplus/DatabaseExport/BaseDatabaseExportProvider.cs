@@ -60,16 +60,14 @@ namespace Excel2Tplus.DatabaseExport
 					continue;
 				}
 
-				Tuple<string, IEnumerable<DbParameter>> sqlInfo;
 				if (单据编号 != item.单据编号)
 				{
 					单据编号 = item.单据编号;
-					sqlInfo = BuildMainInsertSql(item, out id);
+					var sqlInfo = BuildMainInsertSql(item, out id);
 					sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
 				}
 				ReCalculation(item);
-				sqlInfo = BuildDetailInsertSql(item, id);
-				sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
+				sqlList.AddRange(BuildDetailInsertSql(item, id).Select(i => new Tuple<string, IEnumerable<DbParameter>>(BuildSql(i), i.Item2)));
 			}
 
 			var sh = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
@@ -93,7 +91,7 @@ namespace Excel2Tplus.DatabaseExport
 		/// <param name="obj">请购单对象</param>
 		/// <param name="pid">主表id</param>
 		/// <returns>sql信息</returns>
-		protected abstract Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(TEntity obj, Guid pid);
+		protected abstract IEnumerable<Tuple<string, IEnumerable<DbParameter>>> BuildDetailInsertSql(TEntity obj, Guid pid);
 		/// <summary>
 		/// 单据能否导入到数据库中。
 		/// </summary>
@@ -127,11 +125,11 @@ namespace Excel2Tplus.DatabaseExport
 			var 金额 = 单价 * 数量;
 			var 含税金额 = 数量 * 含税单价;
 			var 税额 = 含税金额 - 金额;
-			obj.单价 = 单价.ToString();
-			obj.含税单价 = 含税单价.ToString();
-			obj.金额 = 金额.ToString();
-			obj.税额 = 税额.ToString();
-			obj.含税金额 = 含税金额.ToString();
+			obj.单价 = decimal.Round(单价, 2).ToString();
+			obj.含税单价 = decimal.Round(含税单价, 2).ToString();
+			obj.金额 = decimal.Round(金额, 2).ToString();
+			obj.税额 = decimal.Round(税额, 2).ToString();
+			obj.含税金额 = decimal.Round(含税金额, 2).ToString();
 		}
 	}
 }

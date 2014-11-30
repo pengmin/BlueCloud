@@ -80,7 +80,7 @@ namespace Excel2Tplus.DatabaseExport
 			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable, ps);
 		}
 
-		protected override Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(InputWarehouse obj, Guid pid)
+		protected override IEnumerable<Tuple<string, IEnumerable<DbParameter>>> BuildDetailInsertSql(InputWarehouse obj, Guid pid)
 		{
 			double tr;//税率
 			decimal yf;//运费
@@ -92,7 +92,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@estimatedPrice",DBNull.Value),
 				new SqlParameter("@origSaleAmount",DBNull.Value),
 				new SqlParameter("@origPrice2",DBNull.Value),
-				new SqlParameter("@origTaxAmount",Convert.ToInt32(0)),
+				new SqlParameter("@origTaxAmount",obj.含税金额),
 				new SqlParameter("@defectiveQuantity",DBNull.Value),
 				new SqlParameter("@origTaxSalePrice2",DBNull.Value),
 				new SqlParameter("@subQuantity",DBNull.Value),
@@ -109,7 +109,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@cumulativeSettlementQuantity2",DBNull.Value),
 				new SqlParameter("@RetailNoTaxAmount",DBNull.Value),
 				new SqlParameter("@taxSaleAmount",DBNull.Value),
-				new SqlParameter("@origTaxPrice",Convert.ToInt32(0)),
+				new SqlParameter("@origTaxPrice",obj.含税单价),
 				new SqlParameter("@origTaxPrice2",DBNull.Value),
 				new SqlParameter("@feeAmount",DBNull.Value),
 				new SqlParameter("@taxAmount",obj.含税金额),
@@ -189,7 +189,29 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@priuserdefdecm1",decimal.TryParse(obj.每双运费,out yf)?yf:yf)				
 			};
 
-			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps);
+			return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps), BuildCurrentStockSql(obj) };
+		}
+
+		protected Tuple<string, IEnumerable<DbParameter>> BuildCurrentStockSql(InputWarehouse obj)
+		{
+			return new Tuple<string, IEnumerable<DbParameter>>(
+				"ST_CurrentStock",
+				new[]
+				{
+					new SqlParameter("@id",Guid.NewGuid()),
+					new SqlParameter("@purchaseArrivalBaseQuantity",obj.数量),
+					new SqlParameter("@recordDate",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
+					new SqlParameter("@isCarriedForwardOut",Convert.ToInt32(0)),
+					new SqlParameter("@isCarriedForwardIn",Convert.ToInt32(0)),
+					new SqlParameter("@createdtime",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
+					new SqlParameter("@sequencenumber",Convert.ToInt32(0)),
+					new SqlParameter("@updated",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
+					new SqlParameter("@updatedBy","DEMO"),
+					new SqlParameter("@idwarehouse",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
+					new SqlParameter("@idbaseunit",TplusDatabaseHelper.Instance.GetUnitIdByName(obj.采购单位)),
+					new SqlParameter("@idinventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)),
+					new SqlParameter("@IdMarketingOrgan",new Guid("4AD74463-E871-4DC1-BEB0-6E6EAA0A6386"))
+				});
 		}
 
 		protected override bool CanExport(InputWarehouse obj, out IEnumerable<string> msgs)

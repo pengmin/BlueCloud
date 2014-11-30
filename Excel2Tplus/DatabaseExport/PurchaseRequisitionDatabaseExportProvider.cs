@@ -70,7 +70,7 @@ namespace Excel2Tplus.DatabaseExport
 			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable, dbParams);
 		}
 
-		protected override Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(PurchaseRequisition obj, Guid pid)
+		protected override IEnumerable<Tuple<string, IEnumerable<DbParameter>>> BuildDetailInsertSql(PurchaseRequisition obj, Guid pid)
 		{
 			double tr;//税率
 			var dbParams = new List<DbParameter>
@@ -114,7 +114,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@idproject",TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)),
 			};
 
-			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", dbParams);
+			return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", dbParams) };
 		}
 
 		protected override bool CanExport(PurchaseRequisition obj, out IEnumerable<string> msgs)

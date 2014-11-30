@@ -12,7 +12,8 @@ namespace Excel2Tplus.PriceHandle
 	/// </summary>
 	class InventoryPriceBookProvider : IPriceBookProvider
 	{
-		private const string Sql = @"select * from AA_InventoryPrice";
+		private const string Sql = @"SELECT a.code,b.invSCost1 FROM dbo.AA_Inventory AS a
+JOIN AA_InventoryPrice AS b ON b.idinventory=a.id";
 
 		public IEnumerable<PriceBook> Get()
 		{
@@ -24,7 +25,7 @@ namespace Excel2Tplus.PriceHandle
 				while (rd.Read())
 				{
 					decimal price;
-					decimal.TryParse(rd["retailPrice"].ToString(), out price);
+					decimal.TryParse(rd["invSCost1"].ToString(), out price);
 					list.Add(new PriceBook { Code = rd["code"].ToString(), Price = price });
 				}
 				rd.Close();

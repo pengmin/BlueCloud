@@ -102,7 +102,7 @@ namespace Excel2Tplus.DatabaseExport
 			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable, ps);
 		}
 
-		protected override Tuple<string, IEnumerable<DbParameter>> BuildDetailInsertSql(SaleDelivery obj, Guid pid)
+		protected override IEnumerable<Tuple<string, IEnumerable<DbParameter>>> BuildDetailInsertSql(SaleDelivery obj, Guid pid)
 		{
 			double tr;//税率
 			decimal amount;
@@ -182,7 +182,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@pubuserdefdecm4",decimal.TryParse(obj.抽佣,out amount)?amount:0m)
 			};
 
-			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps);
+			return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps) };
 		}
 
 		protected override bool CanExport(SaleDelivery obj, out IEnumerable<string> msgs)
