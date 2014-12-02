@@ -84,7 +84,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@address",""),
 				new SqlParameter("@isCancel",new Guid("03f167c8-4494-44ea-b6eb-ecb2539a85a0")),
 				new SqlParameter("@cancelAmount",DBNull.Value),
-				new SqlParameter("@idproject",new Guid("666374a4-6341-4b3a-96fc-a3930150f584")),
+				new SqlParameter("@idproject",TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)),
 				new SqlParameter("@contactPhone",""),
 				new SqlParameter("@isSaleOut",new Guid("34b60e63-7949-4209-b6d8-a2cadf00cfd7")),
 				new SqlParameter("@linkMan",""),
@@ -152,7 +152,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@sequencenumber",Convert.ToInt32(0)),
 				new SqlParameter("@costPrice",DBNull.Value),
 				new SqlParameter("@associatedDocIDs",DBNull.Value),
-				new SqlParameter("@idproject",new Guid("666374a4-6341-4b3a-96fc-a3930150f584")),
+				new SqlParameter("@idproject",TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)),
 				new SqlParameter("@idbaseunit",new Guid("3c390f6c-e76a-439d-8d14-a37b01447494")),
 				new SqlParameter("@inventoryBarCode",""),
 				new SqlParameter("@origPrice",DBNull.Value),
@@ -179,7 +179,8 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@pubuserdefdecm1",decimal.TryParse(obj.满减活动,out amount)?amount:0m),
 				new SqlParameter("@pubuserdefdecm2",decimal.TryParse(obj.抵用券,out amount)?amount:0m),
 				new SqlParameter("@pubuserdefdecm3",decimal.TryParse(obj.代收运费,out amount)?amount:0m),
-				new SqlParameter("@pubuserdefdecm4",decimal.TryParse(obj.抽佣,out amount)?amount:0m)
+				new SqlParameter("@pubuserdefdecm4",decimal.TryParse(obj.抽佣,out amount)?amount:0m),
+				new SqlParameter("@idwarehouse",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
 			};
 
 			return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps) };

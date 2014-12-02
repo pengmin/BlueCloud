@@ -39,8 +39,6 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@madedate",DateTime.Parse("2013-06-01 00:00:00")),
 				new SqlParameter("@auditor",""),
 				new SqlParameter("@discountRate",1),
-				//new SqlParameter("@origTaxAmount",7623.00),
-				new SqlParameter("@pubuserdefnvc2",""),
 				new SqlParameter("@MemberAddress",""),
 				new SqlParameter("@PrintCount",Convert.ToInt32(0)),
 				new SqlParameter("@accountingperiod",Convert.ToInt32(0)),
@@ -51,7 +49,6 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@idmarketingOrgan",new Guid("4ad74463-e871-4dc1-beb0-6e6eaa0a6386")),
 				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司)),
 				new SqlParameter("@voucherState",TplusDatabaseHelper.Instance.GetVoucherStateIdByStateName("未审")),
-				new SqlParameter("@pubuserdefnvc1",""),
 				new SqlParameter("@voucherdate",DateTime.Parse(obj.单据日期).ToString("yyyy-MM-dd HH:mm:ss")),
 				new SqlParameter("@ismodifiedcode",false),
 				//new SqlParameter("@origAmount",6515.38),
@@ -81,6 +78,8 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@reviser",""),
 				new SqlParameter("@maker","DEMO"),
 				new SqlParameter("@idwarehouse",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
+				new SqlParameter("@pubuserdefnvc1",obj.部门),
+				new SqlParameter("@pubuserdefnvc2",obj.业务员),
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable, ps);
@@ -132,7 +131,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@origPrice",DBNull.Value),
 				new SqlParameter("@quantity",obj.数量),
 				new SqlParameter("@tax",obj.税额),
-				new SqlParameter("@idproject",new Guid("666374a4-6341-4b3a-96fc-a3930150f584")),
+				new SqlParameter("@idproject",TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)),
 				new SqlParameter("@hasmrp",Convert.ToInt32(0)),
 				new SqlParameter("@mrprequiretimes",Convert.ToInt32(0)),
 				new SqlParameter("@haspra",Convert.ToInt32(0)),
@@ -142,6 +141,8 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@taxFlag",1),
 				//new SqlParameter("@updated",DateTime.Parse("2014-11-26 21:56:03")),
 				new SqlParameter("@referenceCount",Convert.ToInt32(0)),
+				new SqlParameter("@idwarehouse",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
+
 			};
 
 			return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps) };
