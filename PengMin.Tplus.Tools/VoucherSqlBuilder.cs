@@ -8,7 +8,8 @@ namespace PengMin.Tplus.Tools
 {
 	class VoucherSqlBuilder
 	{
-		private string _connStr;
+		private readonly string _connStr;
+
 		public VoucherSqlBuilder(string connStr)
 		{
 			_connStr = connStr;
@@ -31,7 +32,7 @@ namespace PengMin.Tplus.Tools
 				switch (dt.Columns[i].DataType.ToString())
 				{
 					case "System.Byte":
-						val = "Convert.Byte(" + row[i] + ")";
+						val = "Convert.ToByte(" + row[i] + ")";
 						break;
 					case "System.Int32":
 						val = "Convert.ToInt32(" + row[i] + ")";
