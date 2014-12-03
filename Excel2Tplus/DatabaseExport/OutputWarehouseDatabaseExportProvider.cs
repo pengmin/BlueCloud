@@ -51,7 +51,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@isMergedFlow",false),
 				//new SqlParameter("@accountingyear",2013),
 				new SqlParameter("@pubuserdefnvc3",obj.退货日期),
-				new SqlParameter("@idbusitype",new Guid("db58a9e1-d6ad-4c7a-8d07-23fdddc51d98")),
+				new SqlParameter("@idbusitype",!string.IsNullOrWhiteSpace(obj.退货日期)?new Guid("2F62ED3A-2D43-4B1C-AB69-F838DAEC7F5B"):new Guid("9FC6F8D2-352E-4A97-B03E-0D33AA0BA593")),
 				new SqlParameter("@IdMarketingOrgan",new Guid("4ad74463-e871-4dc1-beb0-6e6eaa0a6386")),
 				new SqlParameter("@iddepartment",TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司)),
 				//new SqlParameter("@VoucherPeriod",6),

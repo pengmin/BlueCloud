@@ -54,7 +54,7 @@ namespace Excel2Tplus.DatabaseExport
 				//new SqlParameter("@origAmount",6515.38),
 				new SqlParameter("@idcustomer",TplusDatabaseHelper.Instance.GetPartnerIdByName(obj.客户)),
 				new SqlParameter("@earnestMoney",Convert.ToInt32(0)),
-				new SqlParameter("@idbusinesstype",new Guid("db58a9e1-d6ad-4c7a-8d07-23fdddc51d98")),
+				new SqlParameter("@idbusitype",!string.IsNullOrWhiteSpace(obj.退货日期)?new Guid("2F62ED3A-2D43-4B1C-AB69-F838DAEC7F5B"):new Guid("9FC6F8D2-352E-4A97-B03E-0D33AA0BA593")),
 				new SqlParameter("@Mobilephone",DBNull.Value),
 				new SqlParameter("@pubuserdefnvc4",""),
 				new SqlParameter("@memo",""),

@@ -86,6 +86,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@changer", ""),
 				new SqlParameter("@PrintCount", Convert.ToInt32(0)),
 				new SqlParameter("@idwarehouse",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
+				new SqlParameter("@idbusitype",!string.IsNullOrWhiteSpace(obj.退货日期)?new Guid("2F62ED3A-2D43-4B1C-AB69-F838DAEC7F5B"):new Guid("9FC6F8D2-352E-4A97-B03E-0D33AA0BA593")), 
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable, ps);
