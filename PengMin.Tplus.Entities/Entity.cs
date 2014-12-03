@@ -11,4 +11,12 @@ namespace PengMin.Tplus.Entities
 	public abstract partial class Entity
 	{
 	}
+	/// <summary>
+	/// 业务实体基类
+	/// </summary>
+	/// <typeparam name="TId">Id类型</typeparam>
+	public abstract partial class Entity<TId> : Entity
+	{
+		public virtual TId Id { get; set; }
+	}
 }

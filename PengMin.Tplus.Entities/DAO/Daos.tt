@@ -1,0 +1,48 @@
+﻿<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Data" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="System.Data" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Data.SqlClient" #>
+<#@ output extension=".cs" #>
+<#
+    string connectionString = "Data Source=.;Initial Catalog=YYTPRODemoDB998;User ID=sa;Password=pengmin";
+    SqlConnection conn = new SqlConnection(connectionString);
+    conn.Open();
+    System.Data.DataTable schema = conn.GetSchema("TABLES");
+    string selectQuery = "select * from @tableName";
+    SqlCommand command = new SqlCommand(selectQuery,conn);
+    SqlDataAdapter ad = new SqlDataAdapter(command);
+    System.Data.DataSet ds = new DataSet();
+	System.Text.RegularExpressions.Regex r=new System.Text.RegularExpressions.Regex(@"^[^\d|^\W][\w]*$");
+#>
+/*
+ *该代码文件由T4模板动态生成，请勿修改，若需要扩展新功能，请使用分部类实现
+*/
+using System;
+namespace PengMin.Tplus.Entities.Daos{
+<# 
+	foreach(DataRow row in schema.Rows){
+		if(!r.IsMatch(row["TABLE_NAME"].ToString())){
+			continue;
+		}
+		ds.Tables.Clear();
+        command.CommandText = selectQuery.Replace("@tableName",row["TABLE_NAME"].ToString());
+        ad.FillSchema(ds, SchemaType.Mapped, row["TABLE_NAME"].ToString());
+#>
+	public partial class <#=row["TABLE_NAME"].ToString()#>:TplusEntity{
+<#
+		foreach (DataColumn dc in ds.Tables[0].Columns){
+#>
+		public virtual <#=dc.DataType.Name#> <#=dc.ColumnName#>{get;set;}
+<#
+		}
+#>
+	}
+<#
+	}
+ #>
+}

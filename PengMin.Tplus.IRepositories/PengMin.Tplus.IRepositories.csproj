@@ -42,8 +42,13 @@
     <Compile Include="IPurchaseOrderRepository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="ISaleOrderRepository.cs" />
-    <Compile Include="IVoucherRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PengMin.Tplus.Entities\PengMin.Tplus.Entities.csproj">
+      <Project>{8233C30D-0157-4C1E-8CFA-2EF62A95B411}</Project>
+      <Name>PengMin.Tplus.Entities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
