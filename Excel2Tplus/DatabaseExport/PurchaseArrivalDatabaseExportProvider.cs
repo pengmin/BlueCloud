@@ -28,11 +28,10 @@ namespace Excel2Tplus.DatabaseExport
 		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(PurchaseArrival obj, out Guid id)
 		{
 			id = Guid.NewGuid();
-
 			var ps = new DbParameter[]
 			{
 				new SqlParameter("@id", id),
-				new SqlParameter("@code", string.IsNullOrWhiteSpace(obj.单据编号)?Prefix+(++Serialno).ToString().PadLeft(Length,'0'):obj.单据编号),
+				new SqlParameter("@code",  string.IsNullOrWhiteSpace(obj.单据编号)?Prefix+(++Serialno).ToString().PadLeft(Length,'0'):obj.单据编号),
 				new SqlParameter("@invoiceType", new Guid("82bf126f-10e0-4272-8098-4c4c9c1ae3bc")),
 				new SqlParameter("@purchaseInvoiceNo", ""),
 				new SqlParameter("@discountRate", Convert.ToDecimal(1.00000000000000)),
@@ -41,12 +40,12 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@linkMan", ""),
 				new SqlParameter("@linkTelphone", ""),
 				new SqlParameter("@payType", new Guid("8f69ab53-409f-4cac-acbc-fd5b65b684d4")),
-				new SqlParameter("@origPaymentCashAmount", Convert.ToDecimal(0.00000000000000)),
-				new SqlParameter("@paymentCashAmount", Convert.ToDecimal(0.00000000000000)),
-				new SqlParameter("@origTotalTaxAmount", Convert.ToDecimal(1093.95000000000000)),
-				new SqlParameter("@totalTaxAmount", Convert.ToDecimal(1093.95000000000000)),
-				new SqlParameter("@origtotalAmount", Convert.ToDecimal(935.00000000000000)),
-				new SqlParameter("@totalAmount", Convert.ToDecimal(935.00000000000000)),
+				//new SqlParameter("@origPaymentCashAmount", Convert.ToDecimal(0.00000000000000)),
+				//new SqlParameter("@paymentCashAmount", Convert.ToDecimal(0.00000000000000)),
+				//new SqlParameter("@origTotalTaxAmount", Convert.ToDecimal(80487.81000000000000)),
+				//new SqlParameter("@totalTaxAmount", Convert.ToDecimal(80487.81000000000000)),
+				//new SqlParameter("@origtotalAmount", Convert.ToDecimal(68793.00000000000000)),
+				//new SqlParameter("@totalAmount", Convert.ToDecimal(68793.00000000000000)),
 				new SqlParameter("@isPriceCheck", Convert.ToByte(1)),
 				new SqlParameter("@isReduceArrival", Convert.ToByte(0)),
 				new SqlParameter("@isAutoGenerateInvoice", Convert.ToByte(0)),
@@ -57,8 +56,8 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@settleState", new Guid("03f167c8-4494-44ea-b6eb-ecb2539a85a0")),
 				new SqlParameter("@isNoArapBookkeeping", Convert.ToByte(0)),
 				new SqlParameter("@voucherdate", DateTime.Parse(obj.单据日期).ToString("yyyy-MM-dd HH:mm:ss")),
-				new SqlParameter("@maker", "DEMO"),
-				new SqlParameter("@madedate", "2013-06-01 00:00:00"),
+				//new SqlParameter("@maker", "DEMO"),
+				//new SqlParameter("@madedate", "2013-06-01 00:00:00"),
 				new SqlParameter("@auditor", ""),
 				new SqlParameter("@makerid", new Guid("6bd0a3b0-5701-4c70-9cb8-a37b010e56ee")),
 				new SqlParameter("@reviser", ""),
@@ -67,13 +66,15 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@ismodifiedcode", Convert.ToByte(0)),
 				new SqlParameter("@accountingperiod", Convert.ToInt32(0)),
 				new SqlParameter("@accountingyear", Convert.ToInt32(0)),
-				new SqlParameter("@createdtime", "2014-12-02 09:22:39"),
+				new SqlParameter("@createdtime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
 				new SqlParameter("@sequencenumber", Convert.ToInt32(0)),
+				//new SqlParameter("@ts", "System.Byte[]"),
 				new SqlParameter("@updated", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
 				new SqlParameter("@idbusinesstype", new Guid("d6b6deeb-88fb-4e28-bacc-a8f2bb3b449c")),
 				new SqlParameter("@idcurrency", new Guid("f407692f-d14e-4a7f-84a4-87df16406b5b")),
 				new SqlParameter("@idpartner", TplusDatabaseHelper.Instance.GetPartnerIdByName(obj.供应商)),
 				new SqlParameter("@iddepartment", TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司)),
+				new SqlParameter("@idwarehouse", TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
 				new SqlParameter("@pubuserdefnvc1", obj.部门),
 				new SqlParameter("@pubuserdefnvc2", obj.业务员),
 				new SqlParameter("@pubuserdefnvc3", obj.退货日期),
@@ -85,8 +86,6 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@idMarketingOrgan", new Guid("4ad74463-e871-4dc1-beb0-6e6eaa0a6386")),
 				new SqlParameter("@changer", ""),
 				new SqlParameter("@PrintCount", Convert.ToInt32(0)),
-				new SqlParameter("@idwarehouse",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
-				new SqlParameter("@idbusitype",!string.IsNullOrWhiteSpace(obj.退货日期)?new Guid("2F62ED3A-2D43-4B1C-AB69-F838DAEC7F5B"):new Guid("9FC6F8D2-352E-4A97-B03E-0D33AA0BA593")), 
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable, ps);
@@ -123,7 +122,8 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@inventoryBarCode", ""),
 				new SqlParameter("@partnerInventoryCode", ""),
 				new SqlParameter("@sequencenumber", Convert.ToInt32(0)),
-				new SqlParameter("@updated", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
+				//new SqlParameter("@ts", "System.Byte[]"),
+				//new SqlParameter("@updated", "2014-12-04 15:51:57"),
 				new SqlParameter("@idPurchaseArrivalDTO", pid),
 				new SqlParameter("@idunit", TplusDatabaseHelper.Instance.GetUnitIdByName(obj.采购单位)),
 				new SqlParameter("@idbaseunit", TplusDatabaseHelper.Instance.GetUnitIdByName(obj.采购单位)),
