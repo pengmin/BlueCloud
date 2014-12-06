@@ -40,7 +40,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@auditor",""),
 				new SqlParameter("@maker","DEMO"),
 				new SqlParameter("@OrigTotalTaxAmount",DBNull.Value),
-				new SqlParameter("@pubuserdefnvc2",""),
+				new SqlParameter("@pubuserdefnvc2",obj.业务员),
 				new SqlParameter("@PrintCount",Convert.ToInt32(0)),
 				new SqlParameter("@accountingperiod",Convert.ToInt32(0)),
 				new SqlParameter("@accountingyear",Convert.ToInt32(0)),
@@ -61,7 +61,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@acceptAddress",""),
 				new SqlParameter("@priuserdefnvc1",obj.供应商),
 				new SqlParameter("@iscarriedforwardout",false),
-				new SqlParameter("@pubuserdefnvc1",""),
+				new SqlParameter("@pubuserdefnvc1",obj.部门),
 				//new SqlParameter("@TotalTaxAmount",463.32m),
 				new SqlParameter("@reviser",""),
 				new SqlParameter("@idproject",TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目))
@@ -135,6 +135,14 @@ namespace Excel2Tplus.DatabaseExport
 			if (TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目) is DBNull)
 			{
 				list.Add("单据[" + obj.单据编号 + "]项目不存在");
+			}
+			if (TplusDatabaseHelper.Instance.GetDepartmentIdByName(obj.部门) is DBNull)
+			{
+				list.Add("单据[" + obj.单据编号 + "]部门不存在");
+			}
+			if (TplusDatabaseHelper.Instance.GetUserIdbyUserName(obj.业务员) is DBNull)
+			{
+				list.Add("单据[" + obj.单据编号 + "]业务员不存在");
 			}
 			if (TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码) is DBNull)
 			{

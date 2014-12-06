@@ -93,7 +93,7 @@ namespace Excel2Tplus
 					entity.InventoryCode,
 					entity.InventoryName,
 					entity.BookPrice,
-					entity.BillPrice,
+					entity.含税单价,
 					entity.Differential,
 					entity.UseBookPrice,
 					!entity.UseBookPrice
