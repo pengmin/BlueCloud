@@ -38,3 +38,15 @@ JOIN dbo.eap_DTOProperty AS d ON a.idProperty=d.ID
 JOIN dbo.eap_DTOProperty AS e ON a.idFromProperty=e.ID
 JOIN dbo.eap_DTOProperty AS f ON a.idToProperty=f.ID
 WHERE a.idToDTO='DA8CB4FD-CA9A-427F-99AF-4FC636CD087C'
+--获取单据表信息的sql
+SELECT * FROM dbo.eap_Voucher WHERE DtoName='PurchaseOrderDTO'
+--以下是单据设计页面的左边菜单树信息
+SELECT * FROM dbo.eap_VoucherModule
+SELECT * FROM dbo.eap_VoucherDesignTree
+--以下获取单据非表头、表尾部分的信息
+SELECT * FROM dbo.eap_VoucherTable WHERE VoucherID='D96BC991-75C8-4ABB-BB93-6BEA1C4C058C'
+SELECT * FROM dbo.eap_VoucherTableColumn WHERE TableID='936B6DCA-F85E-4550-924E-CD41AB299029' ORDER BY ColIndex
+SELECT * FROM dbo.eap_VoucherTab WHERE VoucherID='D96BC991-75C8-4ABB-BB93-6BEA1C4C058C'
+--以下获取单据表头表尾部分信息
+SELECT * FROM dbo.eap_VoucherControls WHERE VoucherID='D96BC991-75C8-4ABB-BB93-6BEA1C4C058C' AND TabPageName='TabFoot1' ORDER BY TabIndex
+

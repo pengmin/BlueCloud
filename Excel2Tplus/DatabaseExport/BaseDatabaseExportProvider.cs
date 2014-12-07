@@ -43,6 +43,8 @@ namespace Excel2Tplus.DatabaseExport
 			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
 			var id = Guid.Empty;//单据主表id
 			string 单据编号 = null;//单据编号
+			TEntity main = null;//当前主记录
+			List<TEntity> details = null;//当前子记录
 
 			Prefix = TplusDatabaseHelper.Instance.GetVoucherCodePrefix(VoucherName, out Length);
 			Serialno = TplusDatabaseHelper.Instance.GetMaxSerialno(VoucherTable, Length);
@@ -51,23 +53,38 @@ namespace Excel2Tplus.DatabaseExport
 				if (TplusDatabaseHelper.Instance.ExistVoucher(item.单据编号, VoucherTable))
 				{
 					msgList.Add("单据编码：" + item.单据编号 + "已存在");
-					continue;
+					break;
 				}
 				IEnumerable<string> ckMsg;//可导入验证结果信息
 				if (!CanExport(item, out ckMsg))
 				{
 					msgList.AddRange(ckMsg);
-					continue;
+					break;
 				}
 
-				if (单据编号 != item.单据编号)
+				if (单据编号 != item.单据编号)//新记录不是当前记录
 				{
+					if (main != null && details != null && details.Count > 0)//已有当前记录
+					{
+						Collect(main, details);
+						var sqlInfo = BuildMainInsertSql(main, out id);
+						sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
+						foreach (var detail in details)
+						{
+							sqlList.AddRange(BuildDetailInsertSql(detail, id).Select(i => new Tuple<string, IEnumerable<DbParameter>>(BuildSql(i), i.Item2)));
+						}
+					}
+					main = item;
+					details = new List<TEntity>();
+
 					单据编号 = item.单据编号;
-					var sqlInfo = BuildMainInsertSql(item, out id);
-					sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
+					//var sqlInfo = BuildMainInsertSql(item, out id);
+					//sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
 				}
 				ReCalculation(item);
-				sqlList.AddRange(BuildDetailInsertSql(item, id).Select(i => new Tuple<string, IEnumerable<DbParameter>>(BuildSql(i), i.Item2)));
+				details.Add(item);
+
+				//sqlList.AddRange(BuildDetailInsertSql(item, id).Select(i => new Tuple<string, IEnumerable<DbParameter>>(BuildSql(i), i.Item2)));
 			}
 
 			var sh = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
@@ -130,6 +147,43 @@ namespace Excel2Tplus.DatabaseExport
 			obj.金额 = decimal.Round(金额, 2).ToString();
 			obj.税额 = decimal.Round(税额, 2).ToString();
 			obj.含税金额 = decimal.Round(含税金额, 2).ToString();
+		}
+		/// <summary>
+		/// 统计主记录数据
+		/// </summary>
+		/// <param name="main">主记录</param>
+		/// <param name="details">子记录</param>
+		private static void Collect(TEntity main, IEnumerable<TEntity> details)
+		{
+			int i;
+			decimal m;
+			var query = 0;
+			var price = 0m;
+			var taxPrice = 0m;
+			var amount = 0m;
+			var taxRate = 0m;
+			var taxAmount = 0m;
+			foreach (var detail in details)
+			{
+				int.TryParse(detail.数量, out i);
+				query += i;
+				decimal.TryParse(detail.单价, out m);
+				price += m;
+				decimal.TryParse(detail.含税单价, out m);
+				taxPrice += m;
+				decimal.TryParse(detail.金额, out m);
+				amount += m;
+				decimal.TryParse(detail.税额, out m);
+				taxRate += m;
+				decimal.TryParse(detail.含税金额, out m);
+				taxAmount += m;
+			}
+			main.数量 = query.ToString();
+			main.单价 = (price / details.Count()).ToString();
+			main.含税单价 = (taxPrice / details.Count()).ToString();
+			main.金额 = amount.ToString();
+			main.税额 = taxRate.ToString();
+			main.含税金额 = taxAmount.ToString();
 		}
 	}
 }
