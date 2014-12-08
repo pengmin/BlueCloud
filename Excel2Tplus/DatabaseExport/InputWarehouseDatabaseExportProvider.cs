@@ -24,9 +24,8 @@ namespace Excel2Tplus.DatabaseExport
 			get { return "ST_RDRecord"; }
 		}
 
-		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(InputWarehouse obj, out Guid id)
+		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(InputWarehouse obj, Guid id)
 		{
-			id = Guid.NewGuid();
 			var ps = new DbParameter[]
 			{
 				new SqlParameter("@id", id),

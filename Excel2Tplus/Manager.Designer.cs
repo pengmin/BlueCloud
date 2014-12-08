@@ -51,6 +51,7 @@
 			this.数据库配置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
+			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 			this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -58,7 +59,6 @@
 			this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
 			this.Column6 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
 			this.Column7 = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-			this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
@@ -252,9 +252,14 @@
 			this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridView1.Location = new System.Drawing.Point(0, 25);
 			this.dataGridView1.Name = "dataGridView1";
+			this.dataGridView1.ReadOnly = true;
 			this.dataGridView1.Size = new System.Drawing.Size(753, 383);
 			this.dataGridView1.TabIndex = 1;
 			this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+			// 
+			// saveFileDialog1
+			// 
+			this.saveFileDialog1.DefaultExt = "xls";
 			// 
 			// Column1
 			// 
@@ -296,21 +301,19 @@
 			// 
 			// Column6
 			// 
-			this.Column6.FalseValue = "";
+			this.Column6.FalseValue = "false";
 			this.Column6.HeaderText = "价格本确认";
 			this.Column6.Name = "Column6";
-			this.Column6.TrueValue = "";
+			this.Column6.ReadOnly = true;
+			this.Column6.TrueValue = "true";
 			// 
 			// Column7
 			// 
-			this.Column7.FalseValue = "";
+			this.Column7.FalseValue = "false";
 			this.Column7.HeaderText = "单据价格确认";
 			this.Column7.Name = "Column7";
-			this.Column7.TrueValue = "";
-			// 
-			// saveFileDialog1
-			// 
-			this.saveFileDialog1.DefaultExt = "xls";
+			this.Column7.ReadOnly = true;
+			this.Column7.TrueValue = "true";
 			// 
 			// Manager
 			// 
@@ -354,6 +357,7 @@
 		private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton2;
 		private System.Windows.Forms.ToolStripMenuItem 数据库配置ToolStripMenuItem;
 		private System.Windows.Forms.ToolStripButton toolStripButton5;
+		private System.Windows.Forms.SaveFileDialog saveFileDialog1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
@@ -361,7 +365,6 @@
 		private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn Column6;
 		private System.Windows.Forms.DataGridViewCheckBoxColumn Column7;
-		private System.Windows.Forms.SaveFileDialog saveFileDialog1;
 
 	}
 }

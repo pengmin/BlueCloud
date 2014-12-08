@@ -25,10 +25,8 @@ namespace Excel2Tplus.DatabaseExport
 			get { return "Pu_PurchaseRequisition"; }
 		}
 
-		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(PurchaseRequisition obj, out Guid id)
+		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(PurchaseRequisition obj, Guid id)
 		{
-			id = Guid.NewGuid();
-
 			var dbParams = new List<DbParameter>
 			{
 				new SqlParameter("@id",id),
@@ -83,7 +81,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@tax",obj.税额),
 				new SqlParameter("@quantity2",DBNull.Value),
 				new SqlParameter("@cumExecuteQuantity",DBNull.Value),
-				//new SqlParameter("@baseQuantity",6.00),
+				new SqlParameter("@baseQuantity",obj.数量),
 				new SqlParameter("@idunit",TplusDatabaseHelper.Instance.GetUnitIdByName(obj.采购单位)),
 				new SqlParameter("@praRequireTimes",Convert.ToInt32(0)),
 				new SqlParameter("@subCumExecuteQuantity",DBNull.Value),

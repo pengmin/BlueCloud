@@ -15,13 +15,13 @@ ORDER BY a.TabIndex
 -------------------------------------------------------------
 --以下查询dto之间的关系
 SELECT * FROM dbo.eap_DTO WHERE TableName='PU_PurchaseOrder'
-SELECT * FROM dbo.eap_DTOProperty WHERE idDTO='DA8CB4FD-CA9A-427F-99AF-4FC636CD087C'
+SELECT * FROM dbo.eap_DTOProperty WHERE idDTO='DA8CB4FD-CA9A-427F-99AF-4FC636CD087C' and title LIKE '%业%'
 SELECT * FROM dbo.eap_DTORelation
 SELECT * FROM dbo.EAP_UserDefineArticleDTO_0001
 SELECT * FROM dbo.EAP_UserDefineArticleDTO_0002
 SELECT * FROM dbo.EAP_UserDefineArticleDTO_0003
 --dto引用的其他dto字段
-SELECT a.id,b.Title,c.Title,d.FieldName,e.FieldName,f.FieldName,a.* 
+SELECT a.id,b.Title,c.Title,e.FieldName,c.title,c.TableName,f.FieldName,a.* 
 FROM dbo.eap_DTORelation AS a
 JOIN dbo.eap_DTO AS b ON a.idFromDTO=b.ID
 JOIN dbo.eap_DTO AS c ON a.idToDTO=c.ID
@@ -48,5 +48,4 @@ SELECT * FROM dbo.eap_VoucherTable WHERE VoucherID='D96BC991-75C8-4ABB-BB93-6BEA
 SELECT * FROM dbo.eap_VoucherTableColumn WHERE TableID='936B6DCA-F85E-4550-924E-CD41AB299029' ORDER BY ColIndex
 SELECT * FROM dbo.eap_VoucherTab WHERE VoucherID='D96BC991-75C8-4ABB-BB93-6BEA1C4C058C'
 --以下获取单据表头表尾部分信息
-SELECT * FROM dbo.eap_VoucherControls WHERE VoucherID='D96BC991-75C8-4ABB-BB93-6BEA1C4C058C' AND TabPageName='TabFoot1' ORDER BY TabIndex
-
+SELECT * FROM dbo.eap_VoucherControls WHERE VoucherID='D96BC991-75C8-4ABB-BB93-6BEA1C4C058C' AND TabPageName='TabHead1' ORDER BY TabIndex

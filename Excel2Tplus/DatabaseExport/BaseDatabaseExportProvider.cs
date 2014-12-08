@@ -9,7 +9,7 @@ using Excel2Tplus.SysConfig;
 
 namespace Excel2Tplus.DatabaseExport
 {
-	abstract class BaseDatabaseExportProvider<TEntity> : IDatabaseExportProvider<TEntity> where TEntity : Entity
+	abstract class BaseDatabaseExportProvider<TEntity> : IDatabaseExportProvider<TEntity> where TEntity : Entity, new()
 	{
 		protected string Prefix;//单据编码前缀
 		protected int Serialno = 0;//单据编码起始编号
@@ -66,27 +66,38 @@ namespace Excel2Tplus.DatabaseExport
 				{
 					if (main != null && details != null && details.Count > 0)//已有当前记录
 					{
-						Collect(main, details);
-						var sqlInfo = BuildMainInsertSql(main, out id);
-						sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
+						id = Guid.NewGuid();//主记录id
+						//生成子记录sql
 						foreach (var detail in details)
 						{
 							sqlList.AddRange(BuildDetailInsertSql(detail, id).Select(i => new Tuple<string, IEnumerable<DbParameter>>(BuildSql(i), i.Item2)));
 						}
+						//生成主记录sql
+						Collect(main, details);//统计子记录
+						var sqlInfo = BuildMainInsertSql(main, id);
+						sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
 					}
-					main = item;
+					main = Entity.Copy(item);
 					details = new List<TEntity>();
 
 					单据编号 = item.单据编号;
-					//var sqlInfo = BuildMainInsertSql(item, out id);
-					//sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
 				}
 				ReCalculation(item);
 				details.Add(item);
-
-				//sqlList.AddRange(BuildDetailInsertSql(item, id).Select(i => new Tuple<string, IEnumerable<DbParameter>>(BuildSql(i), i.Item2)));
 			}
-
+			if (main != null && details != null && details.Count > 0)//已有当前记录
+			{
+				id = Guid.NewGuid();//主记录id
+				//生成子记录sql
+				foreach (var detail in details)
+				{
+					sqlList.AddRange(BuildDetailInsertSql(detail, id).Select(i => new Tuple<string, IEnumerable<DbParameter>>(BuildSql(i), i.Item2)));
+				}
+				//生成主记录sql
+				Collect(main, details);//统计子记录
+				var sqlInfo = BuildMainInsertSql(main, id);
+				sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
+			}
 			var sh = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
 			sh.Open();
 			msgList.Add(sh.Execute(sqlList).ToString());
@@ -101,7 +112,7 @@ namespace Excel2Tplus.DatabaseExport
 		/// <param name="obj">请购单对象</param>
 		/// <param name="id">id</param>
 		/// <returns>sql信息</returns>
-		protected abstract Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(TEntity obj, out Guid id);
+		protected abstract Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(TEntity obj, Guid id);
 		/// <summary>
 		/// 构造请购单明细表的插入sql
 		/// </summary>

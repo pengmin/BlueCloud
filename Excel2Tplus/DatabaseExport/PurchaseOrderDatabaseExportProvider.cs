@@ -25,10 +25,8 @@ namespace Excel2Tplus.DatabaseExport
 			get { return "PU_PurchaseOrder"; }
 		}
 
-		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(PurchaseOrder obj, out Guid id)
+		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(PurchaseOrder obj, Guid id)
 		{
-			id = Guid.NewGuid();
-
 			var ps = new DbParameter[]
 			{
 				new SqlParameter("@id",id),
@@ -109,12 +107,12 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@saleOrderCode",""),
 				new SqlParameter("@availableQuantity",DBNull.Value),
 				new SqlParameter("@origDiscountPrice",obj.单价),
-				//new SqlParameter("@baseQuantity",7.00),
+				new SqlParameter("@baseQuantity",obj.数量),
 				new SqlParameter("@taxPrice",obj.含税单价),
 				new SqlParameter("@idinventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)),
 				new SqlParameter("@quantity2",DBNull.Value),
 				new SqlParameter("@discount",DBNull.Value),
-				//new SqlParameter("@baseDiscountPrice",66.00),
+				new SqlParameter("@baseDiscountPrice",obj.单价),
 				new SqlParameter("@countArrivalQuantity2",DBNull.Value),
 				new SqlParameter("@taxRate",(double.TryParse(obj.税率,out tr)?tr:tr)/100),
 				new SqlParameter("@origTax",obj.税额),
@@ -134,7 +132,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@existingQuantity",DBNull.Value),
 				new SqlParameter("@countInQuantity2",DBNull.Value),
 				new SqlParameter("@partnerInventoryName",""),
-				//new SqlParameter("@baseTaxPrice",77.22),
+				new SqlParameter("@baseTaxPrice",obj.含税单价),
 				new SqlParameter("@countArrivalQuantity",DBNull.Value),
 				new SqlParameter("@discountAmount",obj.金额),
 				new SqlParameter("@taxFlag",Convert.ToInt32(0)),

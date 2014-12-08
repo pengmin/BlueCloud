@@ -25,9 +25,8 @@ namespace Excel2Tplus.DatabaseExport
 			get { return "PU_PurchaseArrival"; }
 		}
 
-		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(PurchaseArrival obj, out Guid id)
+		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(PurchaseArrival obj, Guid id)
 		{
-			id = Guid.NewGuid();
 			var ps = new DbParameter[]
 			{
 				new SqlParameter("@id", id),

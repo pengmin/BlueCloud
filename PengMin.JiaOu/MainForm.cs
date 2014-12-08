@@ -4,8 +4,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Windows.Forms;
+using PengMin.Infrastructure;
+using PengMin.JiaOu.Dal;
 using PengMin.JiaOu.SysConfig;
 
 namespace PengMin.JiaOu
@@ -30,6 +33,25 @@ namespace PengMin.JiaOu
 			if (sl.ShowDialog() == DialogResult.OK)
 			{
 				_from = sl.CheckedInfo;
+				var data = new DataAccess(new SqlHelper(_from.GetConnectionString())).GetPurchaseOrder();
+				dataGridView1.Columns.Clear();
+				foreach (DataColumn cln in data.Columns)
+				{
+					dataGridView1.Columns.Add(cln.ColumnName, cln.ColumnName);
+				}
+				foreach (DataRow row in data.Rows)
+				{
+					dataGridView1.Rows.Add(
+						row["单据日期"],
+						row["单据编号"],
+						row["供应商"],
+						row["业务员"],
+						row["预计到货日期"],
+						row["付款方式"],
+						row["订金金额"],
+						row["预付款百分比"]
+					);
+				}
 			}
 		}
 

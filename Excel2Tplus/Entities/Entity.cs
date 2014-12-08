@@ -10,6 +10,10 @@ namespace Excel2Tplus.Entities
 	/// </summary>
 	public abstract class Entity
 	{
+		public Entity()
+		{
+
+		}
 		/// <summary>
 		/// 价格本编码，依据单据类型，其值来源于存货编码或是供应商编码
 		/// </summary>
@@ -63,5 +67,23 @@ namespace Excel2Tplus.Entities
 		public string 部门 { get; set; }
 		public string 业务员 { get; set; }
 		public string 项目 { get; set; }
+
+		public static TEntity Copy<TEntity>(TEntity obj) where TEntity : Entity, new()
+		{
+			var pros = obj.GetType().GetProperties();
+			var entity = new TEntity();
+
+			foreach (var pro in pros)
+			{
+				var p = entity.GetType().GetProperty(pro.Name);
+				try
+				{
+					p.SetValue(entity, pro.GetValue(obj, null), null);
+				}
+				catch { }
+			}
+
+			return entity;
+		}
 	}
 }

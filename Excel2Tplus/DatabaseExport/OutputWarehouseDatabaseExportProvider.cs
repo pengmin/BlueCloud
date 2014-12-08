@@ -24,10 +24,8 @@ namespace Excel2Tplus.DatabaseExport
 			get { return "ST_RDRecord"; }
 		}
 
-		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(OutputWarehouse obj, out Guid id)
+		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(OutputWarehouse obj, Guid id)
 		{
-			id = Guid.NewGuid();
-
 			decimal cy;//抽佣比率
 			var ps = new DbParameter[]
 			{
