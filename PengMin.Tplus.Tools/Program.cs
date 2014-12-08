@@ -9,7 +9,7 @@ namespace PengMin.Tplus.Tools
 	{
 		static void Main(string[] args)
 		{
-			var builder = new VoucherSqlBuilder("Data Source=.;Initial Catalog=YYTPRODemoDB998;User ID=sa;Password=LY123456");
+			var builder = new VoucherSqlBuilder("Data Source=.;Initial Catalog=UFTData703050_000003;User ID=sa;Password=azsxdcfvgb");
 			Console.Write("TableName:");
 			var tn = Console.ReadLine();
 			Console.Write("Where:");
