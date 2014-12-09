@@ -67,6 +67,7 @@ namespace Excel2Tplus.Entities
 		public string 部门 { get; set; }
 		public string 业务员 { get; set; }
 		public string 项目 { get; set; }
+		public string 退货日期 { get; set; }
 
 		public static TEntity Copy<TEntity>(TEntity obj) where TEntity : Entity, new()
 		{

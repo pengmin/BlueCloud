@@ -83,6 +83,7 @@ namespace Excel2Tplus.DatabaseExport
 					单据编号 = item.单据编号;
 				}
 				ReCalculation(item);
+				ReAmount(item);
 				details.Add(item);
 			}
 			if (main != null && details != null && details.Count > 0)//已有当前记录
@@ -158,6 +159,29 @@ namespace Excel2Tplus.DatabaseExport
 			obj.金额 = decimal.Round(金额, 2).ToString();
 			obj.税额 = decimal.Round(税额, 2).ToString();
 			obj.含税金额 = decimal.Round(含税金额, 2).ToString();
+		}
+		/// <summary>
+		/// 根据退货日期重置数量、金额、含税金额的正负数
+		/// </summary>
+		/// <param name="obj"></param>
+		private static void ReAmount(Entity obj)
+		{
+			int i;
+			decimal m;
+			var 数量 = int.TryParse(obj.数量, out i) ? i : i;
+			var 金额 = decimal.TryParse(obj.金额, out m) ? m : m;
+			var 含税金额 = decimal.TryParse(obj.含税金额, out m) ? m : m;
+			if (string.IsNullOrEmpty(obj.退货日期))
+			{
+				obj.金额 = decimal.Round(金额, 2).ToString();
+				obj.含税金额 = decimal.Round(含税金额, 2).ToString();
+			}
+			else
+			{
+				obj.数量 = (-数量).ToString();
+				obj.金额 = decimal.Round(-金额, 2).ToString();
+				obj.含税金额 = decimal.Round(-含税金额, 2).ToString();
+			}
 		}
 		/// <summary>
 		/// 统计主记录数据

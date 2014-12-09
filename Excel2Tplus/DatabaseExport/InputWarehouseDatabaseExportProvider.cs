@@ -59,7 +59,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@updatedBy", "demo"),
 				new SqlParameter("@iddepartment", TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司)),
 				new SqlParameter("@idpartner",TplusDatabaseHelper.Instance.GetPartnerIdByName(obj.供应商)),
-				new SqlParameter("@idbusitype", new Guid("d6b6deeb-88fb-4e28-bacc-a8f2bb3b449c")),
+				new SqlParameter("@idbusitype", string.IsNullOrEmpty(obj.退货日期)?new Guid("d6b6deeb-88fb-4e28-bacc-a8f2bb3b449c"):new Guid("0F086323-DC1F-40C4-8084-799E062AB8B2")),
 				new SqlParameter("@idvouchertype", new Guid("9a2c7c5a-a428-4669-aa40-0aa07758241b")),
 				new SqlParameter("@idwarehouse", TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
 				new SqlParameter("@idrdstyle", new Guid("698c1667-b8b8-41bd-8df2-8deac2677046")),
@@ -133,30 +133,30 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@LastModifiedField", ""),
 				new SqlParameter("@IsPromotionPresent", Convert.ToByte(0)),
 			};
-			return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps) };
+			//return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps) };
 			return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps), BuildCurrentStockSql(obj) };
 		}
 
 		protected Tuple<string, IEnumerable<DbParameter>> BuildCurrentStockSql(InputWarehouse obj)
 		{
+			int d;
 			return new Tuple<string, IEnumerable<DbParameter>>(
 				"ST_CurrentStock",
 				new DbParameter[]
 				{
-					new SqlParameter("@id", new Guid("33e6df39-67a7-40ee-8cfa-a3fb0179c517")),
-					new SqlParameter("@baseQuantity", Convert.ToDecimal(56.00000000000000)),
-					new SqlParameter("@purchaseForReceiveBaseQuantity", Convert.ToDecimal(-56.00000000000000)),
-					new SqlParameter("@recordDate", "2014-12-08 00:00:00"),
+					new SqlParameter("@id", Guid.NewGuid()),
+					new SqlParameter("@purchaseForReceiveBaseQuantity", int.TryParse(obj.数量,out d)?d:d),
+					new SqlParameter("@recordDate", DateTime.Now.ToString("yyyy-MM-dd")),
 					new SqlParameter("@isCarriedForwardOut", Convert.ToByte(0)),
 					new SqlParameter("@isCarriedForwardIn", Convert.ToByte(0)),
-					new SqlParameter("@createdtime", "2014-12-08 22:55:25"),
+					new SqlParameter("@createdtime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
 					new SqlParameter("@sequencenumber", Convert.ToInt32(0)),
 					//new SqlParameter("@ts", "System.Byte[]"),
-					new SqlParameter("@updated", "2014-12-08 22:55:25"),
+					new SqlParameter("@updated", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
 					new SqlParameter("@updatedBy", "demo"),
-					new SqlParameter("@idwarehouse", new Guid("daa79ee8-66b1-4045-8bfe-a37b015b5c34")),
-					new SqlParameter("@idbaseunit", new Guid("3c390f6c-e76a-439d-8d14-a37b01447494")),
-					new SqlParameter("@idinventory", new Guid("d37959a5-9a38-4568-8b9c-a3ed00a5625b")),
+					new SqlParameter("@idwarehouse", TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
+					new SqlParameter("@idbaseunit",TplusDatabaseHelper.Instance.GetUnitIdByName(obj.采购单位)),
+					new SqlParameter("@idinventory", TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)),
 					new SqlParameter("@IdMarketingOrgan", new Guid("4ad74463-e871-4dc1-beb0-6e6eaa0a6386")),
 				});
 		}
