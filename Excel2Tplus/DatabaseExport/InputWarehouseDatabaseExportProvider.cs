@@ -15,6 +15,8 @@ namespace Excel2Tplus.DatabaseExport
 	/// </summary>
 	class InputWarehouseDatabaseExportProvider : BaseDatabaseExportProvider<InputWarehouse>
 	{
+		private readonly List<Tuple<string, IEnumerable<DbParameter>>> _otherSql =
+			new List<Tuple<string, IEnumerable<DbParameter>>>();
 		protected override string VoucherName
 		{
 			get { return "采购入库单"; }
@@ -26,6 +28,7 @@ namespace Excel2Tplus.DatabaseExport
 
 		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(InputWarehouse obj, Guid id)
 		{
+			SetOtherSql(id);
 			decimal m;
 			var ps = new DbParameter[]
 			{
@@ -75,7 +78,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@BeforeUpgrade", ""),
 				new SqlParameter("@idmarketingOrgan", new Guid("4ad74463-e871-4dc1-beb0-6e6eaa0a6386")),
 				new SqlParameter("@TotalOrigTaxAmount", decimal.TryParse(obj.金额,out m)?m:m),
-				new SqlParameter("@TotalTaxAmount", decimal.TryParse(obj.金额,out m)?m:m),
+				new SqlParameter("@TotalTaxAmount", decimal.TryParse(obj.含税金额,out m)?m:m),
 				new SqlParameter("@PrintCount", Convert.ToInt32(0)),
 			};
 
@@ -194,6 +197,265 @@ namespace Excel2Tplus.DatabaseExport
 			}
 			msgs = list;
 			return !msgs.Any();
+		}
+
+		protected override IEnumerable<Tuple<string, IEnumerable<DbParameter>>> OtherSql()
+		{
+			return _otherSql;
+		}
+		private void SetOtherSql(Guid id)
+		{
+			var sql = @" INSERT INTO ARAP_DetailSecond
+        ( Id ,
+          IsArFlag ,
+          AuditBussinessFlag ,
+          AuditFlag ,
+          PrepayFlag ,
+          BussinessFlag ,
+          Flag ,
+          CreatedTime ,
+          Idpartner ,
+          Iddepartment ,
+          Idperson ,
+          Idcurrency ,
+          ExchangeRate ,
+          BusinessID ,
+          BusinessCode ,
+          AccountingYear ,
+          AccountingPeriod ,
+          DocId ,
+          DocClass ,
+          DocNo ,
+          IdbusiType ,
+          IdvoucherType ,
+          IdarapVoucherType ,
+          VoucherID ,
+          VoucherCode ,
+          VoucherDetailID ,
+          DetailID ,
+          DetailCode ,
+          DetailName ,
+          Memo ,
+          VoucherDate ,
+          RegisterDate ,
+          ArrivalDate ,
+          Year ,
+          Period ,
+          OrigAmount ,
+          Amount ,
+          OrigSettleAmount ,
+          SettleAmount ,
+          ExtendFlag ,
+          origCashAmount ,
+          cashAmount ,
+          origInAllowances ,
+          inAllowances ,
+          SaleOrderCode ,
+          SaleOrderID ,
+          SourceOrderCode ,
+          SourceOrderID ,
+          idsourceordertype ,
+          DetailType ,
+          Idproject ,
+          IdDetailProject ,
+          isCarriedForwardOut ,
+          isCarriedForwardIn ,
+          updated ,
+          IdMarketingOrgan ,
+          HeadPriuserdefdecm1 ,
+          HeadPriuserdefdecm2 ,
+          HeadPriuserdefdecm3 ,
+          HeadPriuserdefdecm4 ,
+          HeadPriuserdefdecm5 ,
+          HeadPriuserdefdecm6 ,
+          HeadPubuserdefdecm1 ,
+          HeadPubuserdefdecm2 ,
+          HeadPubuserdefdecm3 ,
+          HeadPubuserdefdecm4 ,
+          HeadPubuserdefdecm5 ,
+          HeadPubuserdefdecm6 ,
+          HeadPriuserdefnvc1 ,
+          HeadPriuserdefnvc2 ,
+          HeadPriuserdefnvc3 ,
+          HeadPriuserdefnvc4 ,
+          HeadPriuserdefnvc5 ,
+          HeadPriuserdefnvc6 ,
+          headPubuserdefnvc1 ,
+          headPubuserdefnvc2 ,
+          headPubuserdefnvc3 ,
+          headPubuserdefnvc4 ,
+          headPubuserdefnvc5 ,
+          headPubuserdefnvc6 ,
+          DetailPriuserdefdecm1 ,
+          DetailPriuserdefdecm2 ,
+          DetailPriuserdefdecm3 ,
+          DetailPriuserdefdecm4 ,
+          DetailPubuserdefdecm1 ,
+          DetailPubuserdefdecm2 ,
+          DetailPubuserdefdecm3 ,
+          DetailPubuserdefdecm4 ,
+          DetailPriuserdefnvc1 ,
+          DetailPriuserdefnvc2 ,
+          DetailPriuserdefnvc3 ,
+          DetailPriuserdefnvc4 ,
+          DetailPubuserdefnvc1 ,
+          DetailPubuserdefnvc2 ,
+          DetailPubuserdefnvc3 ,
+          DetailPubuserdefnvc4 
+        )
+        SELECT  dbo.EAP_FN_NewObjectID(NEWID()) ,
+                0 ,
+                0 ,
+                0 ,
+                0 ,
+                '0' ,
+                -1 ,
+                M.CreatedTime ,
+                M.Idpartner ,
+                M.Iddepartment ,
+                M.Idclerk ,
+                M.Idcurrency ,
+                M.ExchangeRate ,
+                M.ID ,
+                M.Code ,
+                M.AccountingYear ,
+                M.AccountingPeriod ,
+                M.DocId ,
+                M.DocClass ,
+                M.DocNo ,
+                'd6b6deeb-88fb-4e28-bacc-a8f2bb3b449c' ,
+                M.idvouchertype ,
+                M.idvouchertype ,
+                M.ID ,
+                M.Code ,
+                S.ID ,
+                B.ID ,
+                B.Code ,
+                B.Name ,
+                M.Memo ,
+                M.VoucherDate ,
+                M.VoucherDate ,
+                M.MaturityDate ,
+                2013 ,
+                6 ,
+                S.OrigTaxAmount ,
+                S.TaxAmount ,
+                ( CASE WHEN s.quantity = baseQuantity
+                       THEN ( CASE WHEN S.CumulativePurchaseArrivalQuantity = 0
+                                   THEN 0
+                                   WHEN S.CumulativePurchaseArrivalQuantity = S.quantity
+                                   THEN OrigTaxAmount
+                                   ELSE S.origTaxPrice
+                                        * ISNULL(S.CumulativePurchaseArrivalQuantity,
+                                                 0)
+                              END )
+                       ELSE ( CASE WHEN S.CumulativePurchaseArrivalQuantity2 = 0
+                                   THEN 0
+                                   WHEN S.CumulativePurchaseArrivalQuantity2 = S.quantity2
+                                   THEN OrigTaxAmount
+                                   ELSE S.origTaxPrice2
+                                        * ISNULL(S.CumulativePurchaseArrivalQuantity2,
+                                                 0)
+                              END )
+                  END ) AS OrigSettleAmount ,
+                ( CASE WHEN s.quantity = baseQuantity
+                       THEN ( CASE WHEN S.CumulativePurchaseArrivalQuantity = 0
+                                   THEN 0
+                                   WHEN S.CumulativePurchaseArrivalQuantity = S.quantity
+                                   THEN TaxAmount
+                                   ELSE S.TaxPrice
+                                        * ISNULL(S.CumulativePurchaseArrivalQuantity,
+                                                 0)
+                              END )
+                       ELSE ( CASE WHEN S.CumulativePurchaseArrivalQuantity2 = 0
+                                   THEN 0
+                                   WHEN S.CumulativePurchaseArrivalQuantity2 = S.quantity2
+                                   THEN TaxAmount
+                                   ELSE S.TaxPrice2
+                                        * ISNULL(S.CumulativePurchaseArrivalQuantity2,
+                                                 0)
+                              END )
+                  END ) AS settleAmount ,
+                ( CASE WHEN s.quantity = baseQuantity
+                       THEN ( CASE WHEN S.CumulativePurchaseArrivalQuantity = 0
+                                   THEN 0
+                                   WHEN S.quantity
+                                        - S.CumulativePurchaseArrivalQuantity = 0
+                                   THEN 4
+                                   ELSE 3
+                              END )
+                       ELSE ( CASE WHEN S.CumulativePurchaseArrivalQuantity2 = 0
+                                   THEN 0
+                                   WHEN S.quantity2
+                                        - S.CumulativePurchaseArrivalQuantity2 = 0
+                                   THEN 4
+                                   ELSE 3
+                              END )
+                  END ) AS ExtendFlag ,
+                0 ,
+                0 ,
+                0 ,
+                0 ,
+                S.SaleOrderCode ,
+                S.SaleOrderID ,
+                S.SourceVoucherCode ,
+                S.SourceVoucherId ,
+                S.idsourcevouchertype ,
+                'inventory' ,
+                M.Idproject ,
+                S.Idproject ,
+                0 ,
+                0 ,
+                CONVERT(CHAR(19), GETDATE(), 120) ,
+                M.IdMarketingOrgan ,
+                M.priuserdefdecm1 ,
+                M.priuserdefdecm2 ,
+                M.priuserdefdecm3 ,
+                M.priuserdefdecm4 ,
+                M.priuserdefdecm5 ,
+                M.priuserdefdecm6 ,
+                M.pubuserdefdecm1 ,
+                M.pubuserdefdecm2 ,
+                M.pubuserdefdecm3 ,
+                M.pubuserdefdecm4 ,
+                M.pubuserdefdecm5 ,
+                M.pubuserdefdecm6 ,
+                M.priuserdefnvc1 ,
+                M.priuserdefnvc2 ,
+                M.priuserdefnvc3 ,
+                M.priuserdefnvc4 ,
+                M.priuserdefnvc5 ,
+                M.priuserdefnvc6 ,
+                M.pubuserdefnvc1 ,
+                M.pubuserdefnvc2 ,
+                M.pubuserdefnvc3 ,
+                M.pubuserdefnvc4 ,
+                M.pubuserdefnvc5 ,
+                M.pubuserdefnvc6 ,
+                S.priuserdefdecm1 ,
+                S.priuserdefdecm2 ,
+                S.priuserdefdecm3 ,
+                S.priuserdefdecm4 ,
+                S.pubuserdefdecm1 ,
+                S.pubuserdefdecm2 ,
+                S.pubuserdefdecm3 ,
+                S.pubuserdefdecm4 ,
+                S.priuserdefnvc1 ,
+                S.priuserdefnvc2 ,
+                S.priuserdefnvc3 ,
+                S.priuserdefnvc4 ,
+                S.pubuserdefnvc1 ,
+                S.pubuserdefnvc2 ,
+                S.pubuserdefnvc3 ,
+                S.pubuserdefnvc4
+        FROM    ST_RDRecord M ,
+                ST_RDRecord_b S ,
+                AA_Inventory B
+        WHERE   M.ID = S.idRDRecordDTO
+                AND B.id = S.idinventory
+                AND M.ID = @id";
+
+			_otherSql.Add(new Tuple<string, IEnumerable<DbParameter>>(sql, new DbParameter[] { new SqlParameter("@id", id) }));
 		}
 	}
 }

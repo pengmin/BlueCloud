@@ -100,11 +100,24 @@ namespace Excel2Tplus.DatabaseExport
 				sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
 			}
 			var sh = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
+			var other = OtherSql();
+			if (other != null)
+			{
+				sqlList.AddRange(other);
+			}
 			sh.Open();
 			msgList.Add(sh.Execute(sqlList).ToString());
 			sh.Close();
 
 			return msgList;
+		}
+		/// <summary>
+		/// 其他sql
+		/// </summary>
+		/// <returns></returns>
+		protected virtual IEnumerable<Tuple<string, IEnumerable<DbParameter>>> OtherSql()
+		{
+			return null;
 		}
 
 		/// <summary>
@@ -171,6 +184,7 @@ namespace Excel2Tplus.DatabaseExport
 			var 数量 = int.TryParse(obj.数量, out i) ? i : i;
 			var 金额 = decimal.TryParse(obj.金额, out m) ? m : m;
 			var 含税金额 = decimal.TryParse(obj.含税金额, out m) ? m : m;
+			var 税额 = decimal.TryParse(obj.税额, out m) ? m : m;
 			if (string.IsNullOrEmpty(obj.退货日期))
 			{
 				obj.金额 = decimal.Round(金额, 2).ToString();
@@ -181,6 +195,7 @@ namespace Excel2Tplus.DatabaseExport
 				obj.数量 = (-数量).ToString();
 				obj.金额 = decimal.Round(-金额, 2).ToString();
 				obj.含税金额 = decimal.Round(-含税金额, 2).ToString();
+				obj.税额 = (-税额).ToString();
 			}
 		}
 		/// <summary>
