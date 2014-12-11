@@ -244,7 +244,7 @@ namespace Excel2Tplus.DatabaseExport
 		private static IEnumerable<string> CheckVoucher(IEnumerable<TEntity> list)
 		{
 			var msgs = new List<string>();
-			var voucherCode = "";
+			string voucherCode = null;
 			var hasTuihuo = false;//有退货日期，则所有明细都要有退货日期
 			var gys = "";//供应商
 			foreach (var entity in list)
