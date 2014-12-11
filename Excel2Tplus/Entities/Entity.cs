@@ -44,6 +44,7 @@ namespace Excel2Tplus.Entities
 		/// </summary>
 		public bool UseBookPrice { get; set; }
 
+		public string 供应商 { get; set; }
 		public string 单据日期 { get; set; }
 		public string 单据编号 { get; set; }
 		public string 所属公司 { get; set; }

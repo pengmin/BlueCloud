@@ -35,6 +35,11 @@ namespace Excel2Tplus.DatabaseExport
 
 		public IEnumerable<string> Export(IEnumerable<TEntity> list)
 		{
+			var checkMsgs = CheckVoucher(list);
+			if (checkMsgs.Any())
+			{
+				return checkMsgs;
+			}
 			if (CommonFunction.GetElementType(list.GetType()) != typeof(TEntity))
 			{
 				throw new Exception("单据类型是" + VoucherName + "类型");
@@ -234,6 +239,38 @@ namespace Excel2Tplus.DatabaseExport
 			main.金额 = amount.ToString();
 			main.税额 = taxRate.ToString();
 			main.含税金额 = taxAmount.ToString();
+		}
+
+		private static IEnumerable<string> CheckVoucher(IEnumerable<TEntity> list)
+		{
+			var msgs = new List<string>();
+			var voucherCode = "";
+			var hasTuihuo = false;//有退货日期，则所有明细都要有退货日期
+			var gys = "";//供应商
+			foreach (var entity in list)
+			{
+				if (voucherCode != entity.单据编号)
+				{
+					voucherCode = entity.单据编号;
+					hasTuihuo = false;
+					gys = entity.供应商;
+				}
+				if (!string.IsNullOrWhiteSpace(entity.退货日期))
+				{
+					hasTuihuo = true;
+				}
+				if (hasTuihuo && string.IsNullOrWhiteSpace(entity.退货日期))
+				{
+					msgs.Add("单据[" + entity.单据编号 + "]不是所有行都有退货日期，不允许导入");
+					return msgs;
+				}
+				if (gys != entity.供应商)
+				{
+					msgs.Add("单据[" + entity.单据编号 + "]供应商不一致，不允许导入");
+					return msgs;
+				}
+			}
+			return msgs;
 		}
 	}
 }

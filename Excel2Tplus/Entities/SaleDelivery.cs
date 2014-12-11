@@ -24,9 +24,6 @@ namespace Excel2Tplus.Entities
 		public string 仓库 { get; set; }
 		public string 客户 { get; set; }
 		public string 抽佣比率 { get; set; }
-		public string 部门 { get; set; }
-		public string 业务员 { get; set; }
-		public string 退货日期 { get; set; }
 		public string 规格型号 { get; set; }
 		public string 计量单位 { get; set; }
 		public string 成本价 { get; set; }

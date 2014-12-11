@@ -22,10 +22,8 @@ namespace Excel2Tplus.Entities
 			}
 		}
 		public string 客户 { get; set; }
-		public string 项目 { get; set; }
 		public string 规格型号 { get; set; }
 		public string 仓库 { get; set; }
 		public string 销售单位 { get; set; }
-		public string 退货日期 { get; set; }
 	}
 }

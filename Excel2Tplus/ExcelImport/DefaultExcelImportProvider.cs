@@ -22,6 +22,10 @@ namespace Excel2Tplus.ExcelImport
 			var type = typeof(TEntity);
 			foreach (DataRow row in dt.Rows)
 			{
+				if (string.IsNullOrWhiteSpace(row[0] as string))
+				{
+					continue;
+				}
 				var obj = new TEntity();
 				foreach (DataColumn cln in dt.Columns)
 				{
