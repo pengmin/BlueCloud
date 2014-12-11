@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.Common;
 using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
@@ -39,9 +40,11 @@ namespace PengMin.JiaOu
 				{
 					dataGridView1.Columns.Add(cln.ColumnName, cln.ColumnName);
 				}
+				dataGridView1.Columns[0].Visible = false;
 				foreach (DataRow row in data.Rows)
 				{
 					dataGridView1.Rows.Add(
+						row["id"],
 						row["单据日期"],
 						row["单据编号"],
 						row["供应商"],
@@ -60,7 +63,22 @@ namespace PengMin.JiaOu
 			var sl = new AccountSelectForm(new SysConfigManager().Get().Accounts);
 			if (sl.ShowDialog() == DialogResult.OK)
 			{
+				var sh = new SqlHelper(_to.GetConnectionString());
 				_to = sl.CheckedInfo;
+				var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
+				var access = new DataAccess(sh);
+				foreach (DataGridViewRow row in dataGridView1.Rows)
+				{
+					DataTable main, detail;
+					access.GetPurchaseOrder((Guid)row.Cells[0].Value, out main, out detail);
+					sqlList.AddRange(access.PurchaseOrderToSaleOrder(main, detail));
+				}
+				if (sqlList.Count > 0)
+				{
+					sh.Open();
+					sh.Execute(sqlList);
+					sh.Close();
+				}
 			}
 		}
 	}
