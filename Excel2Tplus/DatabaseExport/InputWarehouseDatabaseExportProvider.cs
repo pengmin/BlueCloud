@@ -77,7 +77,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@idProject", TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)),
 				new SqlParameter("@BeforeUpgrade", ""),
 				new SqlParameter("@idmarketingOrgan", new Guid("4ad74463-e871-4dc1-beb0-6e6eaa0a6386")),
-				new SqlParameter("@TotalOrigTaxAmount", decimal.TryParse(obj.金额,out m)?m:m),
+				new SqlParameter("@TotalOrigTaxAmount", decimal.TryParse(obj.含税金额,out m)?m:m),
 				new SqlParameter("@TotalTaxAmount", decimal.TryParse(obj.含税金额,out m)?m:m),
 				new SqlParameter("@PrintCount", Convert.ToInt32(0)),
 			};
