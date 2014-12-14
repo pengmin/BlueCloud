@@ -61,24 +61,22 @@ namespace PengMin.JiaOu
 		private void toolStripButton3_Click(object sender, EventArgs e)
 		{
 			var sl = new AccountSelectForm(new SysConfigManager().Get().Accounts);
-			if (sl.ShowDialog() == DialogResult.OK)
+			if (sl.ShowDialog() != DialogResult.OK) return;
+
+			var fromSqlHelper = new SqlHelper(_from.GetConnectionString());
+			var toSqlHelper = new SqlHelper(_to.GetConnectionString());
+			var purchaseOrder = new DataAccess(fromSqlHelper)
+				.ImportPurchaseOrder((from DataGridViewRow row in dataGridView1.Rows select (Guid)row.Cells[0].Value)
+					.ToArray());
+			if (purchaseOrder != null && purchaseOrder.Rows.Count > 0)
 			{
-				var sh = new SqlHelper(_to.GetConnectionString());
-				_to = sl.CheckedInfo;
-				var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
-				var access = new DataAccess(sh);
-				foreach (DataGridViewRow row in dataGridView1.Rows)
-				{
-					DataTable main, detail;
-					access.GetPurchaseOrder((Guid)row.Cells[0].Value, out main, out detail);
-					sqlList.AddRange(access.PurchaseOrderToSaleOrder(main, detail));
-				}
-				if (sqlList.Count > 0)
-				{
-					sh.Open();
-					sh.Execute(sqlList);
-					sh.Close();
-				}
+				var saleOrder = DataAccess.PurchaseOrderToSaleOrder(purchaseOrder, _from.Name);
+				var result = new DataAccess(toSqlHelper).ExportSaleOrder(saleOrder);
+				MessageBox.Show(string.Join("\r\n", result));
+			}
+			else
+			{
+				MessageBox.Show("没有可导入的采购订单");
 			}
 		}
 	}

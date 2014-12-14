@@ -56,13 +56,95 @@ FROM    PU_PurchaseOrder AS a
 				new SqlParameter("@pid", id));
 			_sqlHelper.Close();
 		}
+
 		/// <summary>
 		/// 将采购订单转换成销售订单
 		/// </summary>
-		/// <param name="main">主订单</param>
-		/// <param name="detail">明细订单</param>
-		/// <returns>转换的Sql</returns>
-		public IEnumerable<Tuple<string, IEnumerable<DbParameter>>> PurchaseOrderToSaleOrder(DataTable main, DataTable detail)
+		/// <param name="data">采购订单数据</param>
+		/// <param name="customer">采购订单来源客户</param>
+		/// <returns>销售订单数据</returns>
+		public static DataTable PurchaseOrderToSaleOrder(DataTable data, string customer)
+		{
+			var saleOrder = new DataTable();
+			saleOrder.Columns.Add("单据日期");
+			saleOrder.Columns.Add("单据编号");
+			saleOrder.Columns.Add("客户");
+			saleOrder.Columns.Add("结算客户");
+			saleOrder.Columns.Add("业务员");
+			saleOrder.Columns.Add("预计交货日期");
+			saleOrder.Columns.Add("收款方式");
+			saleOrder.Columns.Add("订金金额");
+			saleOrder.Columns.Add("预付款百分比");
+			saleOrder.Columns.Add("存货编码");
+			saleOrder.Columns.Add("存货名称");
+			saleOrder.Columns.Add("规格型号");
+			saleOrder.Columns.Add("销售单位");
+			saleOrder.Columns.Add("数量");
+			saleOrder.Columns.Add("单价");
+			saleOrder.Columns.Add("税率");
+			saleOrder.Columns.Add("含税单价");
+			saleOrder.Columns.Add("金额");
+			saleOrder.Columns.Add("含税金额");
+			foreach (DataRow row in data.Rows)
+			{
+				var newRow = saleOrder.NewRow();
+				saleOrder.Rows.Add(newRow);
+				foreach (DataColumn cln in data.Columns)
+				{
+					if (saleOrder.Columns[cln.ColumnName] != null)
+					{
+						newRow[cln.ColumnName] = row[cln];
+					}
+					else if (cln.ColumnName == "客户")
+					{
+						newRow["客户"] = newRow["结算客户"] = customer;
+					}
+				}
+			}
+
+			return saleOrder;
+		}
+		/// <summary>
+		/// 导入采购订单
+		/// </summary>
+		/// <param name="ids">要导出的采购订单id</param>
+		/// <returns></returns>
+		public DataTable ImportPurchaseOrder(params Guid[] ids)
+		{
+			var sql = @"SELECT a.voucherdate AS [单据日期],
+a.code AS [单据编号],
+c.name AS [供应商],
+d.name AS [业务员],
+a.acceptDate AS [预计到货日期],
+e.Name AS [付款方式],
+a.origEarnestMoney AS [订金金额],
+a.SaleOrderCode AS [销售订单号],
+a.pubuserdefnvc1 AS [预付款百分比],
+f.code AS [存货编码],
+f.name AS [存货名称],
+f.specification AS [规格型号],
+g.name AS [采购单位],
+b.Quantity AS [数量],
+b.OrigDiscountPrice AS [单价],
+b.TaxRate AS [税率],
+b.OrigTaxPrice AS [含税单价],
+b.OrigDiscountAmount AS [金额],
+b.OrigTaxAmount AS [含税金额]
+FROM PU_PurchaseOrder AS a
+JOIN PU_PurchaseOrder_b AS b ON b.idPurchaseOrderDTO=a.id
+JOIN dbo.AA_Partner AS c ON c.id=a.idpartner
+JOIN dbo.AA_Person AS d ON d.id=a.idclerk
+JOIN dbo.eap_EnumItem AS e ON e.id=a.payType
+JOIN AA_Inventory AS f ON f.id=b.idinventory
+JOIN dbo.AA_Unit AS g ON g.id=b.idunit";
+			return null;
+		}
+		/// <summary>
+		/// 导出销售订单
+		/// </summary>
+		/// <param name="data">销售订单数据</param>
+		/// <returns>导出结果</returns>
+		public IEnumerable<string> ExportSaleOrder(DataTable data)
 		{
 			var mainSql = new DbParameter[]
 			{
@@ -152,11 +234,7 @@ FROM    PU_PurchaseOrder AS a
 				new SqlParameter("@prarequiretimes", Convert.ToInt32(0)),
 				new SqlParameter("@mrprequiretimes", Convert.ToInt32(0)),
 			};
-			return new List<Tuple<string, IEnumerable<DbParameter>>>
-			{
-				new Tuple<string, IEnumerable<DbParameter>>("SA_SaleOrder",mainSql),
-				new Tuple<string, IEnumerable<DbParameter>>("SA_SaleOrder_b",detailSql)
-			};
+			return null;
 		}
 	}
 }
