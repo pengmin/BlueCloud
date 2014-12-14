@@ -25,8 +25,8 @@ namespace PengMin.Tplus.Tools
 				var w = Console.ReadLine();
 				var sql = builder.Build(tn, w);
 				Console.WriteLine(sql);
-				Console.Write("Continue>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-				Console.Read();
+				Console.WriteLine("Continue>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+				//Console.Read();
 			}
 		}
 	}

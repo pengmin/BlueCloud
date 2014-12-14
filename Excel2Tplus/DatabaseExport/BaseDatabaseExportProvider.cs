@@ -245,28 +245,31 @@ namespace Excel2Tplus.DatabaseExport
 		{
 			var msgs = new List<string>();
 			string voucherCode = null;
-			var hasTuihuo = false;//有退货日期，则所有明细都要有退货日期
+			var tfrq = "";//退货日期
 			var gys = "";//供应商
+			var kf = "";//客户
 			foreach (var entity in list)
 			{
 				if (voucherCode != entity.单据编号)
 				{
 					voucherCode = entity.单据编号;
-					hasTuihuo = false;
+					tfrq = entity.退货日期;
 					gys = entity.供应商;
+					kf = entity.客户;
 				}
-				if (!string.IsNullOrWhiteSpace(entity.退货日期))
+				if (tfrq != entity.退货日期)
 				{
-					hasTuihuo = true;
-				}
-				if (hasTuihuo && string.IsNullOrWhiteSpace(entity.退货日期))
-				{
-					msgs.Add("单据[" + entity.单据编号 + "]不是所有行都有退货日期，不允许导入");
+					msgs.Add("单据[" + entity.单据编号 + "]不退货日期不一致，不允许导入");
 					return msgs;
 				}
 				if (gys != entity.供应商)
 				{
 					msgs.Add("单据[" + entity.单据编号 + "]供应商不一致，不允许导入");
+					return msgs;
+				}
+				if (kf != entity.客户)
+				{
+					msgs.Add("单据[" + entity.单据编号 + "]客户不一致，不允许导入");
 					return msgs;
 				}
 			}

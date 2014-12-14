@@ -22,7 +22,6 @@ namespace Excel2Tplus.Entities
 			}
 		}
 		public string 仓库 { get; set; }
-		public string 客户 { get; set; }
 		public string 抽佣比率 { get; set; }
 		public string 规格型号 { get; set; }
 		public string 计量单位 { get; set; }
@@ -39,7 +38,7 @@ namespace Excel2Tplus.Entities
 		public string 抽佣 { get; set; }
 		public string 售价 { get { return 单价; } set { 单价 = value; } }
 		public string 含税售价 { get { return 含税单价; } set { 含税单价 = value; } }
-		public string 销售金额 { get; set; }
-		public string 含税销售金额 { get; set; }
+		public string 销售金额 { get { return 金额; } set { 金额 = value; } }
+		public string 含税销售金额 { get { return 含税金额; } set { 含税金额 = value; } }
 	}
 }
