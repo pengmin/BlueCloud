@@ -68,6 +68,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@idmarketingOrgan", new Guid("4ad74463-e871-4dc1-beb0-6e6eaa0a6386")),
 				new SqlParameter("@MemberAddress", ""),
 				new SqlParameter("@PrintCount", Convert.ToInt32(0)),
+				new SqlParameter("@priuserdefnvc1",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)), 
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>(VoucherTable, ps);
@@ -122,6 +123,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@IsMemberIntegral", Convert.ToByte(0)),
 				new SqlParameter("@IsPromotionPresent", Convert.ToByte(0)),
 				new SqlParameter("@PromotionSingleVoucherCode", ""),
+				new SqlParameter("@priuserdefnvc1",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)), 
 			};
 
 			return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps) };
