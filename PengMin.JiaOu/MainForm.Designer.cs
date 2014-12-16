@@ -32,12 +32,12 @@
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
 			this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.toolStripButton4 = new System.Windows.Forms.ToolStripDropDownButton();
 			this.安装采购订单预付款程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.卸载采购订单预付款程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+			this.dataGridView1 = new System.Windows.Forms.DataGridView();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
@@ -62,7 +62,7 @@
 			this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
 			this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButton2.Name = "toolStripButton2";
-			this.toolStripButton2.Size = new System.Drawing.Size(93, 22);
+			this.toolStripButton2.Size = new System.Drawing.Size(92, 22);
 			this.toolStripButton2.Text = "导入采购单从...";
 			this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
 			// 
@@ -72,9 +72,35 @@
 			this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
 			this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButton3.Name = "toolStripButton3";
-			this.toolStripButton3.Size = new System.Drawing.Size(93, 22);
+			this.toolStripButton3.Size = new System.Drawing.Size(92, 22);
 			this.toolStripButton3.Text = "导出销售单到...";
 			this.toolStripButton3.Click += new System.EventHandler(this.toolStripButton3_Click);
+			// 
+			// toolStripButton4
+			// 
+			this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripButton4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.安装采购订单预付款程序ToolStripMenuItem,
+            this.卸载采购订单预付款程序ToolStripMenuItem});
+			this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+			this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButton4.Name = "toolStripButton4";
+			this.toolStripButton4.Size = new System.Drawing.Size(104, 22);
+			this.toolStripButton4.Text = "预付款程序设置";
+			// 
+			// 安装采购订单预付款程序ToolStripMenuItem
+			// 
+			this.安装采购订单预付款程序ToolStripMenuItem.Name = "安装采购订单预付款程序ToolStripMenuItem";
+			this.安装采购订单预付款程序ToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+			this.安装采购订单预付款程序ToolStripMenuItem.Text = "安装采购订单预付款程序";
+			this.安装采购订单预付款程序ToolStripMenuItem.Click += new System.EventHandler(this.安装采购订单预付款程序ToolStripMenuItem_Click);
+			// 
+			// 卸载采购订单预付款程序ToolStripMenuItem
+			// 
+			this.卸载采购订单预付款程序ToolStripMenuItem.Name = "卸载采购订单预付款程序ToolStripMenuItem";
+			this.卸载采购订单预付款程序ToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
+			this.卸载采购订单预付款程序ToolStripMenuItem.Text = "卸载采购订单预付款程序";
+			this.卸载采购订单预付款程序ToolStripMenuItem.Click += new System.EventHandler(this.卸载采购订单预付款程序ToolStripMenuItem_Click);
 			// 
 			// toolStripSeparator1
 			// 
@@ -87,7 +113,7 @@
 			this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
 			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButton1.Name = "toolStripButton1";
-			this.toolStripButton1.Size = new System.Drawing.Size(60, 22);
+			this.toolStripButton1.Size = new System.Drawing.Size(59, 22);
 			this.toolStripButton1.Text = "账套管理";
 			this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
 			// 
@@ -99,42 +125,15 @@
 			this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.dataGridView1.Location = new System.Drawing.Point(0, 25);
 			this.dataGridView1.Name = "dataGridView1";
-			this.dataGridView1.ReadOnly = true;
 			this.dataGridView1.RowTemplate.Height = 23;
-			this.dataGridView1.Size = new System.Drawing.Size(716, 408);
+			this.dataGridView1.Size = new System.Drawing.Size(716, 444);
 			this.dataGridView1.TabIndex = 1;
-			// 
-			// toolStripButton4
-			// 
-			this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.toolStripButton4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.安装采购订单预付款程序ToolStripMenuItem,
-            this.卸载采购订单预付款程序ToolStripMenuItem});
-			this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-			this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.toolStripButton4.Name = "toolStripButton4";
-			this.toolStripButton4.Size = new System.Drawing.Size(105, 22);
-			this.toolStripButton4.Text = "预付款程序设置";
-			// 
-			// 安装采购订单预付款程序ToolStripMenuItem
-			// 
-			this.安装采购订单预付款程序ToolStripMenuItem.Name = "安装采购订单预付款程序ToolStripMenuItem";
-			this.安装采购订单预付款程序ToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-			this.安装采购订单预付款程序ToolStripMenuItem.Text = "安装采购订单预付款程序";
-			this.安装采购订单预付款程序ToolStripMenuItem.Click += new System.EventHandler(this.安装采购订单预付款程序ToolStripMenuItem_Click);
-			// 
-			// 卸载采购订单预付款程序ToolStripMenuItem
-			// 
-			this.卸载采购订单预付款程序ToolStripMenuItem.Name = "卸载采购订单预付款程序ToolStripMenuItem";
-			this.卸载采购订单预付款程序ToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
-			this.卸载采购订单预付款程序ToolStripMenuItem.Text = "卸载采购订单预付款程序";
-			this.卸载采购订单预付款程序ToolStripMenuItem.Click += new System.EventHandler(this.卸载采购订单预付款程序ToolStripMenuItem_Click);
 			// 
 			// MainForm
 			// 
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(716, 433);
+			this.ClientSize = new System.Drawing.Size(716, 469);
 			this.Controls.Add(this.dataGridView1);
 			this.Controls.Add(this.toolStrip1);
 			this.Name = "MainForm";

@@ -84,7 +84,7 @@ FROM    PU_PurchaseOrder AS a
 			saleOrder.Columns.Add("存货编码");
 			saleOrder.Columns.Add("存货名称");
 			saleOrder.Columns.Add("规格型号");
-			saleOrder.Columns.Add("销售单位");
+			saleOrder.Columns.Add("单位");
 			saleOrder.Columns.Add("数量");
 			saleOrder.Columns.Add("单价");
 			saleOrder.Columns.Add("税率");
@@ -102,11 +102,12 @@ FROM    PU_PurchaseOrder AS a
 					{
 						newRow[cln.ColumnName] = row[cln];
 					}
-					else if (cln.ColumnName == "客户")
+					else if (cln.ColumnName == "预计到货日期")
 					{
-						newRow["客户"] = newRow["结算客户"] = customer;
+						newRow["预计交货日期"] = row[cln];
 					}
 				}
+				newRow["客户"] = newRow["结算客户"] = customer;
 			}
 
 			return saleOrder;
@@ -118,6 +119,8 @@ FROM    PU_PurchaseOrder AS a
 		/// <returns></returns>
 		public DataTable ImportPurchaseOrder(params Guid[] ids)
 		{
+			if (ids.Length == 0) return null;
+
 			var sql = @"SELECT a.voucherdate AS [单据日期],
 a.code AS [单据编号],
 c.name AS [供应商],
@@ -146,8 +149,13 @@ JOIN dbo.AA_Partner AS c ON c.id=a.idpartner
 JOIN dbo.AA_Person AS d ON d.id=a.idclerk
 JOIN dbo.eap_EnumItem AS e ON e.id=a.payType
 JOIN AA_Inventory AS f ON f.id=b.idinventory
-JOIN dbo.AA_Unit AS g ON g.id=b.idunit";
-			return null;
+JOIN dbo.AA_Unit AS g ON g.id=b.idunit
+WHERE a.id=@id";
+			_sqlHelper.Open();
+			var dt = _sqlHelper.GetDataTable(sql, new SqlParameter("@id", ids[0]));
+			_sqlHelper.Close();
+
+			return dt;
 		}
 		/// <summary>
 		/// 导出销售订单
@@ -160,19 +168,22 @@ JOIN dbo.AA_Unit AS g ON g.id=b.idunit";
 			Prefix = tplus.GetVoucherCodePrefix("销售订单", out Length);
 			Serialno = tplus.GetMaxSerialno("SA_SaleOrder", Length);
 			var id = Guid.NewGuid();
-			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>> { BuildMainSql(data.Rows[0], id) };
+			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
+
+			var sqlInfo = BuildMainSql(data.Rows[0], id);
+			sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
 			foreach (DataRow row in data.Rows)
 			{
-				var sqlInfo = BuildDetailSql(row, id);
+				sqlInfo = BuildDetailSql(row, id);
 				sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
 				sqlInfo = BuildCurrentStockSql(row);
 				sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
 			}
 
 			_sqlHelper.Open();
-			_sqlHelper.Execute(sqlList);
+			var msgs = new[] { _sqlHelper.Execute(sqlList).ToString() };
 			_sqlHelper.Close();
-			return null;
+			return msgs;
 		}
 
 		private Tuple<string, IEnumerable<DbParameter>> BuildMainSql(DataRow row, Guid id)
@@ -211,7 +222,7 @@ JOIN dbo.AA_Unit AS g ON g.id=b.idunit";
 				new SqlParameter("@idcurrency", new Guid("f407692f-d14e-4a7f-84a4-87df16406b5b")),
 				new SqlParameter("@accountingperiod", Convert.ToInt32(0)),
 				new SqlParameter("@idcustomer", tplus.GetPartnerIdByName(row["客户"].ToString())),
-				new SqlParameter("@iddepartment", tplus.GetDepartmentIdByName(row["部门"].ToString())),
+				//new SqlParameter("@iddepartment", tplus.GetDepartmentIdByName(row["部门"].ToString())),
 				new SqlParameter("@accountingyear", Convert.ToInt32(0)),
 				new SqlParameter("@createdtime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
 				new SqlParameter("@sequencenumber", Convert.ToInt32(0)),
