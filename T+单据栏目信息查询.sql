@@ -14,8 +14,8 @@ WHERE c.TableName='SA_SaleOrder' AND a.title LIKE '%业务类型%'
 ORDER BY a.TabIndex
 -------------------------------------------------------------
 --以下查询dto之间的关系
-SELECT * FROM dbo.eap_DTO WHERE TableName='SA_SaleOrder'
-SELECT * FROM dbo.eap_DTOProperty WHERE idDTO='DA8CB4FD-CA9A-427F-99AF-4FC636CD087C' and title LIKE '%业%'
+SELECT * FROM dbo.eap_DTO WHERE TableName='AA_InventoryUnitPrice'
+SELECT * FROM dbo.eap_DTOProperty WHERE idDTO='D95D146A-74CE-4E60-A1F8-9078262F91FE' and title LIKE '%业%'
 SELECT * FROM dbo.eap_DTORelation
 SELECT * FROM dbo.EAP_UserDefineArticleDTO_0001
 SELECT * FROM dbo.EAP_UserDefineArticleDTO_0002
@@ -39,7 +39,7 @@ JOIN dbo.eap_DTOProperty AS e ON a.idFromProperty=e.ID
 JOIN dbo.eap_DTOProperty AS f ON a.idToProperty=f.ID
 WHERE a.idToDTO='DA8CB4FD-CA9A-427F-99AF-4FC636CD087C'
 --获取单据表信息的sql
-SELECT * FROM dbo.eap_Voucher WHERE DtoName='SaleOrderDTO'
+SELECT * FROM dbo.eap_Voucher WHERE DtoName='InvUnitPriceDTO'
 --以下是单据设计页面的左边菜单树信息
 SELECT * FROM dbo.eap_VoucherModule
 SELECT * FROM dbo.eap_VoucherDesignTree

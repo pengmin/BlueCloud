@@ -79,5 +79,66 @@ namespace PengMin.JiaOu
 				MessageBox.Show("没有可导入的采购订单");
 			}
 		}
+
+		private void 安装采购订单预付款程序ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var sl = new AccountSelectForm(new SysConfigManager().Get().Accounts);
+			if (sl.ShowDialog() != DialogResult.OK) return;
+
+			var sql = @"IF ( OBJECT_ID('yufukuan_insert', 'tr') IS NOT NULL )
+    DROP TRIGGER yufukuan_insert
+GO
+CREATE TRIGGER yufukuan_insert ON dbo.PU_PurchaseOrder
+    FOR INSERT
+AS
+    DECLARE @percent FLOAT ,
+        @money DECIMAL ,
+        @id UNIQUEIDENTIFIER
+    SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
+                                              '%', '')) ,
+            @money = totalAmount ,
+            @id = id
+    FROM    Inserted
+    UPDATE  dbo.PU_PurchaseOrder
+    SET     origEarnestMoney = @money * @percent / 100
+    WHERE   id = @id
+GO
+IF ( OBJECT_ID('yufukuan_update', 'tr') IS NOT NULL )
+    DROP TRIGGER yufukuan_update
+GO
+CREATE TRIGGER yufukuan_update ON dbo.PU_PurchaseOrder
+    FOR UPDATE
+AS
+    DECLARE @percent FLOAT ,
+        @money DECIMAL ,
+        @id UNIQUEIDENTIFIER
+    SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
+                                              '%', '')) ,
+            @money = totalAmount ,
+            @id = id
+    FROM    Inserted
+    UPDATE  dbo.PU_PurchaseOrder
+    SET     origEarnestMoney = @money * @percent / 100
+    WHERE   id = @id
+GO";
+			var sqlHelper = new SqlHelper(sl.CheckedInfo.GetConnectionString());
+			sqlHelper.Open();
+			sqlHelper.Execute(sql);
+			sqlHelper.Close();
+		}
+
+		private void 卸载采购订单预付款程序ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var sl = new AccountSelectForm(new SysConfigManager().Get().Accounts);
+			if (sl.ShowDialog() != DialogResult.OK) return;
+
+			var sql = @"IF ( OBJECT_ID('yufukuan_insert', 'tr') IS NOT NULL )
+    DROP TRIGGER yufukuan_insert
+GO";
+			var sqlHelper = new SqlHelper(sl.CheckedInfo.GetConnectionString());
+			sqlHelper.Open();
+			sqlHelper.Execute(sql);
+			sqlHelper.Close();
+		}
 	}
 }

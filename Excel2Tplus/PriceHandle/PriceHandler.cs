@@ -20,7 +20,7 @@ namespace Excel2Tplus.PriceHandle
 		public void Handler<TEntity>(IEnumerable<TEntity> list) where TEntity : Entity
 		{
 			var provider = new PriceBookProviderFactory().GetProvider(CommonFunction.GetElementType(list.GetType()));
-			var pb = provider.Get();
+			var pb = provider.Get(TplusDatabaseHelper.Instance.GetCustomerLevelByName(list.First().客户));
 			foreach (var item in list)
 			{
 				var p = pb.SingleOrDefault(_ => _.Code == item.PriceCode);

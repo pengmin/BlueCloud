@@ -35,6 +35,9 @@
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.dataGridView1 = new System.Windows.Forms.DataGridView();
+			this.toolStripButton4 = new System.Windows.Forms.ToolStripDropDownButton();
+			this.安装采购订单预付款程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+			this.卸载采购订单预付款程序ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
@@ -44,6 +47,7 @@
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButton2,
             this.toolStripButton3,
+            this.toolStripButton4,
             this.toolStripSeparator1,
             this.toolStripButton1});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -100,6 +104,32 @@
 			this.dataGridView1.Size = new System.Drawing.Size(716, 408);
 			this.dataGridView1.TabIndex = 1;
 			// 
+			// toolStripButton4
+			// 
+			this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripButton4.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.安装采购订单预付款程序ToolStripMenuItem,
+            this.卸载采购订单预付款程序ToolStripMenuItem});
+			this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+			this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButton4.Name = "toolStripButton4";
+			this.toolStripButton4.Size = new System.Drawing.Size(105, 22);
+			this.toolStripButton4.Text = "预付款程序设置";
+			// 
+			// 安装采购订单预付款程序ToolStripMenuItem
+			// 
+			this.安装采购订单预付款程序ToolStripMenuItem.Name = "安装采购订单预付款程序ToolStripMenuItem";
+			this.安装采购订单预付款程序ToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+			this.安装采购订单预付款程序ToolStripMenuItem.Text = "安装采购订单预付款程序";
+			this.安装采购订单预付款程序ToolStripMenuItem.Click += new System.EventHandler(this.安装采购订单预付款程序ToolStripMenuItem_Click);
+			// 
+			// 卸载采购订单预付款程序ToolStripMenuItem
+			// 
+			this.卸载采购订单预付款程序ToolStripMenuItem.Name = "卸载采购订单预付款程序ToolStripMenuItem";
+			this.卸载采购订单预付款程序ToolStripMenuItem.Size = new System.Drawing.Size(208, 22);
+			this.卸载采购订单预付款程序ToolStripMenuItem.Text = "卸载采购订单预付款程序";
+			this.卸载采购订单预付款程序ToolStripMenuItem.Click += new System.EventHandler(this.卸载采购订单预付款程序ToolStripMenuItem_Click);
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -125,5 +155,8 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
 		private System.Windows.Forms.ToolStripButton toolStripButton2;
 		private System.Windows.Forms.ToolStripButton toolStripButton3;
+		private System.Windows.Forms.ToolStripDropDownButton toolStripButton4;
+		private System.Windows.Forms.ToolStripMenuItem 安装采购订单预付款程序ToolStripMenuItem;
+		private System.Windows.Forms.ToolStripMenuItem 卸载采购订单预付款程序ToolStripMenuItem;
 	}
 }

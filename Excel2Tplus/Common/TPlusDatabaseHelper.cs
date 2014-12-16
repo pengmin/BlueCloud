@@ -319,5 +319,39 @@ JOIN dbo.SM_VoucherType AS b ON a.idvouchertype=b.id";
 			}
 			return DBNull.Value;
 		}
+		/// <summary>
+		/// 获取客户的价格本级别
+		/// </summary>
+		/// <param name="name">客户名称</param>
+		/// <returns></returns>
+		public int GetCustomerLevelByName(string name)
+		{
+			var sql = @"SELECT CONVERT(INT,b.Code) AS code FROM dbo.AA_Partner AS a
+JOIN dbo.eap_EnumItem AS b ON b.id=a.priceGrade
+WHERE a.name=@name";
+
+			_sqlHelper.Open();
+			var val = _sqlHelper.Scalar(sql, new SqlParameter("@name", name));
+			_sqlHelper.Close();
+
+			return val is int ? (int)val : -1;
+		}
+		/// <summary>
+		/// 获取往来单位类型。
+		/// </summary>
+		/// <param name="name">往来单位名称</param>
+		/// <returns>[客户|供应商]</returns>
+		public string GetParnerTypeByName(string name)
+		{
+			var sql = @"SELECT b.Name FROM AA_Partner AS a
+JOIN dbo.eap_EnumItem AS b ON b.id=a.partnerType
+WHERE a.name=@name";
+
+			_sqlHelper.Open();
+			var val = _sqlHelper.Scalar(sql, new SqlParameter("@name", name));
+			_sqlHelper.Close();
+
+			return val is string ? val.ToString() : string.Empty;
+		}
 	}
 }

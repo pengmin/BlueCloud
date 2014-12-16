@@ -14,6 +14,6 @@ namespace Excel2Tplus.PriceHandle
 		/// 获取价格表
 		/// </summary>
 		/// <returns></returns>
-		IEnumerable<PriceBook> Get();
+		IEnumerable<PriceBook> Get(int level);
 	}
 }

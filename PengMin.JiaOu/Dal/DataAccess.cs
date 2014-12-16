@@ -161,11 +161,14 @@ JOIN dbo.AA_Unit AS g ON g.id=b.idunit";
 			Serialno = tplus.GetMaxSerialno("SA_SaleOrder", Length);
 			var id = Guid.NewGuid();
 			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>> { BuildMainSql(data.Rows[0], id) };
-			sqlList.AddRange(from DataRow row in data.Rows
-							 select BuildDetailSql(row, id)
-								 into sqlInfo
-								 let sql = BuildSql(sqlInfo)
-								 select new Tuple<string, IEnumerable<DbParameter>>(sql, sqlInfo.Item2));
+			foreach (DataRow row in data.Rows)
+			{
+				var sqlInfo = BuildDetailSql(row, id);
+				sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
+				sqlInfo = BuildCurrentStockSql(row);
+				sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
+			}
+
 			_sqlHelper.Open();
 			_sqlHelper.Execute(sqlList);
 			_sqlHelper.Close();
@@ -281,6 +284,30 @@ JOIN dbo.AA_Unit AS g ON g.id=b.idunit";
 				new SqlParameter("@PromotionSingleVoucherCode", ""),
 			};
 			return new Tuple<string, IEnumerable<DbParameter>>("SA_SaleOrder_b", ps);
+		}
+
+		private Tuple<string, IEnumerable<DbParameter>> BuildCurrentStockSql(DataRow obj)
+		{
+			int d;
+			return new Tuple<string, IEnumerable<DbParameter>>(
+				"ST_CurrentStock",
+				new DbParameter[]
+				{
+					new SqlParameter("@id", Guid.NewGuid()),
+					new SqlParameter("@purchaseForReceiveBaseQuantity", int.TryParse(obj["数量"].ToString(),out d)?d:d),
+					new SqlParameter("@recordDate", DateTime.Now.ToString("yyyy-MM-dd")),
+					new SqlParameter("@isCarriedForwardOut", Convert.ToByte(0)),
+					new SqlParameter("@isCarriedForwardIn", Convert.ToByte(0)),
+					new SqlParameter("@createdtime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
+					new SqlParameter("@sequencenumber", Convert.ToInt32(0)),
+					//new SqlParameter("@ts", "System.Byte[]"),
+					new SqlParameter("@updated", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
+					new SqlParameter("@updatedBy", "demo"),
+					//new SqlParameter("@idwarehouse", TplusDatabaseHelper.GetInstance(_sqlHelper).GetWarehouseIdByName(obj.仓库)),
+					new SqlParameter("@idbaseunit",TplusDatabaseHelper.GetInstance(_sqlHelper).GetUnitIdByName(obj["单位"].ToString())),
+					new SqlParameter("@idinventory", TplusDatabaseHelper.GetInstance(_sqlHelper).GetInventoryIdByCode(obj["存货编码"].ToString())),
+					new SqlParameter("@IdMarketingOrgan", new Guid("4ad74463-e871-4dc1-beb0-6e6eaa0a6386")),
+				});
 		}
 
 		private static string BuildSql(Tuple<string, IEnumerable<DbParameter>> sqlInfo)

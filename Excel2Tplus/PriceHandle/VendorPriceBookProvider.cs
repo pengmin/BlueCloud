@@ -17,7 +17,7 @@ JOIN dbo.AA_Partner AS c ON b.idvendor=c.id
 JOIN dbo.AA_Inventory AS d ON b.idinventory= d.id
 WHERE a.EffectiveStartDate<=@date AND a.EffectiveEndDate>=@date";
 
-		public IEnumerable<PriceBook> Get()
+		public IEnumerable<PriceBook> Get(int level)
 		{
 			var helper = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
 			helper.Open();
