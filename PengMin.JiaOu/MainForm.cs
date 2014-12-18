@@ -34,9 +34,11 @@ namespace PengMin.JiaOu
 			if (sl.ShowDialog() == DialogResult.OK && sl.CheckedInfo != null)
 			{
 				_from = sl.CheckedInfo;
-				var data = new DataAccess(new SqlHelper(_from.GetConnectionString())).GetPurchaseOrder();
+				var sd = dateTimePicker1.Value.ToString("yyyy-MM-dd 00:00:00");
+				var ed = dateTimePicker2.Value.ToString("yyyy-MM-dd 23:59:59");
+				var data = new DataAccess(new SqlHelper(_from.GetConnectionString())).GetPurchaseOrder(sd, ed);
 				dataGridView1.Columns.Clear();
-				dataGridView1.Columns.Add(new DataGridViewCheckBoxColumn { ReadOnly = false, Width = 30 });
+				dataGridView1.Columns.Add(new DataGridViewCheckBoxColumn { ReadOnly = false, Width = 30, FalseValue = 0, TrueValue = 1 });
 				foreach (DataColumn cln in data.Columns)
 				{
 					dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = cln.ColumnName, ReadOnly = true });
@@ -45,7 +47,7 @@ namespace PengMin.JiaOu
 				foreach (DataRow row in data.Rows)
 				{
 					dataGridView1.Rows.Add(
-						false,
+						0,
 						row["id"],
 						row["单据日期"],
 						row["单据编号"],
@@ -62,19 +64,32 @@ namespace PengMin.JiaOu
 
 		private void toolStripButton3_Click(object sender, EventArgs e)
 		{
+			if (_from == null)
+			{
+				MessageBox.Show("请先选择导入采购订单");
+				return;
+			}
 			var sl = new AccountSelectForm(new SysConfigManager().Get().Accounts);
 			if (sl.ShowDialog() != DialogResult.OK) return;
 
 			var fromSqlHelper = new SqlHelper(_from.GetConnectionString());
 			var toSqlHelper = new SqlHelper(sl.CheckedInfo.GetConnectionString());
-			var purchaseOrder = new DataAccess(fromSqlHelper)
-				.ImportPurchaseOrder((from DataGridViewRow row in dataGridView1.Rows
-									  where row.Cells[0].Selected.ToString() == true.ToString()
-									  select (Guid)row.Cells[1].Value).ToArray());
-			if (purchaseOrder != null && purchaseOrder.Rows.Count > 0)
+			var da = new DataAccess(fromSqlHelper);
+			var result = new List<string>();
+			foreach (DataGridViewRow row in dataGridView1.Rows)
 			{
-				var saleOrder = DataAccess.PurchaseOrderToSaleOrder(purchaseOrder, _from.Name);
-				var result = new DataAccess(toSqlHelper).ExportSaleOrder(saleOrder);
+				if ((int)row.Cells[0].Value != 1) continue;
+				var purchaseOrder = da.ImportPurchaseOrder((Guid)row.Cells[1].Value);
+				if (purchaseOrder != null && purchaseOrder.Rows.Count > 0)
+				{
+					var saleOrder = DataAccess.PurchaseOrderToSaleOrder(purchaseOrder, _from.Name);
+					var rt = new DataAccess(toSqlHelper).ExportSaleOrder(saleOrder);
+					result.AddRange(rt);
+				}
+			}
+			if (result.Count > 0)
+			{
+				result.Insert(0, "导出成功！\r\n");
 				MessageBox.Show(string.Join("\r\n", result));
 			}
 			else
