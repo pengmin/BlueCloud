@@ -30,7 +30,7 @@ namespace Excel2Tplus.DatabaseExport
 		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(OutputWarehouse obj, Guid id)
 		{
 			SetOtherSql(id);
-			decimal cy;//抽佣比率
+			decimal cy, m;//抽佣比率
 			var ps = new DbParameter[]
 			{
 				new SqlParameter("@id", id),
@@ -40,7 +40,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@contactPhone", ""),
 				new SqlParameter("@voucherState", TplusDatabaseHelper.Instance.GetVoucherStateIdByStateName("未审")),
 				new SqlParameter("@printTime", Convert.ToInt32(0)),
-				//new SqlParameter("@amount", Convert.ToDecimal(2072.84000000000000)),//成本金额
+				new SqlParameter("@amount", decimal.TryParse( obj.成本金额,out m)?m:m),//成本金额
 				new SqlParameter("@rdDirectionFlag", Convert.ToByte(0)),
 				new SqlParameter("@deliveryState", new Guid("3fa9f8c4-4d3f-4b90-be87-a18cde11ca8e")),
 				new SqlParameter("@isCostAccount", Convert.ToByte(0)),
@@ -79,7 +79,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@VoucherYear", Convert.ToInt32(2013)),
 				new SqlParameter("@VoucherPeriod", Convert.ToInt32(6)),
 				new SqlParameter("@exchangeRate", Convert.ToDecimal(1.00000000000000)),
-				new SqlParameter("@idProject", new Guid("666374a4-6341-4b3a-96fc-a3930150f584")),
+				new SqlParameter("@idProject", TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)),
 				new SqlParameter("@idSettleCustomer", new Guid("c8412a2e-d9f9-46d0-8fd4-a39a012e5099")),
 				new SqlParameter("@idmarketingOrgan", new Guid("4ad74463-e871-4dc1-beb0-6e6eaa0a6386")),
 				new SqlParameter("@PrintCount", Convert.ToInt32(0)),
@@ -91,6 +91,7 @@ namespace Excel2Tplus.DatabaseExport
 
 		protected override IEnumerable<Tuple<string, IEnumerable<DbParameter>>> BuildDetailInsertSql(OutputWarehouse obj, Guid pid)
 		{
+			SetOtherSql2(obj);
 			decimal m;//金额
 			double tr;//税率
 			int d;//整数
@@ -100,9 +101,9 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@code", (Code++).ToString().PadLeft(4,'0')),
 				new SqlParameter("@quantity", int.TryParse(obj.数量,out d)?d:d),
 				new SqlParameter("@baseQuantity", int.TryParse(obj.数量,out d)?d:d),
-				//new SqlParameter("@price", Convert.ToDecimal(26.92000000000000)),//成本价
+				new SqlParameter("@price", decimal.TryParse( obj.成本价,out m)?m:m),//成本价
 				//new SqlParameter("@basePrice", Convert.ToDecimal(26.92000000000000)),
-				//new SqlParameter("@amount", Convert.ToDecimal(2072.84000000000000)),//成本金额
+				new SqlParameter("@amount", decimal.TryParse( obj.成本金额,out m)?m:m),//成本金额
 				new SqlParameter("@taxRate", (double.TryParse(obj.税率,out tr)?tr:tr)/100),
 				new SqlParameter("@tax", decimal.TryParse( obj.税额,out m)?m:m),
 				new SqlParameter("@isManualCost", Convert.ToByte(0)),
@@ -193,6 +194,18 @@ namespace Excel2Tplus.DatabaseExport
 			return _otherSql;
 		}
 
+		private void SetOtherSql2(OutputWarehouse obj)
+		{
+			var sql = @"SELECT * FROM dbo.ST_CurrentStock
+UPDATE dbo.ST_CurrentStock SET forSaleDispatchBaseQuantity=forSaleDispatchBaseQuantity+@quantity
+WHERE idinventory=@inventory AND idwarehouse=@warehouse";
+			_otherSql.Add(new Tuple<string, IEnumerable<DbParameter>>(sql, new DbParameter[]
+			{
+				new SqlParameter("@quantity",obj.数量), 
+				new SqlParameter("@inventory",TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)), 
+				new SqlParameter("@warehouse",TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)), 
+			}));
+		}
 		private void SetOtherSql(Guid id)
 		{
 			var sql = @" INSERT INTO ARAP_DetailSecond
