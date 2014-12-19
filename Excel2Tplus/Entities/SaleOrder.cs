@@ -21,7 +21,6 @@ namespace Excel2Tplus.Entities
 				InventoryCode = value;
 			}
 		}
-		public string 客户 { get; set; }
 		public string 规格型号 { get; set; }
 		public string 仓库 { get; set; }
 		public string 销售单位 { get; set; }

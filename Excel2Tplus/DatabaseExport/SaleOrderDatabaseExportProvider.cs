@@ -157,6 +157,10 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				list.Add("单据[" + obj.单据编号 + "]存货编码不存在");
 			}
+			if (TplusDatabaseHelper.Instance.GetPartnerIdByName(obj.客户) is DBNull)
+			{
+				list.Add("单据[" + obj.单据编号 + "]客户不存在");
+			}
 			if (TplusDatabaseHelper.Instance.GetParnerTypeByName(obj.客户) != "客户")
 			{
 				list.Add("单据[" + obj.单据编号 + "](" + obj.客户 + ")不是客户性质的往来单位");

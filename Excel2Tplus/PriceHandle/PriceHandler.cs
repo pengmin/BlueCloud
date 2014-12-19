@@ -19,14 +19,36 @@ namespace Excel2Tplus.PriceHandle
 		/// <param name="list">单据对象集合</param>
 		public void Handler<TEntity>(IEnumerable<TEntity> list) where TEntity : Entity
 		{
+
 			var provider = new PriceBookProviderFactory().GetProvider(CommonFunction.GetElementType(list.GetType()));
-			var pb = provider.Get(TplusDatabaseHelper.Instance.GetCustomerLevelByName(list.First().客户));
-			foreach (var item in list)
+			if (provider.GetType() == typeof(VendorPriceBookProvider))
 			{
-				var p = pb.SingleOrDefault(_ => _.Code == item.PriceCode);
-				if (p != null)
+				var pb = provider.Get(-1);
+				foreach (var item in list)
 				{
-					item.BookPrice = p.Price;
+					var p = pb.SingleOrDefault(_ => _.Code == item.PriceCode);
+					if (p != null)
+					{
+						item.BookPrice = p.Price;
+					}
+				}
+			}
+			else
+			{
+				var kefu = string.Empty;
+				IEnumerable<PriceBook> pb = null;
+				foreach (var item in list)
+				{
+					if (kefu != item.客户)
+					{
+						kefu = item.客户;
+						pb = provider.Get(TplusDatabaseHelper.Instance.GetCustomerLevelByName(item.客户));
+					}
+					var p = pb.SingleOrDefault(_ => _.Code == item.PriceCode);
+					if (p != null)
+					{
+						item.BookPrice = p.Price;
+					}
 				}
 			}
 		}
