@@ -78,7 +78,7 @@ namespace PengMin.JiaOu
 			var result = new List<string>();
 			foreach (DataGridViewRow row in dataGridView1.Rows)
 			{
-				if ((int)row.Cells[0].Value != 1) continue;
+				if (!bool.Parse(((DataGridViewCheckBoxCell)row.Cells[0]).EditingCellFormattedValue.ToString())) continue;
 				var purchaseOrder = da.ImportPurchaseOrder((Guid)row.Cells[1].Value);
 				if (purchaseOrder != null && purchaseOrder.Rows.Count > 0)
 				{

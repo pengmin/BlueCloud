@@ -153,11 +153,11 @@ b.OrigTaxAmount AS [含税金额],
 b.origTax AS [税额]
 FROM PU_PurchaseOrder AS a
 JOIN PU_PurchaseOrder_b AS b ON b.idPurchaseOrderDTO=a.id
-JOIN dbo.AA_Partner AS c ON c.id=a.idpartner
-JOIN dbo.AA_Person AS d ON d.id=a.idclerk
-JOIN dbo.eap_EnumItem AS e ON e.id=a.payType
-JOIN AA_Inventory AS f ON f.id=b.idinventory
-JOIN dbo.AA_Unit AS g ON g.id=b.idunit
+LEFT JOIN dbo.AA_Partner AS c ON c.id=a.idpartner
+LEFT JOIN dbo.AA_Person AS d ON d.id=a.idclerk
+LEFT JOIN dbo.eap_EnumItem AS e ON e.id=a.payType
+LEFT JOIN AA_Inventory AS f ON f.id=b.idinventory
+LEFT JOIN dbo.AA_Unit AS g ON g.id=b.idunit
 WHERE a.id=@id";
 			_sqlHelper.Open();
 			var dt = _sqlHelper.GetDataTable(sql, new SqlParameter("@id", ids[0]));
