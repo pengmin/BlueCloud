@@ -91,6 +91,10 @@ namespace Excel2Tplus.DatabaseExport
 				ReAmount(item);
 				details.Add(item);
 			}
+			if (msgList.Count > 0)
+			{
+				return msgList;
+			}
 			if (main != null && details != null && details.Count > 0)//已有当前记录
 			{
 				id = Guid.NewGuid();//主记录id

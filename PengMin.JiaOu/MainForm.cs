@@ -34,9 +34,10 @@ namespace PengMin.JiaOu
 			if (sl.ShowDialog() == DialogResult.OK && sl.CheckedInfo != null)
 			{
 				_from = sl.CheckedInfo;
+				var partner = textBox1.Text;
 				var sd = dateTimePicker1.Value.ToString("yyyy-MM-dd 00:00:00");
 				var ed = dateTimePicker2.Value.ToString("yyyy-MM-dd 23:59:59");
-				var data = new DataAccess(new SqlHelper(_from.GetConnectionString())).GetPurchaseOrder(sd, ed);
+				var data = new DataAccess(new SqlHelper(_from.GetConnectionString())).GetPurchaseOrder(partner, sd, ed);
 				dataGridView1.Columns.Clear();
 				dataGridView1.Columns.Add(new DataGridViewCheckBoxColumn { ReadOnly = false, Width = 30, FalseValue = 0, TrueValue = 1 });
 				foreach (DataColumn cln in data.Columns)
@@ -115,7 +116,7 @@ AS
         @id UNIQUEIDENTIFIER
     SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
                                               '%', '')) ,
-            @money = totalAmount ,
+            @money = totalTaxAmount ,
             @id = id
     FROM    Inserted
     UPDATE  dbo.PU_PurchaseOrder
@@ -131,7 +132,7 @@ AS
         @id UNIQUEIDENTIFIER
     SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
                                               '%', '')) ,
-            @money = totalAmount ,
+            @money = totalTaxAmount ,
             @id = id
     FROM    Inserted
     UPDATE  dbo.PU_PurchaseOrder

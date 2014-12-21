@@ -132,10 +132,10 @@ namespace Excel2Tplus.DatabaseExport
 		protected override bool CanExport(SaleQuotation obj, out IEnumerable<string> msgs)
 		{
 			var list = new List<string>();
-			if (TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库) is DBNull)
-			{
-				list.Add("单据[" + obj.单据编号 + "]仓库不存在");
-			}
+			//if (TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库) is DBNull)
+			//{
+			//	list.Add("单据[" + obj.单据编号 + "]仓库不存在");
+			//}
 			if (TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司) is DBNull)
 			{
 				list.Add("单据[" + obj.单据编号 + "]所属公司不存在");

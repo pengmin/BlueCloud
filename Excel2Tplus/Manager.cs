@@ -80,7 +80,17 @@ namespace Excel2Tplus
 			//	MessageBox.Show("Excel文件已被其他程序打开");
 			//	return;
 			//}
-			new PriceHandler().Handler(_list);
+			try
+			{
+				new PriceHandler().Handler(_list);
+			}
+			catch (Exception ex)
+			{
+				_list = null;
+				MessageBox.Show("客户不是客户性质或客户没有设置价格等级");
+				return;
+			}
+
 			ShowToView(_list);
 		}
 

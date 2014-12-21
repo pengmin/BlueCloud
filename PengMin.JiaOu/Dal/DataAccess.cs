@@ -25,7 +25,7 @@ namespace PengMin.JiaOu.Dal
 		/// 获取采购订单摘要
 		/// </summary>
 		/// <returns></returns>
-		public DataTable GetPurchaseOrder(string startDate, string endDate)
+		public DataTable GetPurchaseOrder(string partner, string startDate, string endDate)
 		{
 			var sql = @"SELECT a.id, a.VoucherDate AS 单据日期 ,
 		a.code AS 单据编号 ,
@@ -39,6 +39,10 @@ FROM    PU_PurchaseOrder AS a
 		JOIN dbo.AA_Partner AS b ON b.id = a.idpartner
 		LEFT JOIN dbo.AA_Person AS c ON c.id = a.idclerk
 		LEFT JOIN dbo.eap_EnumItem AS d ON d.id = a.payType WHERE 1=1";
+			if (!string.IsNullOrWhiteSpace(partner))
+			{
+				sql += " AND b.name like '%" + partner + "%'";
+			}
 			if (!string.IsNullOrWhiteSpace(startDate))
 			{
 				sql += " AND voucherdate>='" + startDate + "'";

@@ -66,7 +66,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@updatedBy", "demo"),
 				new SqlParameter("@iddepartment", TplusDatabaseHelper.Instance.GetCompanyIdByName(obj.所属公司)),
 				new SqlParameter("@idpartner", TplusDatabaseHelper.Instance.GetPartnerIdByName(obj.客户)),
-				new SqlParameter("@idbusitype", new Guid("db58a9e1-d6ad-4c7a-8d07-23fdddc51d98")),
+				new SqlParameter("@idbusitype", string.IsNullOrWhiteSpace(obj.退货日期)?new Guid("db58a9e1-d6ad-4c7a-8d07-23fdddc51d98"):new Guid("23FBABAD-1697-41AB-9FAC-8BA86B38FF01")),
 				new SqlParameter("@idvouchertype", new Guid("bb007f33-c0f0-4a19-8588-1e0e314d1f56")),
 				new SqlParameter("@idwarehouse", TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
 				new SqlParameter("@idrdstyle", new Guid("2f384c02-e650-4421-81de-e870e6a8b0b3")),
@@ -80,7 +80,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@VoucherPeriod", Convert.ToInt32(6)),
 				new SqlParameter("@exchangeRate", Convert.ToDecimal(1.00000000000000)),
 				new SqlParameter("@idProject", TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)),
-				new SqlParameter("@idSettleCustomer", new Guid("c8412a2e-d9f9-46d0-8fd4-a39a012e5099")),
+				new SqlParameter("@idSettleCustomer", TplusDatabaseHelper.Instance.GetPartnerIdByName(obj.客户)),
 				new SqlParameter("@idmarketingOrgan", new Guid("4ad74463-e871-4dc1-beb0-6e6eaa0a6386")),
 				new SqlParameter("@PrintCount", Convert.ToInt32(0)),
 				new SqlParameter("@Address", ""),
@@ -197,7 +197,7 @@ namespace Excel2Tplus.DatabaseExport
 		private void SetOtherSql2(OutputWarehouse obj)
 		{
 			var sql = @"SELECT * FROM dbo.ST_CurrentStock
-UPDATE dbo.ST_CurrentStock SET forSaleDispatchBaseQuantity=forSaleDispatchBaseQuantity+@quantity
+UPDATE dbo.ST_CurrentStock SET forSaleDispatchBaseQuantity=isnull(forSaleDispatchBaseQuantity,0)+@quantity
 WHERE idinventory=@inventory AND idwarehouse=@warehouse";
 			_otherSql.Add(new Tuple<string, IEnumerable<DbParameter>>(sql, new DbParameter[]
 			{
