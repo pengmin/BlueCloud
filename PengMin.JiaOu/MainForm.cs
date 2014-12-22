@@ -60,6 +60,7 @@ namespace PengMin.JiaOu
 						row["预付款百分比"]
 					);
 				}
+				textBox1.Focus();
 			}
 		}
 
@@ -121,7 +122,31 @@ AS
     FROM    Inserted
     UPDATE  dbo.PU_PurchaseOrder
     SET     origEarnestMoney = @money * @percent / 100
-    WHERE   id = @id",
+    WHERE   id = @id
+
+    INSERT  INTO [PU_PurchaseOrder_ArnestMoney]
+            ( id ,
+              idPurchaseOrderDTO ,
+              idbankaccount ,
+              updated ,
+              idsettlestyle ,
+              updatedBy ,
+              amount ,
+              sequencenumber ,
+              origAmount ,
+              code
+            )
+    VALUES  ( NEWID() ,
+              @id ,
+              '4adbf11c-9eca-4a3f-999b-a8e00b657e19' ,
+               GETDATE(),
+              'c14bf775-089e-4e58-96c5-9b482f5a42b9' ,
+              'demo' ,
+              @money * @percent / 100 ,
+              0 ,
+              @money * @percent / 100 ,
+              '0000'
+            );",
 				@"IF ( OBJECT_ID('yufukuan_update', 'tr') IS NOT NULL ) 
     DROP TRIGGER yufukuan_update",
 				@"CREATE TRIGGER yufukuan_update ON dbo.PU_PurchaseOrder
@@ -137,7 +162,12 @@ AS
     FROM    Inserted
     UPDATE  dbo.PU_PurchaseOrder
     SET     origEarnestMoney = @money * @percent / 100
-    WHERE   id = @id"
+    WHERE   id = @id
+
+    UPDATE  [PU_PurchaseOrder_ArnestMoney]
+    SET     amount = @money * @percent / 100 ,
+            origAmount = @money * @percent / 100
+    WHERE   idPurchaseOrderDTO = @id"
 			};
 			var sqlHelper = new SqlHelper(sl.CheckedInfo.GetConnectionString());
 			sqlHelper.Open();
@@ -163,6 +193,18 @@ IF ( OBJECT_ID('yufukuan_update', 'tr') IS NOT NULL )
 			sqlHelper.Execute(sql);
 			sqlHelper.Close();
 			MessageBox.Show("卸载成功");
+		}
+
+		private void toolStripButton5_Click(object sender, EventArgs e)
+		{
+			if (dataGridView1.Rows.Count > 0)
+			{
+				foreach (DataGridViewRow row in dataGridView1.Rows)
+				{
+					((DataGridViewCheckBoxCell)row.Cells[0]).Value = true;
+					//row.Cells[0].Value = 1;
+				}
+			}
 		}
 	}
 }

@@ -72,7 +72,7 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@IsAutoGenerateSaleOrderBOM", Convert.ToByte(0)),
 				new SqlParameter("@IsAutoGenerateRouting", Convert.ToByte(0)),
 				new SqlParameter("@idproject", TplusDatabaseHelper.Instance.GetProjectIdByName(obj.项目)),
-				new SqlParameter("@idsettlecustomer", new Guid("c8412a2e-d9f9-46d0-8fd4-a39a012e5099")),
+				new SqlParameter("@idsettlecustomer", TplusDatabaseHelper.Instance.GetPartnerIdByName(obj.客户)),
 				new SqlParameter("@changer", ""),
 				new SqlParameter("@idwarehouse", TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
 				new SqlParameter("@idmarketingOrgan", new Guid("4ad74463-e871-4dc1-beb0-6e6eaa0a6386")),

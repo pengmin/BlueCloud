@@ -44,6 +44,8 @@
 			this.dateTimePicker2 = new System.Windows.Forms.DateTimePicker();
 			this.label3 = new System.Windows.Forms.Label();
 			this.textBox1 = new System.Windows.Forms.TextBox();
+			this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
 			this.SuspendLayout();
@@ -51,6 +53,8 @@
 			// toolStrip1
 			// 
 			this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton5,
+            this.toolStripSeparator2,
             this.toolStripButton2,
             this.toolStripButton3,
             this.toolStripButton4,
@@ -135,7 +139,7 @@
 			this.dataGridView1.Name = "dataGridView1";
 			this.dataGridView1.RowTemplate.Height = 23;
 			this.dataGridView1.Size = new System.Drawing.Size(895, 468);
-			this.dataGridView1.TabIndex = 1;
+			this.dataGridView1.TabIndex = 7;
 			// 
 			// label1
 			// 
@@ -185,7 +189,22 @@
 			this.textBox1.Location = new System.Drawing.Point(62, 28);
 			this.textBox1.Name = "textBox1";
 			this.textBox1.Size = new System.Drawing.Size(209, 20);
-			this.textBox1.TabIndex = 7;
+			this.textBox1.TabIndex = 1;
+			// 
+			// toolStripButton5
+			// 
+			this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
+			this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.toolStripButton5.Name = "toolStripButton5";
+			this.toolStripButton5.Size = new System.Drawing.Size(35, 22);
+			this.toolStripButton5.Text = "全选";
+			this.toolStripButton5.Click += new System.EventHandler(this.toolStripButton5_Click);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
 			// MainForm
 			// 
@@ -227,5 +246,7 @@
 		private System.Windows.Forms.DateTimePicker dateTimePicker2;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.ToolStripButton toolStripButton5;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 	}
 }
