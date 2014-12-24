@@ -210,6 +210,9 @@ namespace Excel2Tplus.Common
 		/// <returns>订单编码的前缀</returns>
 		public string GetVoucherCodePrefix(string name, out int serialnoLength)
 		{
+			//按照测试的需求，直接返回公司简称+年+月+4位序号
+			serialnoLength = 4;
+			return "XMTB-" + DateTime.Now.Year + "-" + DateTime.Now.Month + "-";
 			var sql = @"SELECT a.*,b.name AS voucherName
 FROM dbo.SM_UsedRule AS a
 JOIN dbo.SM_VoucherType AS b ON a.idvouchertype=b.id";

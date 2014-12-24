@@ -18,17 +18,17 @@ namespace Excel2Tplus.History
 		/// 获取导出操作日期
 		/// </summary>
 		/// <returns>日期列表</returns>
-		public IEnumerable<DateTime> GetHead()
+		public IEnumerable<string> GetHead()
 		{
-			const string sql = "select datetime from Excel2TplusHistory";
+			const string sql = "select name from Excel2TplusHistory";
 			var helper = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
 			helper.Open();
 			using (var rd = helper.Reader(sql))
 			{
-				var list = new List<DateTime>();
+				var list = new List<string>();
 				while (rd.Read())
 				{
-					list.Add((DateTime)rd[0]);
+					list.Add(rd[0].ToString());
 				}
 				rd.Close();
 				return list;
@@ -39,9 +39,9 @@ namespace Excel2Tplus.History
 		/// </summary>
 		/// <typeparam name="TEntity">单据类型</typeparam>
 		/// <param name="list">单据集合</param>
-		public void Set<TEntity>(IEnumerable<TEntity> list) where TEntity : Entity
+		public void Set<TEntity>(IEnumerable<TEntity> list, string voucher) where TEntity : Entity
 		{
-			const string sql = "insert into Excel2TplusHistory values(@dt,@type,@xml)";
+			const string sql = "insert into Excel2TplusHistory values(@dt,@type,@xml,@name)";
 			string xml;
 			var elType = CommonFunction.GetElementType(list.GetType());
 			if (elType != null && elType != typeof(TEntity))
@@ -57,13 +57,15 @@ namespace Excel2Tplus.History
 			{
 				xml = CommonFunction.XmlSerializer(list.ToArray()).ToString();
 			}
+			var dt = DateTime.Now.ToString("yyyy-MM-dd HH:mm");
 			var helper = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
 			helper.Open();
 			helper.Execute(sql, new[]
 			{
-				new SqlParameter("@dt",DateTime.Now),
+				new SqlParameter("@dt",dt),
 				new SqlParameter("@type",elType.FullName), 
-				new SqlParameter("@xml",xml)
+				new SqlParameter("@xml",xml),
+				new SqlParameter("@name",voucher+" "+dt), 
 			});
 			helper.Close();
 		}

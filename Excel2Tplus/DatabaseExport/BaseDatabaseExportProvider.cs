@@ -42,7 +42,7 @@ namespace Excel2Tplus.DatabaseExport
 			}
 			if (CommonFunction.GetElementType(list.GetType()) != typeof(TEntity))
 			{
-				throw new Exception("单据类型是" + VoucherName + "类型");
+				throw new Exception("单据类型不是" + VoucherName + "类型");
 			}
 			var msgList = new List<string>();
 			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
@@ -50,6 +50,7 @@ namespace Excel2Tplus.DatabaseExport
 			string 单据编号 = null;//单据编号
 			TEntity main = null;//当前主记录
 			List<TEntity> details = null;//当前子记录
+			var 单据编号串 = string.Empty;//所有导入的单据的编号字符串，放置在msgList的倒数第二位置，用于外部生成历史名称用。
 
 			Prefix = TplusDatabaseHelper.Instance.GetVoucherCodePrefix(VoucherName, out Length);
 			Serialno = TplusDatabaseHelper.Instance.GetMaxSerialno(VoucherTable, Length);
@@ -81,7 +82,9 @@ namespace Excel2Tplus.DatabaseExport
 						Collect(main, details);//统计子记录
 						var sqlInfo = BuildMainInsertSql(main, id);
 						sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
+						单据编号串 += sqlInfo.Item2.First(_ => _.ParameterName.ToLower() == "@code").Value + ",";
 					}
+
 					main = Entity.Copy(item);
 					details = new List<TEntity>();
 
@@ -107,6 +110,8 @@ namespace Excel2Tplus.DatabaseExport
 				Collect(main, details);//统计子记录
 				var sqlInfo = BuildMainInsertSql(main, id);
 				sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
+				var code = sqlInfo.Item2.First(_ => _.ParameterName.ToLower() == "@code").Value;
+				单据编号串 += code + ",";
 			}
 			var sh = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
 			var other = OtherSql();
@@ -114,10 +119,14 @@ namespace Excel2Tplus.DatabaseExport
 			{
 				sqlList.AddRange(other);
 			}
+			msgList.Add(单据编号串.TrimEnd(','));
 			sh.Open();
 			msgList.Add(sh.Execute(sqlList).ToString());
 			sh.Close();
-
+			if (msgList.Count == 1)
+			{
+				msgList.Add("-1");
+			}
 			return msgList;
 		}
 		/// <summary>

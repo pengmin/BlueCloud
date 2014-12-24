@@ -38,7 +38,7 @@ namespace Excel2Tplus.Entities
 		/// 差价
 		/// </summary>
 		[System.Xml.Serialization.XmlIgnore]
-		public decimal Differential { get { return BookPrice - BillPrice; } }
+		public decimal Differential { get { return BookPrice - decimal.Parse(含税单价); } }
 		/// <summary>
 		/// 是否使用价格本价格
 		/// </summary>

@@ -143,7 +143,7 @@ namespace Excel2Tplus
 			var msgStr = string.Join("\r\n", msgList.ToArray());
 			if (msgList.Last() != "-1")
 			{
-				new HistoryManager().Set(_list);
+				new HistoryManager().Set(_list, _billType + "[" + msgList.ElementAt(msgList.Count() - 2) + "]");
 				MessageBox.Show("导入完成\r\n" + msgStr);
 			}
 			else

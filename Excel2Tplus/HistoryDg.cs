@@ -16,18 +16,18 @@ namespace Excel2Tplus
 			InitializeComponent();
 		}
 
-		public void InitList(IEnumerable<DateTime> items)
+		public void InitList(IEnumerable<string> items)
 		{
 			listBox1.Items.Clear();
 			foreach (var item in items)
 			{
-				listBox1.Items.Add(item.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+				listBox1.Items.Add(item);
 			}
 		}
 
 		public DateTime GetSelected()
 		{
-			return DateTime.Parse(listBox1.SelectedItem as string);
+			return DateTime.Parse(listBox1.SelectedItem.ToString().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Last());
 		}
 
 		private void listBox1_DoubleClick(object sender, EventArgs e)

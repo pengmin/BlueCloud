@@ -196,7 +196,7 @@ namespace Excel2Tplus.DatabaseExport
 
 		private void SetOtherSql2(OutputWarehouse obj)
 		{
-			var sql = @"SELECT * FROM dbo.ST_CurrentStock
+			var sql = @"
 UPDATE dbo.ST_CurrentStock SET forSaleDispatchBaseQuantity=isnull(forSaleDispatchBaseQuantity,0)+@quantity
 WHERE idinventory=@inventory AND idwarehouse=@warehouse";
 			_otherSql.Add(new Tuple<string, IEnumerable<DbParameter>>(sql, new DbParameter[]

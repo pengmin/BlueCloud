@@ -136,8 +136,9 @@ namespace Excel2Tplus.DatabaseExport
 				new SqlParameter("@LastModifiedField", ""),
 				new SqlParameter("@IsPromotionPresent", Convert.ToByte(0)),
 			};
-			//return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps) };
-			return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps), BuildCurrentStockSql(obj) };
+			SetCurrentStock(obj);
+			return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps) };
+			//return new[] { new Tuple<string, IEnumerable<DbParameter>>(VoucherTable + "_b", ps), BuildCurrentStockSql(obj) };
 		}
 
 		protected Tuple<string, IEnumerable<DbParameter>> BuildCurrentStockSql(InputWarehouse obj)
@@ -456,6 +457,62 @@ namespace Excel2Tplus.DatabaseExport
                 AND M.ID = @id";
 
 			_otherSql.Add(new Tuple<string, IEnumerable<DbParameter>>(sql, new DbParameter[] { new SqlParameter("@id", id) }));
+		}
+
+		private void SetCurrentStock(InputWarehouse obj)
+		{
+			int d;
+			var sql = @"IF ( ( SELECT   COUNT(0)
+       FROM     dbo.ST_CurrentStock
+       WHERE    idinventory = @idinventory
+                AND idwarehouse = @idwarehouse
+     ) > 0 ) 
+    BEGIN
+        UPDATE  dbo.ST_CurrentStock
+        SET     purchaseForReceiveBaseQuantity =ISNULL(purchaseForReceiveBaseQuantity,0) + @purchaseForReceiveBaseQuantity ,
+                updated = GETDATE()
+        WHERE   idwarehouse = @idwarehouse
+                AND idinventory = @idinventory
+    END
+ELSE 
+    BEGIN
+        INSERT  INTO dbo.ST_CurrentStock
+                ( id ,
+                  purchaseForReceiveBaseQuantity ,
+                  recordDate ,
+                  isCarriedForwardOut ,
+                  isCarriedForwardIn ,
+                  createdtime ,
+                  sequencenumber ,
+                  updated ,
+                  updatedBy ,
+                  idwarehouse ,
+                  idbaseunit ,
+                  idinventory ,
+                  IdMarketingOrgan
+                )
+        VALUES  ( NEWID() ,
+                  @purchaseForReceiveBaseQuantity ,
+                  GETDATE() ,
+                  0 ,
+                  0 ,
+                  GETDATE() ,
+                  0 ,
+                  GETDATE() ,
+                  'demo' ,
+                  @idwarehouse ,
+                  @idbaseunit ,
+                  @idinventory ,
+                  '4ad74463-e871-4dc1-beb0-6e6eaa0a6386'
+                )
+    END";
+			_otherSql.Add(new Tuple<string, IEnumerable<DbParameter>>(sql, new DbParameter[]
+			{
+				new SqlParameter("@purchaseForReceiveBaseQuantity", int.TryParse(obj.数量, out d) ? d : d),
+				new SqlParameter("@idwarehouse", TplusDatabaseHelper.Instance.GetWarehouseIdByName(obj.仓库)),
+				new SqlParameter("@idbaseunit", TplusDatabaseHelper.Instance.GetUnitIdByName(obj.采购单位)),
+				new SqlParameter("@idinventory", TplusDatabaseHelper.Instance.GetInventoryIdByCode(obj.存货编码)),
+			}));
 		}
 	}
 }
