@@ -119,7 +119,7 @@ FROM    PU_PurchaseOrder AS a
 						newRow["预计交货日期"] = row[cln];
 					}
 				}
-				newRow["客户"] = newRow["结算客户"] = customer;
+				newRow["客户"] = newRow["结算客户"] = row["客户"];
 			}
 
 			return saleOrder;
@@ -144,6 +144,7 @@ a.SaleOrderCode AS [销售订单号],
 a.pubuserdefnvc1 AS [预付款百分比],
 a.origTotalAmount AS [金额1],
 a.origTotalTaxAmount AS [含税金额1],
+a.priuserdefnvc1 AS [客户],
 f.code AS [存货编码],
 f.name AS [存货名称],
 f.specification AS [规格型号],
@@ -183,6 +184,8 @@ WHERE a.id=@id";
 			var sqlList = new List<Tuple<string, IEnumerable<DbParameter>>>();
 
 			var sqlInfo = BuildMainSql2(data.Rows[0], id);
+			sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
+			sqlInfo = BuildSaleOrderSubscription2(data.Rows[0], id);
 			sqlList.Add(new Tuple<string, IEnumerable<DbParameter>>(BuildSql(sqlInfo), sqlInfo.Item2));
 			foreach (DataRow row in data.Rows)
 			{
@@ -384,7 +387,7 @@ WHERE a.id=@id";
 				new SqlParameter("@idcurrency", new Guid("f407692f-d14e-4a7f-84a4-87df16406b5b")),
 				new SqlParameter("@accountingperiod", Convert.ToInt32(0)),
 				new SqlParameter("@idcustomer", tplus.GetPartnerIdByName(row["客户"].ToString())),
-				new SqlParameter("@iddepartment", new Guid("748a4415-9b2a-4d9f-94a3-cb052bed97d0")),
+				//new SqlParameter("@iddepartment", new Guid("748a4415-9b2a-4d9f-94a3-cb052bed97d0")),
 				new SqlParameter("@accountingyear", Convert.ToInt32(0)),
 				new SqlParameter("@createdtime", DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
 				new SqlParameter("@sequencenumber", Convert.ToInt32(0)),
@@ -392,6 +395,7 @@ WHERE a.id=@id";
 				new SqlParameter("@updated",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
 				new SqlParameter("@idbusinesstype", new Guid("db58a9e1-d6ad-4c7a-8d07-23fdddc51d98")),
 				new SqlParameter("@updatedBy", "demo"),
+				new SqlParameter("@pubuserdefnvc1", row["预付款百分比"]),
 				new SqlParameter("@IsAutoGenerateSaleOrderBOM", Convert.ToByte(0)),
 				new SqlParameter("@IsAutoGenerateRouting", Convert.ToByte(0)),
 				new SqlParameter("@idsettlecustomer", tplus.GetPartnerIdByName(row["客户"].ToString())),
@@ -481,6 +485,24 @@ WHERE a.id=@id";
 			};
 
 			return new Tuple<string, IEnumerable<DbParameter>>("ST_CurrentStock", ps);
+		}
+
+		private Tuple<string, IEnumerable<DbParameter>> BuildSaleOrderSubscription2(DataRow row, Guid pid)
+		{
+			decimal m;
+			var ps = new List<DbParameter>
+			{
+				new SqlParameter("@id",Guid.NewGuid()),
+				new SqlParameter("@idSaleOrderDTO",pid),
+				new SqlParameter("@updated",DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")),
+				new SqlParameter("@idbankaccount",new Guid("4adbf11c-9eca-4a3f-999b-a8e00b657e19")),
+				new SqlParameter("@updatedBy","demo"),
+				new SqlParameter("@amount",decimal.TryParse(row["订金金额"].ToString(),out m)?m:m),
+				new SqlParameter("@origAmount",decimal.TryParse(row["订金金额"].ToString(),out m)?m:m),
+				new SqlParameter("@code","0000"),
+				new SqlParameter("@idsettlestyle",new Guid("c14bf775-089e-4e58-96c5-9b482f5a42b9"))
+			};
+			return new Tuple<string, IEnumerable<DbParameter>>("SA_SaleOrderSubscription", ps);
 		}
 	}
 }

@@ -115,38 +115,39 @@ AS
     DECLARE @percent FLOAT ,
         @money DECIMAL ,
         @id UNIQUEIDENTIFIER
-    SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
-                                              '%', '')) ,
+    SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),'%', '')) ,
             @money = totalTaxAmount ,
             @id = id
     FROM    Inserted
+    IF ( @percent <> 0 ) --因为在更新订金时会触发update，所以要先执行
+        BEGIN
+            INSERT  INTO [PU_PurchaseOrder_ArnestMoney]
+                    ( id ,
+                      idPurchaseOrderDTO ,
+                      idbankaccount ,
+                      updated ,
+                      idsettlestyle ,
+                      updatedBy ,
+                      amount ,
+                      sequencenumber ,
+                      origAmount ,
+                      code
+                    )
+            VALUES  ( NEWID() ,
+                      @id ,
+                      '4adbf11c-9eca-4a3f-999b-a8e00b657e19' ,
+                      GETDATE() ,
+                      'c14bf775-089e-4e58-96c5-9b482f5a42b9' ,
+                      'demo' ,
+                      @money * @percent / 100 ,
+                      0 ,
+                      @money * @percent / 100 ,
+                      '0000'
+                    );
+        END
     UPDATE  dbo.PU_PurchaseOrder
     SET     origEarnestMoney = @money * @percent / 100
-    WHERE   id = @id
-
-    INSERT  INTO [PU_PurchaseOrder_ArnestMoney]
-            ( id ,
-              idPurchaseOrderDTO ,
-              idbankaccount ,
-              updated ,
-              idsettlestyle ,
-              updatedBy ,
-              amount ,
-              sequencenumber ,
-              origAmount ,
-              code
-            )
-    VALUES  ( NEWID() ,
-              @id ,
-              '4adbf11c-9eca-4a3f-999b-a8e00b657e19' ,
-               GETDATE(),
-              'c14bf775-089e-4e58-96c5-9b482f5a42b9' ,
-              'demo' ,
-              @money * @percent / 100 ,
-              0 ,
-              @money * @percent / 100 ,
-              '0000'
-            );",
+    WHERE   id = @id        ",
 				@"IF ( OBJECT_ID('yufukuan_update', 'tr') IS NOT NULL ) 
     DROP TRIGGER yufukuan_update",
 				@"CREATE TRIGGER yufukuan_update ON dbo.PU_PurchaseOrder
@@ -160,14 +161,48 @@ AS
             @money = totalTaxAmount ,
             @id = id
     FROM    Inserted
-    UPDATE  dbo.PU_PurchaseOrder
-    SET     origEarnestMoney = @money * @percent / 100
-    WHERE   id = @id
-
-    UPDATE  [PU_PurchaseOrder_ArnestMoney]
-    SET     amount = @money * @percent / 100 ,
-            origAmount = @money * @percent / 100
-    WHERE   idPurchaseOrderDTO = @id"
+    IF ( @percent <> 0 ) 
+        BEGIN
+            IF ( ( SELECT   COUNT(0)
+                   FROM     PU_PurchaseOrder_ArnestMoney
+                   WHERE    idPurchaseOrderDTO = @id
+                 ) > 0 ) 
+                BEGIN  
+                    UPDATE  [PU_PurchaseOrder_ArnestMoney]
+                    SET     amount = @money * @percent / 100 ,
+                            origAmount = @money * @percent / 100
+                    WHERE   idPurchaseOrderDTO = @id
+                END
+            ELSE 
+                BEGIN
+                    INSERT  INTO [PU_PurchaseOrder_ArnestMoney]
+                            ( id ,
+                              idPurchaseOrderDTO ,
+                              idbankaccount ,
+                              updated ,
+                              idsettlestyle ,
+                              updatedBy ,
+                              amount ,
+                              sequencenumber ,
+                              origAmount ,
+                              code
+                            )
+                    VALUES  ( NEWID() ,
+                              @id ,
+                              '4adbf11c-9eca-4a3f-999b-a8e00b657e19' ,
+                              GETDATE() ,
+                              'c14bf775-089e-4e58-96c5-9b482f5a42b9' ,
+                              'demo' ,
+                              @money * @percent / 100 ,
+                              0 ,
+                              @money * @percent / 100 ,
+                              '0000'
+                            );
+                END
+            UPDATE  dbo.PU_PurchaseOrder
+            SET     origEarnestMoney = @money * @percent / 100
+            WHERE   id = @id              
+        END"
 			};
 			var sqlHelper = new SqlHelper(sl.CheckedInfo.GetConnectionString());
 			sqlHelper.Open();
