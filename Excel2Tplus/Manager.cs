@@ -87,7 +87,7 @@ namespace Excel2Tplus
 			catch (Exception ex)
 			{
 				_list = null;
-				MessageBox.Show("客户不是客户性质或客户没有设置价格等级");
+				MessageBox.Show(ex.Message);
 				return;
 			}
 
@@ -265,6 +265,24 @@ namespace Excel2Tplus
 			}
 			var eh = new ExcelHelper(path, true);
 			eh.Write(dt);
+		}
+
+		private void 安装历史记录表ToolStripMenuItem_Click(object sender, EventArgs e)
+		{
+			var sysCfg = new SysConfigManager().Get();
+			if (!sysCfg.HasDbConfig)
+			{
+				MessageBox.Show("请先设置数据库信息");
+				return;
+			}
+			if (MessageBox.Show("安装历史记录表将删除之前的历史记录，确定删除吗？", "注意", MessageBoxButtons.YesNo) == DialogResult.Yes)
+			{
+				var sqlHelper = new SqlHelper(sysCfg.DbConfig.GetConnectionString());
+				sqlHelper.Open();
+				sqlHelper.Execute(sysCfg.Excel2TplusHistorySql);
+				sqlHelper.Close();
+				MessageBox.Show("安装成功");
+			}
 		}
 	}
 }

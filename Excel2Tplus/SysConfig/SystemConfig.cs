@@ -19,7 +19,8 @@ namespace Excel2Tplus.SysConfig
 			set { _excel2TplusHistorySql = value; }
 		}
 		private string _excel2TplusHistorySql =
-@"CREATE TABLE [dbo].[Excel2TplusHistory](
+@"DROP TABLE dbo.Excel2TplusHistory;
+CREATE TABLE [dbo].[Excel2TplusHistory](
 	[id] [int] IDENTITY(1,1) NOT NULL,
 	[datetime] [datetime] NOT NULL,
 	[type] [varchar](50) NOT NULL,
