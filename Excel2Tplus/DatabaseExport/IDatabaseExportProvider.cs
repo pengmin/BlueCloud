@@ -17,6 +17,6 @@ namespace Excel2Tplus.DatabaseExport
 		/// <typeparam name="TEntity">单据类型</typeparam>
 		/// <param name="list">单据对象集合</param>
 		/// <returns>导出结果</returns>
-		IEnumerable<string> Export(IEnumerable<TEntity> list);
+		IEnumerable<string> Export(IEnumerable<TEntity> list, out bool success, out string voucherCodes);
 	}
 }

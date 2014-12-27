@@ -136,15 +136,15 @@ namespace Excel2Tplus
 			for (var i = 0; i < _list.Count(); i++)
 			{
 				_list.ElementAt(i).UseBookPrice = (bool)dataGridView1.Rows[i].Cells[5].FormattedValue;
-				//(bool)dataGridView1.Rows[i].Cells[5].Value;
 			}
-
-			var msgList = new DatabaseExportManager().Export(_list);
+			bool success;
+			string voucherCodes;
+			var msgList = new DatabaseExportManager().Export(_list, out success, out voucherCodes);
 			var msgStr = string.Join("\r\n", msgList.ToArray());
-			if (msgList.Last() != "-1")
+			if (success)
 			{
-				new HistoryManager().Set(_list, _billType + "[" + msgList.ElementAt(msgList.Count() - 2) + "]");
-				MessageBox.Show("导入完成\r\n" + msgStr);
+				new HistoryManager().Set(_list, _billType + "[" + voucherCodes + "]");
+				MessageBox.Show("导入成功\r\n" + msgStr);
 			}
 			else
 			{

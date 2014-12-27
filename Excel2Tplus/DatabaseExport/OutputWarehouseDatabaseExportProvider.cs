@@ -26,6 +26,7 @@ namespace Excel2Tplus.DatabaseExport
 		{
 			get { return "ST_RDRecord"; }
 		}
+		protected override string SerialnoWhere { get { return "rdDirectionFlag=0"; } }
 
 		protected override Tuple<string, IEnumerable<DbParameter>> BuildMainInsertSql(OutputWarehouse obj, Guid id)
 		{

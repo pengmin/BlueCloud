@@ -39,7 +39,7 @@ namespace PengMin.JiaOu
 				var ed = dateTimePicker2.Value.ToString("yyyy-MM-dd 23:59:59");
 				var data = new DataAccess(new SqlHelper(_from.GetConnectionString())).GetPurchaseOrder(partner, sd, ed);
 				dataGridView1.Columns.Clear();
-				dataGridView1.Columns.Add(new DataGridViewCheckBoxColumn { ReadOnly = false, Width = 30, FalseValue = 0, TrueValue = 1 });
+				dataGridView1.Columns.Add(new DataGridViewCheckBoxColumn { ReadOnly = false, Width = 30 });
 				foreach (DataColumn cln in data.Columns)
 				{
 					dataGridView1.Columns.Add(new DataGridViewTextBoxColumn { Name = cln.ColumnName, ReadOnly = true });
@@ -48,7 +48,7 @@ namespace PengMin.JiaOu
 				foreach (DataRow row in data.Rows)
 				{
 					dataGridView1.Rows.Add(
-						0,
+						false,
 						row["id"],
 						row["单据日期"],
 						row["单据编号"],
@@ -80,7 +80,7 @@ namespace PengMin.JiaOu
 			var result = new List<string>();
 			foreach (DataGridViewRow row in dataGridView1.Rows)
 			{
-				if (!bool.Parse(((DataGridViewCheckBoxCell)row.Cells[0]).EditingCellFormattedValue.ToString())) continue;
+				if (!(bool)row.Cells[0].Value) continue;
 				var purchaseOrder = da.ImportPurchaseOrder((Guid)row.Cells[1].Value);
 				if (purchaseOrder != null && purchaseOrder.Rows.Count > 0)
 				{
@@ -107,20 +107,102 @@ namespace PengMin.JiaOu
 
 			var sqls = new[]
 			{
-				@"IF ( OBJECT_ID('yufukuan_insert', 'tr') IS NOT NULL ) 
-    DROP TRIGGER yufukuan_insert",
-				@"CREATE TRIGGER yufukuan_insert ON dbo.PU_PurchaseOrder
+				@"IF ( OBJECT_ID('yvfukuan_insert', 'tr') IS NOT NULL ) 
+    DROP TRIGGER yvfukuan_insert",
+//------------------------
+				@"CREATE TRIGGER yvfukuan_insert ON dbo.PU_PurchaseOrder
     FOR INSERT
 AS
-    DECLARE @percent FLOAT ,
-        @money DECIMAL ,
-        @id UNIQUEIDENTIFIER
-    SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),'%', '')) ,
+    --定义变量
+    DECLARE @percent FLOAT ,--预付款百分比
+        @money DECIMAL ,--含税金额
+        @id UNIQUEIDENTIFIER ,--单据id
+        @earnestMoney DECIMAL--预付款
+    SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
+                                              '%', '')) ,
             @money = totalTaxAmount ,
             @id = id
-    FROM    Inserted
-    IF ( @percent <> 0 ) --因为在更新订金时会触发update，所以要先执行
+    FROM    INSERTED
+--没有设置预付款百分比则不执行任何操作  
+    IF ( @percent = 0 ) 
         BEGIN
+            RETURN
+        END  
+--计算并设置预付款
+    SET @earnestMoney = @money * @percent / 100 
+    UPDATE  PU_PurchaseOrder
+    SET     earnestMoney = @earnestMoney ,
+            origEarnestMoney = @earnestMoney
+    WHERE   id = @id
+		--添加预付款项
+    INSERT  INTO [PU_PurchaseOrder_ArnestMoney]
+            ( id ,
+              idPurchaseOrderDTO ,
+              idbankaccount ,
+              updated ,
+              idsettlestyle ,
+              updatedBy ,
+              amount ,
+              sequencenumber ,
+              origAmount ,
+              code
+            )
+    VALUES  ( NEWID() ,
+              @id ,
+              '4adbf11c-9eca-4a3f-999b-a8e00b657e19' ,
+              GETDATE() ,
+              'c14bf775-089e-4e58-96c5-9b482f5a42b9' ,
+              'demo' ,
+              @earnestMoney ,
+              0 ,
+              @earnestMoney ,
+              '0000'
+            );",
+//------------------------
+				@"IF ( OBJECT_ID('yvfukuan_update', 'tr') IS NOT NULL ) 
+    DROP TRIGGER yvfukuan_update",
+//------------------------
+				@"CREATE TRIGGER yvfukuan_update ON dbo.PU_PurchaseOrder
+    FOR UPDATE
+AS
+    --定义变量      
+    DECLARE @percent FLOAT ,--当前预付款百分比
+        @money DECIMAL ,--含税金额
+        @id UNIQUEIDENTIFIER ,--单据id
+        @oldPercent FLOAT ,--原预付款百分比
+        @earnestMoney DECIMAL--预付款
+--获取当前预付款百分比
+    SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
+                                              '%', '')) ,
+            @money = totalTaxAmount ,
+            @id = id
+    FROM    INSERTED
+--获取原预付款百分比  
+    SELECT  @oldPercent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
+                                                 '%', ''))
+    FROM    deleted
+--如果预付款百分比未改变，则不执行任何操作
+    IF ( @percent = @oldPercent ) 
+        BEGIN
+            RETURN
+        END
+--计算并设置预付款
+    SET @earnestMoney = @money * @percent / 100
+    UPDATE  PU_PurchaseOrder
+    SET     earnestMoney = @earnestMoney ,
+            origEarnestMoney = @earnestMoney
+    WHERE   id = @id
+--若存在预付款项，则删除，因为可能有多条预付款项，重新计算预付款时没法分配
+    IF ( EXISTS ( SELECT    1
+                  FROM      PU_PurchaseOrder_ArnestMoney
+                  WHERE     idPurchaseOrderDTO = @id ) ) 
+        BEGIN
+            UPDATE  PU_PurchaseOrder_ArnestMoney
+            SET     amount = @earnestMoney ,
+                    origAmount = @earnestMoney
+        END
+    ELSE 
+        BEGIN      
             INSERT  INTO [PU_PurchaseOrder_ArnestMoney]
                     ( id ,
                       idPurchaseOrderDTO ,
@@ -132,6 +214,7 @@ AS
                       sequencenumber ,
                       origAmount ,
                       code
+                    
                     )
             VALUES  ( NEWID() ,
                       @id ,
@@ -139,69 +222,11 @@ AS
                       GETDATE() ,
                       'c14bf775-089e-4e58-96c5-9b482f5a42b9' ,
                       'demo' ,
-                      @money * @percent / 100 ,
+                      @earnestMoney ,
                       0 ,
-                      @money * @percent / 100 ,
+                      @earnestMoney ,
                       '0000'
                     );
-        END
-    UPDATE  dbo.PU_PurchaseOrder
-    SET     origEarnestMoney = @money * @percent / 100
-    WHERE   id = @id        ",
-				@"IF ( OBJECT_ID('yufukuan_update', 'tr') IS NOT NULL ) 
-    DROP TRIGGER yufukuan_update",
-				@"CREATE TRIGGER yufukuan_update ON dbo.PU_PurchaseOrder
-    FOR UPDATE
-AS
-    DECLARE @percent FLOAT ,
-        @money DECIMAL ,
-        @id UNIQUEIDENTIFIER
-    SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
-                                              '%', '')) ,
-            @money = totalTaxAmount ,
-            @id = id
-    FROM    Inserted
-    IF ( @percent <> 0 ) 
-        BEGIN
-            IF ( ( SELECT   COUNT(0)
-                   FROM     PU_PurchaseOrder_ArnestMoney
-                   WHERE    idPurchaseOrderDTO = @id
-                 ) > 0 ) 
-                BEGIN  
-                    UPDATE  [PU_PurchaseOrder_ArnestMoney]
-                    SET     amount = @money * @percent / 100 ,
-                            origAmount = @money * @percent / 100
-                    WHERE   idPurchaseOrderDTO = @id
-                END
-            ELSE 
-                BEGIN
-                    INSERT  INTO [PU_PurchaseOrder_ArnestMoney]
-                            ( id ,
-                              idPurchaseOrderDTO ,
-                              idbankaccount ,
-                              updated ,
-                              idsettlestyle ,
-                              updatedBy ,
-                              amount ,
-                              sequencenumber ,
-                              origAmount ,
-                              code
-                            )
-                    VALUES  ( NEWID() ,
-                              @id ,
-                              '4adbf11c-9eca-4a3f-999b-a8e00b657e19' ,
-                              GETDATE() ,
-                              'c14bf775-089e-4e58-96c5-9b482f5a42b9' ,
-                              'demo' ,
-                              @money * @percent / 100 ,
-                              0 ,
-                              @money * @percent / 100 ,
-                              '0000'
-                            );
-                END
-            UPDATE  dbo.PU_PurchaseOrder
-            SET     origEarnestMoney = @money * @percent / 100
-            WHERE   id = @id              
         END"
 			};
 			var sqlHelper = new SqlHelper(sl.CheckedInfo.GetConnectionString());
@@ -219,10 +244,10 @@ AS
 			var sl = new AccountSelectForm(new SysConfigManager().Get().Accounts);
 			if (sl.ShowDialog() != DialogResult.OK) return;
 
-			var sql = @"IF ( OBJECT_ID('yufukuan_insert', 'tr') IS NOT NULL )
-    DROP TRIGGER yufukuan_insert;
-IF ( OBJECT_ID('yufukuan_update', 'tr') IS NOT NULL ) 
-    DROP TRIGGER yufukuan_update";
+			var sql = @"IF ( OBJECT_ID('yvfukuan_insert', 'tr') IS NOT NULL )
+    DROP TRIGGER yvfukuan_insert;
+IF ( OBJECT_ID('yvfukuan_update', 'tr') IS NOT NULL ) 
+    DROP TRIGGER yvfukuan_update";
 			var sqlHelper = new SqlHelper(sl.CheckedInfo.GetConnectionString());
 			sqlHelper.Open();
 			sqlHelper.Execute(sql);
@@ -232,12 +257,12 @@ IF ( OBJECT_ID('yufukuan_update', 'tr') IS NOT NULL )
 
 		private void toolStripButton5_Click(object sender, EventArgs e)
 		{
+			textBox1.Focus();
 			if (dataGridView1.Rows.Count > 0)
 			{
 				foreach (DataGridViewRow row in dataGridView1.Rows)
 				{
-					((DataGridViewCheckBoxCell)row.Cells[0]).Value = true;
-					//row.Cells[0].Value = 1;
+					row.Cells[0].Value = true;
 				}
 			}
 		}

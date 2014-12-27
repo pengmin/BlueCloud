@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace Excel2Tplus
@@ -25,15 +21,18 @@ namespace Excel2Tplus
 			}
 		}
 
-		public DateTime GetSelected()
+		public string GetSelected()
 		{
-			return DateTime.Parse(listBox1.SelectedItem.ToString().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Last());
+			return listBox1.SelectedItem.ToString();
 		}
 
 		private void listBox1_DoubleClick(object sender, EventArgs e)
 		{
-			this.DialogResult = DialogResult.OK;
-			this.Close();
+			if (listBox1.SelectedItem != null)
+			{
+				DialogResult = DialogResult.OK;
+			}
+			Close();
 		}
 	}
 }

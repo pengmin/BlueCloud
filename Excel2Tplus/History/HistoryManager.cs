@@ -73,14 +73,14 @@ namespace Excel2Tplus.History
 		/// 获取导出历史
 		/// </summary>
 		/// <typeparam name="TEntity">单据类型</typeparam>
-		/// <param name="dt">操作日期</param>
+		/// <param name="name">历史记录名称</param>
 		/// <returns>单据集合</returns>
-		public IEnumerable<TEntity> Get<TEntity>(DateTime dt) where TEntity : Entity
+		public IEnumerable<TEntity> Get<TEntity>(string name) where TEntity : Entity
 		{
-			const string sql = "select * from Excel2TplusHistory where datetime=@dt";
+			const string sql = "select * from Excel2TplusHistory where name=@name";
 			var helper = new SqlHelper(new SysConfigManager().Get().DbConfig.GetConnectionString());
 			helper.Open();
-			using (var rd = helper.Reader(sql, new SqlParameter("@dt", dt)))
+			using (var rd = helper.Reader(sql, new SqlParameter("@name", name)))
 			{
 				IEnumerable<TEntity> list = null;
 				if (rd.Read())

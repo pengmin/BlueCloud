@@ -236,9 +236,9 @@ JOIN dbo.SM_VoucherType AS b ON a.idvouchertype=b.id";
 		/// <param name="voucher">单据的表名称</param>
 		/// <param name="length">单据编码长度</param>
 		/// <returns>已使用的最大编号</returns>
-		public int GetMaxSerialno(string voucher, int length)
+		public int GetMaxSerialno(string voucher, int length, string where = "")
 		{
-			var sql = "SELECT RIGHT(MAX(code),{1}) FROM {0}";
+			var sql = "SELECT RIGHT(MAX(code),{1}) FROM {0} WHERE 1=1" + (!string.IsNullOrWhiteSpace(where) ? (" AND " + where) : "");
 			_sqlHelper.Open();
 			var r = _sqlHelper.Scalar(string.Format(sql, voucher, length));
 			_sqlHelper.Close();
