@@ -117,24 +117,29 @@ AS
     DECLARE @percent FLOAT ,--预付款百分比
         @money DECIMAL ,--含税金额
         @id UNIQUEIDENTIFIER ,--单据id
-        @earnestMoney DECIMAL--预付款
+        @earnestMoney DECIMAL ,--预付款
+        @accountId UNIQUEIDENTIFIER--账户id
+--获取预付款百分比
     SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
                                               '%', '')) ,
             @money = totalTaxAmount ,
             @id = id
     FROM    INSERTED
+--获取账号id  
+    SELECT  @accountId = id
+    FROM    dbo.AA_SettleStyle
+    WHERE   name = ( SELECT TOP 1
+                            pubuserdefnvc2
+                     FROM   INSERTED
+                   )  
 --没有设置预付款百分比则不执行任何操作  
-    IF ( @percent = 0 ) 
-        BEGIN
-            RETURN
-        END  
---计算并设置预付款
+    --IF ( @percent = 0 ) 
+    --    BEGIN
+    --        RETURN
+    --    END  
+--计算预付款
     SET @earnestMoney = @money * @percent / 100 
-    UPDATE  PU_PurchaseOrder
-    SET     earnestMoney = @earnestMoney ,
-            origEarnestMoney = @earnestMoney
-    WHERE   id = @id
-		--添加预付款项
+--添加预付款项
     INSERT  INTO [PU_PurchaseOrder_ArnestMoney]
             ( id ,
               idPurchaseOrderDTO ,
@@ -151,13 +156,18 @@ AS
               @id ,
               '4adbf11c-9eca-4a3f-999b-a8e00b657e19' ,
               GETDATE() ,
-              'c14bf775-089e-4e58-96c5-9b482f5a42b9' ,
+              @accountId ,
               'demo' ,
               @earnestMoney ,
               0 ,
               @earnestMoney ,
               '0000'
-            );",
+            );
+--更新主记录预付款
+    UPDATE  PU_PurchaseOrder
+    SET     earnestMoney = @earnestMoney ,
+            origEarnestMoney = @earnestMoney
+    WHERE   id = @id",
 //------------------------
 				@"IF ( OBJECT_ID('yvfukuan_update', 'tr') IS NOT NULL ) 
     DROP TRIGGER yvfukuan_update",
@@ -169,65 +179,34 @@ AS
     DECLARE @percent FLOAT ,--当前预付款百分比
         @money DECIMAL ,--含税金额
         @id UNIQUEIDENTIFIER ,--单据id
-        @oldPercent FLOAT ,--原预付款百分比
-        @earnestMoney DECIMAL--预付款
+        @earnestMoney DECIMAL ,--预付款
+        @accountId UNIQUEIDENTIFIER--账户id
 --获取当前预付款百分比
     SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
                                               '%', '')) ,
             @money = totalTaxAmount ,
             @id = id
     FROM    INSERTED
---获取原预付款百分比  
-    SELECT  @oldPercent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
-                                                 '%', ''))
-    FROM    deleted
---如果预付款百分比未改变，则不执行任何操作
-    IF ( @percent = @oldPercent ) 
-        BEGIN
-            RETURN
-        END
---计算并设置预付款
+--获取账号id  
+    SELECT  @accountId = id
+    FROM    dbo.AA_SettleStyle
+    WHERE   name = ( SELECT TOP 1
+                            pubuserdefnvc2
+                     FROM   INSERTED
+                   )    
+--计算预付款
     SET @earnestMoney = @money * @percent / 100
+--更新预付款记录
+    UPDATE  PU_PurchaseOrder_ArnestMoney
+    SET     amount = @earnestMoney ,
+            idsettlestyle = @accountId ,
+            origAmount = @earnestMoney
+    WHERE   idPurchaseOrderDTO = @id
+--更新主记录预付款
     UPDATE  PU_PurchaseOrder
     SET     earnestMoney = @earnestMoney ,
             origEarnestMoney = @earnestMoney
-    WHERE   id = @id
---若存在预付款项，则删除，因为可能有多条预付款项，重新计算预付款时没法分配
-    IF ( EXISTS ( SELECT    1
-                  FROM      PU_PurchaseOrder_ArnestMoney
-                  WHERE     idPurchaseOrderDTO = @id ) ) 
-        BEGIN
-            UPDATE  PU_PurchaseOrder_ArnestMoney
-            SET     amount = @earnestMoney ,
-                    origAmount = @earnestMoney
-        END
-    ELSE 
-        BEGIN      
-            INSERT  INTO [PU_PurchaseOrder_ArnestMoney]
-                    ( id ,
-                      idPurchaseOrderDTO ,
-                      idbankaccount ,
-                      updated ,
-                      idsettlestyle ,
-                      updatedBy ,
-                      amount ,
-                      sequencenumber ,
-                      origAmount ,
-                      code
-                    
-                    )
-            VALUES  ( NEWID() ,
-                      @id ,
-                      '4adbf11c-9eca-4a3f-999b-a8e00b657e19' ,
-                      GETDATE() ,
-                      'c14bf775-089e-4e58-96c5-9b482f5a42b9' ,
-                      'demo' ,
-                      @earnestMoney ,
-                      0 ,
-                      @earnestMoney ,
-                      '0000'
-                    );
-        END"
+    WHERE   id = @id"
 			};
 			var sqlHelper = new SqlHelper(sl.CheckedInfo.GetConnectionString());
 			sqlHelper.Open();
@@ -264,6 +243,15 @@ IF ( OBJECT_ID('yvfukuan_update', 'tr') IS NOT NULL )
 				{
 					row.Cells[0].Value = true;
 				}
+			}
+		}
+
+		private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if (e.ColumnIndex == 0)
+			{
+				var val = (bool)dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+				dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = !val;
 			}
 		}
 	}

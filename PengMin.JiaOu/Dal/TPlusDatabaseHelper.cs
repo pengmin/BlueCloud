@@ -140,6 +140,25 @@ namespace PengMin.JiaOu.Dal
 			return DBNull.Value;
 		}
 		/// <summary>
+		/// 获取客户的结算客户
+		/// </summary>
+		/// <param name="name">客户名称</param>
+		/// <returns></returns>
+		public object GetSettlementPartnerIdByName(string name)
+		{
+			if (_partner == null)
+			{
+				_sqlHelper.Open();
+				_partner = _sqlHelper.GetDataTable("SELECT * FROM dbo.AA_Partner");
+				_sqlHelper.Close();
+			}
+			foreach (var row in _partner.Rows.Cast<DataRow>().Where(row => String.Equals(row["name"].ToString(), name, StringComparison.CurrentCultureIgnoreCase)))
+			{
+				return (Guid)row["idsettlementPartner"];
+			}
+			return DBNull.Value;
+		}
+		/// <summary>
 		/// 依据供应商编码获取供应商id。也是往来单位。
 		/// </summary>
 		/// <param name="code">供应商编码</param>
