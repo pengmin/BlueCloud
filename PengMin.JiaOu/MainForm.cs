@@ -118,25 +118,28 @@ AS
         @money DECIMAL ,--含税金额
         @id UNIQUEIDENTIFIER ,--单据id
         @earnestMoney DECIMAL ,--预付款
-        @accountId UNIQUEIDENTIFIER--账户id
+        @accountId UNIQUEIDENTIFIER ,--账户id
+        @styleId UNIQUEIDENTIFIER--结算方式id
 --获取预付款百分比
     SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
                                               '%', '')) ,
             @money = totalTaxAmount ,
             @id = id
     FROM    INSERTED
---获取账号id  
+--获取账户id
     SELECT  @accountId = id
-    FROM    dbo.AA_SettleStyle
+    FROM    dbo.AA_BankAccount
     WHERE   name = ( SELECT TOP 1
                             pubuserdefnvc2
                      FROM   INSERTED
                    )  
---没有设置预付款百分比则不执行任何操作  
-    --IF ( @percent = 0 ) 
-    --    BEGIN
-    --        RETURN
-    --    END  
+--获取结算方式id  
+    SELECT  @styleId = id
+    FROM    dbo.AA_SettleStyle
+    WHERE   name = ( SELECT TOP 1
+                            pubuserdefnvc3
+                     FROM   INSERTED
+                   )
 --计算预付款
     SET @earnestMoney = @money * @percent / 100 
 --添加预付款项
@@ -154,9 +157,9 @@ AS
             )
     VALUES  ( NEWID() ,
               @id ,
-              '4adbf11c-9eca-4a3f-999b-a8e00b657e19' ,
-              GETDATE() ,
               @accountId ,
+              GETDATE() ,
+              @styleId ,
               'demo' ,
               @earnestMoney ,
               0 ,
@@ -180,26 +183,35 @@ AS
         @money DECIMAL ,--含税金额
         @id UNIQUEIDENTIFIER ,--单据id
         @earnestMoney DECIMAL ,--预付款
-        @accountId UNIQUEIDENTIFIER--账户id
+        @accountId UNIQUEIDENTIFIER ,--账户id
+        @styleId UNIQUEIDENTIFIER--结算方式id
 --获取当前预付款百分比
     SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
                                               '%', '')) ,
             @money = totalTaxAmount ,
             @id = id
     FROM    INSERTED
---获取账号id  
+--获取账户id
     SELECT  @accountId = id
-    FROM    dbo.AA_SettleStyle
+    FROM    dbo.AA_BankAccount
     WHERE   name = ( SELECT TOP 1
                             pubuserdefnvc2
                      FROM   INSERTED
-                   )    
+                   )  
+--获取结算方式id  
+    SELECT  @styleId = id
+    FROM    dbo.AA_SettleStyle
+    WHERE   name = ( SELECT TOP 1
+                            pubuserdefnvc3
+                     FROM   INSERTED
+                   )
 --计算预付款
     SET @earnestMoney = @money * @percent / 100
 --更新预付款记录
     UPDATE  PU_PurchaseOrder_ArnestMoney
     SET     amount = @earnestMoney ,
-            idsettlestyle = @accountId ,
+            idbankaccount = @accountId ,
+            idsettlestyle = @styleId ,
             origAmount = @earnestMoney
     WHERE   idPurchaseOrderDTO = @id
 --更新主记录预付款
