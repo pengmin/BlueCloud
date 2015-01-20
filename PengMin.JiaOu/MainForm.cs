@@ -185,6 +185,16 @@ AS
         @earnestMoney DECIMAL ,--预付款
         @accountId UNIQUEIDENTIFIER ,--账户id
         @styleId UNIQUEIDENTIFIER--结算方式id
+--如果更新的数据与之前的数据一致，则不用执行更新
+    IF ( ( SELECT   COUNT(0)
+           FROM     inserted AS a
+                    JOIN deleted AS b ON a.id = b.id
+                                         AND a.pubuserdefnvc2 = b.pubuserdefnvc2
+                                         AND a.styleId = b.styleId
+                                         AND a.pubuserdefnvc1 = b.pubuserdefnvc1
+         ) > 0 ) BEGIN
+            RETURN
+        END
 --获取当前预付款百分比
     SELECT  @percent = CONVERT(FLOAT, REPLACE(ISNULL(pubuserdefnvc1, '0%'),
                                               '%', '')) ,
