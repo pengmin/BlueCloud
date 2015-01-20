@@ -190,7 +190,7 @@ AS
            FROM     inserted AS a
                     JOIN deleted AS b ON a.id = b.id
                                          AND a.pubuserdefnvc2 = b.pubuserdefnvc2
-                                         AND a.styleId = b.styleId
+                                         AND a.pubuserdefnvc3 = b.pubuserdefnvc3
                                          AND a.pubuserdefnvc1 = b.pubuserdefnvc1
          ) > 0 ) BEGIN
             RETURN
