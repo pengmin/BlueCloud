@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PengMin.Infrastructure", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PengMin.Tplus.Tools", "PengMin.Tplus.Tools\PengMin.Tplus.Tools.csproj", "{29768D80-E370-4889-9A86-A02C261B7144}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettingPrint", "SettingPrint\SettingPrint.csproj", "{3BEF859C-B577-4D4E-8DB2-CDE368D35D01}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{29768D80-E370-4889-9A86-A02C261B7144}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29768D80-E370-4889-9A86-A02C261B7144}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29768D80-E370-4889-9A86-A02C261B7144}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BEF859C-B577-4D4E-8DB2-CDE368D35D01}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BEF859C-B577-4D4E-8DB2-CDE368D35D01}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BEF859C-B577-4D4E-8DB2-CDE368D35D01}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BEF859C-B577-4D4E-8DB2-CDE368D35D01}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
