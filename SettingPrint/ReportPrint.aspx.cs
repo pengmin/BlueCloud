@@ -21,7 +21,7 @@ namespace SettingPrint
 				{
 					var row = dt.NewRow();
 					for (var j = 0; j < dt.Columns.Count; j++)
-						row[j] = "test" + i + "_" + j;
+						row[j] = i + "_" + j;
 					dt.Rows.Add(row);
 				}
 				this.ReportViewer1.LocalReport.ReportPath = Server.MapPath("~/tt.rdlc");

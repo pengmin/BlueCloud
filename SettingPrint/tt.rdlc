@@ -6,7 +6,7 @@
         <TablixBody>
           <TablixColumns>
             <TablixColumn>
-              <Width>23.01246cm</Width>
+              <Width>23cm</Width>
             </TablixColumn>
           </TablixColumns>
           <TablixRows>
@@ -36,6 +36,45 @@
                         <Parameter Name="fromPhone">
                           <Value>=Fields!cln6.Value</Value>
                         </Parameter>
+                        <Parameter Name="fromGoods">
+                          <Value>=Fields!cln7.Value</Value>
+                        </Parameter>
+                        <Parameter Name="fromNum">
+                          <Value>=Fields!cln8.Value</Value>
+                        </Parameter>
+                        <Parameter Name="fromLeng">
+                          <Value>=Fields!cln9.Value</Value>
+                        </Parameter>
+                        <Parameter Name="fromWidth">
+                          <Value>=Fields!cln10.Value</Value>
+                        </Parameter>
+                        <Parameter Name="fromHeight">
+                          <Value>=Fields!cln11.Value</Value>
+                        </Parameter>
+                        <Parameter Name="fromWeight">
+                          <Value>=Fields!cln12.Value</Value>
+                        </Parameter>
+                        <Parameter Name="fromWaiter">
+                          <Value>=Fields!cln13.Value</Value>
+                        </Parameter>
+                        <Parameter Name="toName">
+                          <Value>=Fields!cln14.Value</Value>
+                        </Parameter>
+                        <Parameter Name="to">
+                          <Value>=Fields!cln15.Value</Value>
+                        </Parameter>
+                        <Parameter Name="toUnit">
+                          <Value>=Fields!cln16.Value</Value>
+                        </Parameter>
+                        <Parameter Name="toAddr">
+                          <Value>=Fields!cln17.Value</Value>
+                        </Parameter>
+                        <Parameter Name="toMobile">
+                          <Value>=Fields!cln18.Value</Value>
+                        </Parameter>
+                        <Parameter Name="toPhone">
+                          <Value>=Fields!cln19.Value</Value>
+                        </Parameter>
                       </Parameters>
                       <OmitBorderOnPageBreak>true</OmitBorderOnPageBreak>
                       <Style>
@@ -44,7 +83,6 @@
                         </Border>
                       </Style>
                     </Subreport>
-                    <rd:Selected>true</rd:Selected>
                   </CellContents>
                 </TablixCell>
               </TablixCells>
@@ -71,7 +109,7 @@
         <Top>0cm</Top>
         <Left>0cm</Left>
         <Height>12.7cm</Height>
-        <Width>23.01246cm</Width>
+        <Width>23cm</Width>
         <Style>
           <Border>
             <Style>None</Style>
@@ -82,7 +120,7 @@
     <Height>12.7cm</Height>
     <Style />
   </Body>
-  <Width>23.01246cm</Width>
+  <Width>23cm</Width>
   <Page>
     <PageHeight>12.7cm</PageHeight>
     <PageWidth>23cm</PageWidth>
