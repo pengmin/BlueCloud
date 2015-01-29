@@ -126,20 +126,34 @@ AS
             @money = totalTaxAmount ,
             @id = id
     FROM    INSERTED
+	IF(@percent=0)BEGIN
+		RETURN
+	END
 --获取账户id
+    DECLARE @accName NVARCHAR(50)
+    SELECT  @accName = pubuserdefnvc2
+    FROM    INSERTED
+    IF ( @accName IS NULL
+         OR @accName = ''
+       ) 
+        BEGIN
+            SET @accName = '现金'
+        END
     SELECT  @accountId = id
     FROM    dbo.AA_BankAccount
-    WHERE   name = ( SELECT TOP 1
-                            pubuserdefnvc2
-                     FROM   INSERTED
-                   )  
+    WHERE   name = @accName  
 --获取结算方式id  
+    DECLARE @styName NVARCHAR(50)
+    SELECT  @styName = pubuserdefnvc3
+    FROM    INSERTED
+    IF ( @styName IS NULL
+         OR @styName = ''
+       ) BEGIN
+            SET @styName = '现金'
+        END
     SELECT  @styleId = id
     FROM    dbo.AA_SettleStyle
-    WHERE   name = ( SELECT TOP 1
-                            pubuserdefnvc3
-                     FROM   INSERTED
-                   )
+    WHERE   name = @styName
 --计算预付款
     SET @earnestMoney = @money * @percent / 100 
 --添加预付款项
@@ -192,6 +206,7 @@ AS
                                          AND a.pubuserdefnvc2 = b.pubuserdefnvc2
                                          AND a.pubuserdefnvc3 = b.pubuserdefnvc3
                                          AND a.pubuserdefnvc1 = b.pubuserdefnvc1
+										 AND a.totalTaxAmount = b.totalTaxAmount
          ) > 0 ) BEGIN
             RETURN
         END
@@ -202,28 +217,71 @@ AS
             @id = id
     FROM    INSERTED
 --获取账户id
+    DECLARE @accName NVARCHAR(50)
+    SELECT  @accName = pubuserdefnvc2
+    FROM    INSERTED
+    IF ( @accName IS NULL
+         OR @accName = ''
+       ) 
+        BEGIN
+            SET @accName = '现金'
+        END
     SELECT  @accountId = id
     FROM    dbo.AA_BankAccount
-    WHERE   name = ( SELECT TOP 1
-                            pubuserdefnvc2
-                     FROM   INSERTED
-                   )  
+    WHERE   name = @accName  
 --获取结算方式id  
+    DECLARE @styName NVARCHAR(50)
+    SELECT  @styName = pubuserdefnvc3
+    FROM    INSERTED
+    IF ( @styName IS NULL
+         OR @styName = ''
+       ) BEGIN
+            SET @styName = '现金'
+        END
     SELECT  @styleId = id
     FROM    dbo.AA_SettleStyle
-    WHERE   name = ( SELECT TOP 1
-                            pubuserdefnvc3
-                     FROM   INSERTED
-                   )
+    WHERE   name = @styName
 --计算预付款
     SET @earnestMoney = @money * @percent / 100
 --更新预付款记录
-    UPDATE  PU_PurchaseOrder_ArnestMoney
-    SET     amount = @earnestMoney ,
-            idbankaccount = @accountId ,
-            idsettlestyle = @styleId ,
-            origAmount = @earnestMoney
-    WHERE   idPurchaseOrderDTO = @id
+    IF ( ( SELECT   COUNT(0)
+           FROM     dbo.PU_PurchaseOrder_ArnestMoney
+           WHERE    idPurchaseOrderDTO = @id
+         ) > 0 ) 
+        BEGIN  
+            UPDATE  PU_PurchaseOrder_ArnestMoney
+            SET     amount = @earnestMoney ,
+                    idbankaccount = @accountId ,
+                    idsettlestyle = @styleId ,
+                    origAmount = @earnestMoney
+            WHERE   idPurchaseOrderDTO = @id
+        END
+    ELSE 
+        BEGIN
+            INSERT  INTO [PU_PurchaseOrder_ArnestMoney]
+                    ( id ,
+                      idPurchaseOrderDTO ,
+                      idbankaccount ,
+                      updated ,
+                      idsettlestyle ,
+                      updatedBy ,
+                      amount ,
+                      sequencenumber ,
+                      origAmount ,
+                      code
+                    )
+            VALUES  ( NEWID() ,
+                      @id ,
+                      @accountId ,
+                      GETDATE() ,
+                      @styleId ,
+                      'demo' ,
+                      @earnestMoney ,
+                      0 ,
+                      @earnestMoney ,
+                      '0000'
+                    );  
+        END
 --更新主记录预付款
     UPDATE  PU_PurchaseOrder
     SET     earnestMoney = @earnestMoney ,
