@@ -216,6 +216,10 @@ AS
             @money = totalTaxAmount ,
             @id = id
     FROM    INSERTED
+	IF(@percent=0) BEGIN
+		DELETE PU_PurchaseOrder_ArnestMoney WHERE idPurchaseOrderDTO=@id
+		RETURN
+	END
 --获取账户id
     DECLARE @accName NVARCHAR(50)
     SELECT  @accName = pubuserdefnvc2
