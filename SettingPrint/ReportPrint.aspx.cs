@@ -43,11 +43,13 @@ namespace SettingPrint
 		private DataTable GetData(IEnumerable<string> ids)
 		{
 			var sql =
-				@"SELECT a.id AS cln0,'' AS cln1, '' AS cln2,'' AS cln3, '' AS cln4,'' AS cln5,'' AS cln6, 
-c.contact AS cln21,c.shipmentAddress AS cln22,c.mobilePhone AS cln23, c.telephoneNo AS cln24, '' AS cln25,'' AS cln26 FROM dbo.ST_RDRecord AS a
-JOIN dbo.AA_Partner AS b ON b.id=a.idpartner
+				@"SELECT d.name AS cln1, '寄件地址' AS cln2,b.priuserdefnvc3 AS cln6,b.priuserdefnvc4 AS cln5,
+c.contact AS cln21,c.shipmentAddress AS cln22,b.priuserdefnvc2 AS cln25, b.priuserdefnvc1 AS cln27
+FROM dbo.SA_SaleDelivery AS a
+JOIN dbo.AA_Partner AS b ON b.id=a.idcustomer
 JOIN dbo.AA_PartnerAddress AS c ON c.idpartner=b.id
-WHERE a.rdDirectionFlag=0 AND a.id IN({0})";
+JOIN dbo.AA_Person AS d ON d.id=b.idsaleman
+WHERE a.id IN({0})";
 			var psStr = new StringBuilder();
 			var ps = new List<DbParameter>();
 			var i = 0;

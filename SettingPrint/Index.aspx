@@ -6,7 +6,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-	<title>出库单</title>
+	<title>销货单</title>
 	<script src="Scripts/jquery-1.11.2.min.js"></script>
 	<style>
 		.gridView {
