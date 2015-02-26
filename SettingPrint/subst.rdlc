@@ -152,7 +152,7 @@
         <Top>6.27803cm</Top>
         <Left>3.62162cm</Left>
         <Height>0.6cm</Height>
-        <Width>5.58271cm</Width>
+        <Width>2.63229cm</Width>
         <ZIndex>5</ZIndex>
         <Style>
           <Border>
@@ -287,7 +287,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Parameters!toPhone.Value</Value>
+                <Value>=Parameters!toMobile.Value</Value>
                 <Style />
               </TextRun>
             </TextRuns>
@@ -299,6 +299,36 @@
         <Height>0.6cm</Height>
         <Width>7.07729cm</Width>
         <ZIndex>10</ZIndex>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+          <PaddingLeft>2pt</PaddingLeft>
+          <PaddingRight>2pt</PaddingRight>
+          <PaddingTop>2pt</PaddingTop>
+          <PaddingBottom>2pt</PaddingBottom>
+        </Style>
+      </Textbox>
+      <Textbox Name="Textbox1">
+        <CanGrow>true</CanGrow>
+        <KeepTogether>true</KeepTogether>
+        <Paragraphs>
+          <Paragraph>
+            <TextRuns>
+              <TextRun>
+                <Value>=Parameters!fromMobile.Value</Value>
+                <Style />
+              </TextRun>
+            </TextRuns>
+            <Style />
+          </Paragraph>
+        </Paragraphs>
+        <rd:DefaultName>Textbox1</rd:DefaultName>
+        <Top>6.27803cm</Top>
+        <Left>6.61141cm</Left>
+        <Height>0.6cm</Height>
+        <Width>2.5cm</Width>
+        <ZIndex>11</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>

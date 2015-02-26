@@ -86,7 +86,7 @@
           <Paragraph>
             <TextRuns>
               <TextRun>
-                <Value>=Parameters!toMobile.Value</Value>
+                <Value>=Parameters!fromPhone.Value</Value>
                 <Style />
               </TextRun>
             </TextRuns>

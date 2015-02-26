@@ -27,7 +27,7 @@
 	<form method="POST">
 		<div>
 			<a href="javascript:print('tt');">打印天天快递单</a>
-			<a href="javascript:print('st');">打印畅通快递单</a>
+			<a href="javascript:print('st');">打印申通快递单</a>
 			<a href="javascript:print('sf');">打印顺丰快递单</a>
 			<a href="javascript:print('db');">打印德邦快递单</a>
 		</div>

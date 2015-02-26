@@ -43,8 +43,8 @@ namespace SettingPrint
 		private DataTable GetData(IEnumerable<string> ids)
 		{
 			var sql =
-				@"SELECT d.name AS cln1, '寄件地址' AS cln2,b.priuserdefnvc3 AS cln6,b.priuserdefnvc4 AS cln5,
-c.contact AS cln21,c.shipmentAddress AS cln22,b.priuserdefnvc2 AS cln25, b.priuserdefnvc1 AS cln27
+				@"SELECT d.name AS cln1, '寄件地址' AS cln4,b.priuserdefnvc3 AS cln6,b.priuserdefnvc4 AS cln5,
+c.contact AS cln21,c.shipmentAddress AS cln24,b.priuserdefnvc2 AS cln25, b.priuserdefnvc1 AS cln27
 FROM dbo.SA_SaleDelivery AS a
 JOIN dbo.AA_Partner AS b ON b.id=a.idcustomer
 JOIN dbo.AA_PartnerAddress AS c ON c.idpartner=b.id
