@@ -6,7 +6,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-	<title></title>
+	<title>打印</title>
+	<script src="Scripts/jquery-1.11.2.min.js"></script>
 </head>
 <body>
 	<form id="form1" runat="server">
@@ -19,3 +20,10 @@
 	</form>
 </body>
 </html>
+<script>
+	//$(function () {
+	//	$("#ReportViewer1_ctl05_ctl06_ctl00_ctl00 input").bind("click", function () {
+	//		alert(1);
+	//	});
+	//});
+</script>
