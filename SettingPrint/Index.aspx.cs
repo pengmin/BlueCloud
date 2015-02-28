@@ -30,6 +30,11 @@ namespace SettingPrint
 			}
 		}
 
+		private string PrintType
+		{
+			get { return Request["pType"] ?? "0"; }
+		}
+
 		public Index()
 		{
 			PageIndex = 1;
@@ -66,11 +71,21 @@ WHERE a.rdDirectionFlag=0";
 FROM(SELECT ROW_NUMBER() OVER( ORDER BY a.code) AS rowNum, a.id, a.code AS [编号],d.name AS [分管人员],b.priuserdefnvc3 AS [业务人电话],b.priuserdefnvc4 AS [业务人手机],
 	c.contact AS [联系人],c.shipmentAddress AS [到货地址],b.priuserdefnvc2 AS [手机号], b.priuserdefnvc1 AS [邮编]
 	FROM dbo.SA_SaleDelivery AS a
-	JOIN dbo.AA_Partner AS b ON b.id=a.idcustomer
-	JOIN dbo.AA_PartnerAddress AS c ON c.idpartner=b.id
-	JOIN dbo.AA_Person AS d ON d.id=b.idsaleman) AS temp
+	LEFT JOIN dbo.AA_Partner AS b ON b.id=a.idcustomer
+	LEFT JOIN dbo.AA_PartnerAddress AS c ON c.idpartner=b.id
+	LEFT JOIN dbo.AA_Person AS d ON d.id=b.idsaleman
+	WHERE 1=1{0}) AS temp
 WHERE rowNum>=@start AND rowNum<=@end";
 			var helper = new SqlHelper(ConnStr);
+			switch (PrintType)
+			{
+				case "0":
+					sql = string.Format(sql, " AND (a.priuserdefdecm1 IS NULL OR a.priuserdefdecm1=0) ");
+					break;
+				case "1":
+					sql = string.Format(sql, " AND (a.priuserdefdecm1>0) ");
+					break;
+			}
 			try
 			{
 				helper.Open();

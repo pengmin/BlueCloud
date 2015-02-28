@@ -8,8 +8,10 @@
 <head runat="server">
 	<title>打印</title>
 	<script src="Scripts/jquery-1.11.2.min.js"></script>
+	<script src="Scripts/json2.min.js"></script>
 </head>
 <body>
+	<input type="hidden" id="id" value="<%=Request["id"] %>" />
 	<form id="form1" runat="server">
 		<asp:ScriptManager ID="ScriptManager1" runat="server">
 		</asp:ScriptManager>
@@ -21,9 +23,17 @@
 </body>
 </html>
 <script>
-	//$(function () {
-	//	$("#ReportViewer1_ctl05_ctl06_ctl00_ctl00 input").bind("click", function () {
-	//		alert(1);
-	//	});
-	//});
+	$(function () {
+		$("#ReportViewer1_ctl05_ctl06_ctl00_ctl00 input").bind("click", function () {
+			$.ajax({
+				type: "POST",
+				contentType: "application/json",
+				url: "reportprint.aspx/Printed",
+				dataType: "json",
+				data: JSON.stringify({ id: $("#id").val() }),
+				success: function (data) {
+				}
+			});
+		});
+	});
 </script>

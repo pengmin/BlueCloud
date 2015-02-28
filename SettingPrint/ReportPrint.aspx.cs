@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Microsoft.Reporting.WebForms;
@@ -68,6 +69,18 @@ WHERE a.id IN({0})";
 			var dt = helper.GetDataTable(string.Format(sql, psStr), ps.ToArray());
 			helper.Close();
 			return dt;
+		}
+
+		[WebMethod]
+		public static string Printed(string id)
+		{
+			var ids = string.Join("','", id.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+			var sql = "update SA_SaleDelivery set priuserdefdecm1=isnull(priuserdefdecm1,0)+1 where id in('" + ids + "')";
+			var helper = new SqlHelper(ConnStr);
+			helper.Open();
+			var v = helper.Execute(sql);
+			helper.Close();
+			return v.ToString();
 		}
 	}
 }

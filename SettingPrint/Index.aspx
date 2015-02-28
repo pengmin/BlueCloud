@@ -24,7 +24,14 @@
 	</style>
 </head>
 <body>
-	<form method="POST">
+	<form action="/index.aspx" method="POST">
+		<div>
+			<select name="pType">
+				<option value="0">未打印</option>
+				<option value="1" <%=Request["pType"]=="1"?"selected=\"selected\"":"" %>>已打印</option>
+			</select>
+			<input type="submit" value="查询" />
+		</div>
 		<div>
 			<a href="javascript:print('tt');">打印天天快递单</a>
 			<a href="javascript:print('st');">打印申通快递单</a>
@@ -75,7 +82,7 @@
 				for (var i = 1; i <= PageCount; i++)
 				{
 			%>
-			<span><a href="/Index.aspx?page=<%=i %>"><%=i %></a></span>
+			<span><a href="javascript:toPage(<%=i %>);"><%=i %></a></span>
 			<%
 				}
 			%>
@@ -84,6 +91,10 @@
 </body>
 </html>
 <script>
+	function toPage(index) {
+		$("form").attr("action", "/Index.aspx?page=" + index);
+		$("form").submit();
+	}
 	function toggleAll(el) {
 		var checked = $(el).prop("checked");
 		$(".gridView tbody :checkbox").each(function () {
