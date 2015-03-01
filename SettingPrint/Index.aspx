@@ -30,7 +30,7 @@
 				<option value="0">未打印</option>
 				<option value="1" <%=Request["pType"]=="1"?"selected=\"selected\"":"" %>>已打印</option>
 			</select>
-			<input type="submit" value="查询" />
+			<input type="submit" value="查询" /><input type="button" value="刷新" onclick="window.location.reload();" />
 		</div>
 		<div>
 			<a href="javascript:print('tt');">打印天天快递单</a>
