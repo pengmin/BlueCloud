@@ -27,15 +27,20 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!fromUnit.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Top>2.53683cm</Top>
-        <Left>3.4417cm</Left>
+        <Top>1.53141cm</Top>
+        <Left>1.66899cm</Left>
         <Height>0.6cm</Height>
         <Width>3.82292cm</Width>
         <ZIndex>1</ZIndex>
@@ -43,6 +48,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -57,15 +63,20 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!fromName.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox2</rd:DefaultName>
-        <Top>2.53683cm</Top>
-        <Left>8.6487cm</Left>
+        <Top>1.53141cm</Top>
+        <Left>6.71724cm</Left>
         <Height>0.6cm</Height>
         <Width>2.87042cm</Width>
         <ZIndex>2</ZIndex>
@@ -73,6 +84,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -87,15 +99,20 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!fromPhone.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox3</rd:DefaultName>
-        <Top>3.25825cm</Top>
-        <Left>5.24849cm</Left>
+        <Top>2.64971cm</Top>
+        <Left>2.19287cm</Left>
         <Height>0.6cm</Height>
         <Width>2.36771cm</Width>
         <ZIndex>3</ZIndex>
@@ -103,6 +120,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -117,15 +135,20 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!fromAddr.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox4</rd:DefaultName>
-        <Top>4.03464cm</Top>
-        <Left>2.98662cm</Left>
+        <Top>3.4261cm</Top>
+        <Left>1.66899cm</Left>
         <Height>1.26146cm</Height>
         <Width>8.5325cm</Width>
         <ZIndex>4</ZIndex>
@@ -133,6 +156,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -147,15 +171,20 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!toUnit.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox5</rd:DefaultName>
-        <Top>5.83883cm</Top>
-        <Left>3.72745cm</Left>
+        <Top>4.75811cm</Top>
+        <Left>1.66899cm</Left>
         <Height>0.6cm</Height>
         <Width>3.53717cm</Width>
         <ZIndex>5</ZIndex>
@@ -163,6 +192,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -177,15 +207,20 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!toName.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox6</rd:DefaultName>
-        <Top>5.83883cm</Top>
-        <Left>8.19891cm</Left>
+        <Top>4.75811cm</Top>
+        <Left>6.71724cm</Left>
         <Height>0.6cm</Height>
         <Width>3.32021cm</Width>
         <ZIndex>6</ZIndex>
@@ -193,6 +228,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -207,22 +243,28 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!toMobile.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox7</rd:DefaultName>
-        <Top>6.61522cm</Top>
-        <Left>5.24849cm</Left>
+        <Top>5.76855cm</Top>
+        <Left>2.19287cm</Left>
         <Height>0.6cm</Height>
-        <Width>2.36771cm</Width>
+        <Width>3.01329cm</Width>
         <ZIndex>7</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -237,14 +279,19 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!toAddr.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox8</rd:DefaultName>
-        <Top>8.06662cm</Top>
+        <Top>6.79662cm</Top>
         <Left>2.19287cm</Left>
         <Height>0.6cm</Height>
         <Width>9.32625cm</Width>
@@ -253,6 +300,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>

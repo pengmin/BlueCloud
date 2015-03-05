@@ -27,14 +27,19 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!fromName.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
-        <Top>3.20887cm</Top>
-        <Left>3.33058cm</Left>
+        <Top>2.17699cm</Top>
+        <Left>1.86244cm</Left>
         <Height>0.57354cm</Height>
         <Width>4.80188cm</Width>
         <ZIndex>1</ZIndex>
@@ -42,6 +47,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -56,10 +62,15 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!from.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <Top>3.18241cm</Top>
@@ -71,6 +82,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -85,14 +97,19 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!fromPhone.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
-        <Top>4.01849cm</Top>
-        <Left>3.33058cm</Left>
+        <Top>3.28824cm</Top>
+        <Left>1.86244cm</Left>
         <Height>0.49417cm</Height>
         <Width>2.28834cm</Width>
         <ZIndex>3</ZIndex>
@@ -100,6 +117,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -114,14 +132,19 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!fromAddr.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
-        <Top>4.78578cm</Top>
-        <Left>3.33058cm</Left>
+        <Top>4.3889cm</Top>
+        <Left>1.86244cm</Left>
         <Height>0.83812cm</Height>
         <Width>8.10917cm</Width>
         <ZIndex>4</ZIndex>
@@ -129,6 +152,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -143,14 +167,19 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!toUnit.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
-        <Top>6.81249cm</Top>
-        <Left>3.38349cm</Left>
+        <Top>5.83353cm</Top>
+        <Left>1.86244cm</Left>
         <Height>0.6cm</Height>
         <Width>4.74896cm</Width>
         <ZIndex>5</ZIndex>
@@ -158,6 +187,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -172,14 +202,19 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!toName.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
-        <Top>6.81249cm</Top>
-        <Left>8.93974cm</Left>
+        <Top>5.83353cm</Top>
+        <Left>7.47161cm</Left>
         <Height>0.6cm</Height>
         <Width>2.5cm</Width>
         <ZIndex>6</ZIndex>
@@ -187,6 +222,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -201,14 +237,19 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!toMobile.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
-        <Top>7.58888cm</Top>
-        <Left>7.82849cm</Left>
+        <Top>6.71576cm</Top>
+        <Left>7.47161cm</Left>
         <Height>0.45889cm</Height>
         <Width>3.61125cm</Width>
         <ZIndex>7</ZIndex>
@@ -216,6 +257,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -230,14 +272,19 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!toPhone.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
-        <Top>7.58888cm</Top>
-        <Left>3.38349cm</Left>
+        <Top>6.71576cm</Top>
+        <Left>1.86244cm</Left>
         <Height>0.45889cm</Height>
         <Width>3.28083cm</Width>
         <ZIndex>8</ZIndex>
@@ -245,6 +292,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -259,14 +307,19 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!toAddr.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
-        <Top>8.22416cm</Top>
-        <Left>3.33058cm</Left>
+        <Top>7.48333cm</Top>
+        <Left>1.86244cm</Left>
         <Height>1.04979cm</Height>
         <Width>8.10917cm</Width>
         <ZIndex>9</ZIndex>
@@ -274,6 +327,7 @@
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
@@ -288,22 +342,28 @@
             <TextRuns>
               <TextRun>
                 <Value>=Parameters!fromMobile.Value</Value>
-                <Style />
+                <Style>
+                  <FontSize>13pt</FontSize>
+                  <FontWeight>Bold</FontWeight>
+                </Style>
               </TextRun>
             </TextRuns>
-            <Style />
+            <Style>
+              <TextAlign>Left</TextAlign>
+            </Style>
           </Paragraph>
         </Paragraphs>
         <rd:DefaultName>Textbox1</rd:DefaultName>
-        <Top>4.01849cm</Top>
-        <Left>5.68947cm</Left>
+        <Top>3.28824cm</Top>
+        <Left>4.22133cm</Left>
         <Height>0.49417cm</Height>
-        <Width>2.44298cm</Width>
+        <Width>3.50131cm</Width>
         <ZIndex>10</ZIndex>
         <Style>
           <Border>
             <Style>None</Style>
           </Border>
+          <VerticalAlign>Middle</VerticalAlign>
           <PaddingLeft>2pt</PaddingLeft>
           <PaddingRight>2pt</PaddingRight>
           <PaddingTop>2pt</PaddingTop>
