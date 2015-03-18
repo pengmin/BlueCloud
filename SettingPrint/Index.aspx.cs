@@ -74,7 +74,13 @@ FROM(SELECT ROW_NUMBER() OVER( ORDER BY a.code) AS rowNum, a.id, a.code AS [ç¼–å
 	JOIN dbo.AA_Partner AS b ON b.id=a.idcustomer
 	JOIN dbo.AA_PartnerAddress AS c ON c.idpartner=b.id
 	JOIN dbo.AA_Person AS d ON d.id=b.idsaleman
-	WHERE 1=1{0}) AS temp
+	WHERE 1=1 AND a.id IN(SELECT  ( SELECT TOP 1
+                    id
+          FROM      dbo.SA_SaleDelivery AS f
+          WHERE     f.idcustomer = e.idcustomer
+        ) AS id
+FROM    dbo.SA_SaleDelivery AS e
+GROUP BY e.idcustomer){0}) AS temp
 WHERE rowNum>=@start AND rowNum<=@end";
 			var helper = new SqlHelper(ConnStr);
 			switch (PrintType)
