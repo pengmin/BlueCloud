@@ -19,7 +19,7 @@ namespace SettingPrint
 		protected int PageIndex { get; set; }
 		protected int PageCount
 		{
-			get { return Total / PageSize + (Total % PageSize) > 0 ? 1 : 0; }
+			get { return Total / PageSize + ((Total % PageSize) > 0 ? 1 : 0); }
 		}
 
 		private static string ConnStr
@@ -33,6 +33,11 @@ namespace SettingPrint
 		private string PrintType
 		{
 			get { return Request["pType"] ?? "0"; }
+		}
+
+		private string Customer
+		{
+			get { return Request["customer"]; }
 		}
 
 		public Index()
@@ -53,15 +58,47 @@ namespace SettingPrint
 
 		private int GetTotal()
 		{
-			var sql = @"SELECT COUNT(0) FROM dbo.ST_RDRecord AS a
-JOIN dbo.AA_Partner AS b ON b.id=a.idpartner
-JOIN dbo.AA_PartnerAddress AS c ON c.idpartner=b.id
-WHERE a.rdDirectionFlag=0";
+			var sql =
+				@"SELECT COUNT(0)
+	FROM dbo.SA_SaleDelivery AS a
+	JOIN dbo.AA_Partner AS b ON b.id=a.idcustomer
+	JOIN dbo.AA_PartnerAddress AS c ON c.idpartner=b.id
+	JOIN dbo.AA_Person AS d ON d.id=b.idsaleman
+	WHERE 1=1{0}{1}";
 			var helper = new SqlHelper(ConnStr);
-			helper.Open();
-			var r = helper.Scalar(sql);
-			helper.Close();
-			return r is int ? (int)r : 0;
+			var ptype = string.Empty;
+			var customer = string.Empty;
+
+			switch (PrintType)
+			{
+				case "0":
+					//sql = string.Format(sql, " AND (a.priuserdefdecm1 IS NULL OR a.priuserdefdecm1=0) ");
+					ptype = " AND (a.priuserdefdecm1 IS NULL OR a.priuserdefdecm1=0) ";
+					break;
+				case "1":
+					//sql = string.Format(sql, " AND (a.priuserdefdecm1>0) ");
+					ptype = " AND (a.priuserdefdecm1>0) ";
+					break;
+			}
+			if (!string.IsNullOrWhiteSpace(Customer))
+			{
+				customer = " AND c.contact LIKE '%" + Customer + "%'";
+			}
+			sql = string.Format(sql, ptype, customer);
+
+			try
+			{
+				helper.Open();
+				return (int)helper.Scalar(sql);
+			}
+			catch
+			{
+				return 0;
+			}
+			finally
+			{
+				helper.Close();
+			}
 		}
 
 		private DataTable GetData()
@@ -74,24 +111,34 @@ FROM(SELECT ROW_NUMBER() OVER( ORDER BY a.code) AS rowNum, a.id, a.code AS [ç¼–å
 	JOIN dbo.AA_Partner AS b ON b.id=a.idcustomer
 	JOIN dbo.AA_PartnerAddress AS c ON c.idpartner=b.id
 	JOIN dbo.AA_Person AS d ON d.id=b.idsaleman
-	WHERE 1=1{0}) AS temp
+	WHERE 1=1{0}{1}) AS temp
 WHERE rowNum>=@start AND rowNum<=@end";
 			var helper = new SqlHelper(ConnStr);
+			var ptype = string.Empty;
+			var customer = string.Empty;
 			switch (PrintType)
 			{
 				case "0":
-					sql = string.Format(sql, " AND (a.priuserdefdecm1 IS NULL OR a.priuserdefdecm1=0) ");
+					//sql = string.Format(sql, " AND (a.priuserdefdecm1 IS NULL OR a.priuserdefdecm1=0) ");
+					ptype = " AND (a.priuserdefdecm1 IS NULL OR a.priuserdefdecm1=0) ";
 					break;
 				case "1":
-					sql = string.Format(sql, " AND (a.priuserdefdecm1>0) ");
+					//sql = string.Format(sql, " AND (a.priuserdefdecm1>0) ");
+					ptype = " AND (a.priuserdefdecm1>0) ";
 					break;
 			}
+			if (!string.IsNullOrWhiteSpace(Customer))
+			{
+				customer = " AND c.contact LIKE '%" + Customer + "%'";
+			}
+			sql = string.Format(sql, ptype, customer);
+
 			try
 			{
 				helper.Open();
 				return helper.GetDataTable(sql, new DbParameter[]
 				{
-					new SqlParameter("@start", (PageIndex - 1)*PageSize - 1),
+					new SqlParameter("@start", (PageIndex - 1)*PageSize + 1),
 					new SqlParameter("@end", (PageIndex)*PageSize),
 				});
 			}

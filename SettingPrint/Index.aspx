@@ -30,6 +30,7 @@
 				<option value="0">未打印</option>
 				<option value="1" <%=Request["pType"]=="1"?"selected=\"selected\"":"" %>>已打印</option>
 			</select>
+			<label>客户：</label><input type="text" name="customer" value="<%=Request["customer"] %>" />
 			<input type="submit" value="查询" /><input type="button" value="刷新" onclick="window.location.reload();" />
 		</div>
 		<div>
