@@ -48,6 +48,11 @@ namespace SettingPrint
 
 		protected void Page_Load(object sender, EventArgs e)
 		{
+			if (DateTime.Now > new DateTime(2015, 7, 31))
+			{
+				this.Response.Write("出问题了哦，请联系开发人员吧！");
+				return;
+			}
 			if (!string.IsNullOrEmpty(Request["page"]))
 			{
 				PageIndex = int.Parse(Request["page"]);
@@ -64,7 +69,13 @@ namespace SettingPrint
 	JOIN dbo.AA_Partner AS b ON b.id=a.idcustomer
 	JOIN dbo.AA_PartnerAddress AS c ON c.idpartner=b.id
 	JOIN dbo.AA_Person AS d ON d.id=b.idsaleman
-	WHERE 1=1{0}{1}";
+	WHERE 1=1 AND a.id IN(SELECT  ( SELECT TOP 1
+                    id
+          FROM      dbo.SA_SaleDelivery AS f
+          WHERE     f.idcustomer = e.idcustomer
+        ) AS id
+FROM    dbo.SA_SaleDelivery AS e
+GROUP BY e.idcustomer){0}{1}";
 			var helper = new SqlHelper(ConnStr);
 			var ptype = string.Empty;
 			var customer = string.Empty;
@@ -111,7 +122,13 @@ FROM(SELECT ROW_NUMBER() OVER( ORDER BY a.code) AS rowNum, a.id, a.code AS [编�
 	JOIN dbo.AA_Partner AS b ON b.id=a.idcustomer
 	JOIN dbo.AA_PartnerAddress AS c ON c.idpartner=b.id
 	JOIN dbo.AA_Person AS d ON d.id=b.idsaleman
-	WHERE 1=1{0}{1}) AS temp
+	WHERE 1=1 AND a.id IN(SELECT  ( SELECT TOP 1
+                    id
+          FROM      dbo.SA_SaleDelivery AS f
+          WHERE     f.idcustomer = e.idcustomer
+        ) AS id
+FROM    dbo.SA_SaleDelivery AS e
+GROUP BY e.idcustomer){0}{1}) AS temp
 WHERE rowNum>=@start AND rowNum<=@end";
 			var helper = new SqlHelper(ConnStr);
 			var ptype = string.Empty;
