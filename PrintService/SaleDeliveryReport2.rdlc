@@ -1174,7 +1174,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>S</Value>
+                              <Value>XS</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1202,7 +1202,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>M</Value>
+                              <Value>S</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1230,7 +1230,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>L</Value>
+                              <Value>M</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1258,7 +1258,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>XL</Value>
+                              <Value>L</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1286,7 +1286,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>XXL</Value>
+                              <Value>XL</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1314,7 +1314,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>XXXL</Value>
+                              <Value>XXL</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1342,7 +1342,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>4XL</Value>
+                              <Value>XXXL</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1370,7 +1370,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>5XL</Value>
+                              <Value>4XL</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1398,7 +1398,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value>6XL</Value>
+                              <Value>5XL</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1426,7 +1426,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>6XL</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1454,7 +1454,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>7XL</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -1482,7 +1482,7 @@
                         <Paragraph>
                           <TextRuns>
                             <TextRun>
-                              <Value />
+                              <Value>8XL</Value>
                               <Style />
                             </TextRun>
                           </TextRuns>
@@ -2774,7 +2774,7 @@
           <Top>1.23458cm</Top>
           <Left>1.75575cm</Left>
           <Height>0.6cm</Height>
-          <Width>6.00013cm</Width>
+          <Width>4.54788cm</Width>
           <ZIndex>2</ZIndex>
           <Style>
             <Border>
@@ -3058,6 +3058,66 @@
             <PaddingBottom>2pt</PaddingBottom>
           </Style>
         </Textbox>
+        <Textbox Name="Textbox27">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value EvaluationMode="Constant">备注：</Value>
+                  <Style />
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox14</rd:DefaultName>
+          <Top>1.23458cm</Top>
+          <Left>6.40946cm</Left>
+          <Height>0.6cm</Height>
+          <Width>1.36213cm</Width>
+          <ZIndex>12</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
+        <Textbox Name="Textbox31">
+          <CanGrow>true</CanGrow>
+          <KeepTogether>true</KeepTogether>
+          <Paragraphs>
+            <Paragraph>
+              <TextRuns>
+                <TextRun>
+                  <Value>=Parameters!info9.Value</Value>
+                  <Style />
+                </TextRun>
+              </TextRuns>
+              <Style />
+            </Paragraph>
+          </Paragraphs>
+          <rd:DefaultName>Textbox15</rd:DefaultName>
+          <Top>1.25575cm</Top>
+          <Left>7.89641cm</Left>
+          <Height>0.6cm</Height>
+          <Width>6.38938cm</Width>
+          <ZIndex>13</ZIndex>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+            <PaddingLeft>2pt</PaddingLeft>
+            <PaddingRight>2pt</PaddingRight>
+            <PaddingTop>2pt</PaddingTop>
+            <PaddingBottom>2pt</PaddingBottom>
+          </Style>
+        </Textbox>
       </ReportItems>
       <Style>
         <Border>
@@ -3221,6 +3281,12 @@
       <Prompt>ReportParameter1</Prompt>
     </ReportParameter>
     <ReportParameter Name="info8">
+      <DataType>String</DataType>
+      <Nullable>true</Nullable>
+      <AllowBlank>true</AllowBlank>
+      <Prompt>ReportParameter1</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="info9">
       <DataType>String</DataType>
       <Nullable>true</Nullable>
       <AllowBlank>true</AllowBlank>
