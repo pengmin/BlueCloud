@@ -31,7 +31,7 @@ namespace PrintService
 		}
 		private string GetMainDataSql()
 		{
-			const string sql = @"SELECT code AS info1,name AS info2,address AS info3,name1 AS info4,SUM(quantity) AS info5,SUM(price) AS info6, maker AS info7,madedate AS info8
+			const string sql = @"SELECT code AS info1,name AS info2,address AS info3,name1 AS info4,SUM(quantity) AS info5,SUM(price) AS info6, maker AS info7,madedate AS info8,memo AS info9
 FROM(
 	SELECT a.code,c.name,a.address,d.name AS name1,CONVERT(INT,b.quantity) AS quantity,CONVERT(DECIMAL(18,2),b.quantity*b.taxPrice) AS price,a.maker, CONVERT(VARCHAR(10),a.createdtime) AS createdtime,ISNULL(CONVERT(VARCHAR(10),a.madedate),'') AS madedate,a.memo
 	FROM dbo.SA_SaleDelivery AS a
@@ -281,7 +281,7 @@ FROM(
 					break;
 			}
 			var mainData = GetData(GetMainDataSql());
-			for (var i = 1; i <= 8; i++)
+			for (var i = 1; i <= 9; i++)
 			{
 				ReportViewer1.LocalReport.SetParameters(
 					new ReportParameter("info" + i, mainData.Rows[0]["info" + i].ToString()));
